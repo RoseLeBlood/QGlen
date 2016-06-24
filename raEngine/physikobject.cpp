@@ -1,0 +1,4 @@
+
+#include "physikobject.h"
+
+
