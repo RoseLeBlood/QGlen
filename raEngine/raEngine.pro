@@ -4,50 +4,51 @@
 #
 #-------------------------------------------------
 
-QT       += network opengl svg xml gui
+QT       += network opengl svg xml gui gamepad
 
 
-TARGET = raEngine
+TARGET = QGlEn
 TEMPLATE = lib
 
 DEFINES += RAENGINE_LIBRARY
 debug: DEFINES += RAEDEBUG
 
 LIBS += -fopenmp
+INCLUDEPATH    += $$PWD/3dpart
 INCLUDEPATH    += $$PWD/include
 
+
 win32: LIBS +=  -lopengl32 -lglu32 -lgdi32
-win32: LIBS += -L$$PWD/include/sdl2/lib/ -lSDL2
 
 SOURCES += \
-    gamewindow.cpp \
-    scenemanager.cpp \
-    gamestate.cpp \
-    gamestatemanager.cpp \
-    physikobject.cpp \
-    colorpositionvertex.cpp \
-    debuglog.cpp \
-    shaderlist.cpp \
-    xmlconfig.cpp \
-    qglen.cpp \
-    camera.cpp
+    src/gamewindow.cpp \
+    src/scenemanager.cpp \
+    src/gamestate.cpp \
+    src/gamestatemanager.cpp \
+    src/physikobject.cpp \
+    src/colorpositionvertex.cpp \
+    src/debuglog.cpp \
+    src/shaderlist.cpp \
+    src/xmlconfig.cpp \
+    src/qglen.cpp \
+    src/camera.cpp
 
 HEADERS +=\
-        raengine_global.h \
-    gamewindow.h \
-    scenemanager.h \
-    gamestate.h \
-    gamestatemanager.h \
-    physikobject.h \
-    iobject.h \
-    irendermovable.h \
-    colorpositionvertex.h \
-    debuglog.h \
-    tsingleton.h \
-    shaderlist.h \
-    xmlconfig.h \
-    qglen.h \
-    camera.h
+        include/raengine_global.h \
+    include/gamewindow.h \
+    include/scenemanager.h \
+    include/gamestate.h \
+    include/gamestatemanager.h \
+    include/physikobject.h \
+    include/iobject.h \
+    include/irendermovable.h \
+    include/colorpositionvertex.h \
+    include/debuglog.h \
+    include/tsingleton.h \
+    include/shaderlist.h \
+    include/xmlconfig.h \
+    include/qglen.h \
+    include/camera.h
 
 unix {
     target.path = /usr/lib

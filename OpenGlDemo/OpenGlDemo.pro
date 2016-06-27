@@ -11,25 +11,27 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = OpenGlDemo
 TEMPLATE = app
 
+INCLUDEPATH += $$PWD/include
+
 SOURCES += \
-    trianglewindow.cpp \
-    dreieckobject.cpp \
-    dreieckgamestate.cpp
+    src/trianglewindow.cpp \
+    src/dreieckobject.cpp \
+    src/dreieckgamestate.cpp
 
 HEADERS  += \
-    trianglewindow.h \
-    dreieckobject.h \
-    dreieckgamestate.h
+    include/trianglewindow.h \
+    include/dreieckobject.h \
+    include/dreieckgamestate.h
 
 
 
 
 
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../raEngine/release/ -lraEngine
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../raEngine/debug/ -lraEngine
-else:unix: LIBS += -L$$PWD/../raEngine/ -lraEngine
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../raEngine/release/ -lQGlEn
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../raEngine/debug/ -lQGlEn
+else:unix: LIBS += -L$$PWD/../raEngine/ -lQGlEn
 
-INCLUDEPATH += $$PWD/../raEngine/
+INCLUDEPATH += $$PWD/../raEngine/3dpart
 INCLUDEPATH += $$PWD/../raEngine/include
 DEPENDPATH += $$PWD/../raEngine/
