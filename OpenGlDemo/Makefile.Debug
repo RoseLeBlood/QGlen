@@ -290,6 +290,10 @@ debug/trianglewindow.o: trianglewindow.cpp trianglewindow.h \
 		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qopenglvertexarrayobject.h \
 		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/QOpenGLBuffer \
 		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qopenglbuffer.h \
+		../raEngine/xmlconfig.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QSettings \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsettings.h \
+		../raEngine/tsingleton.h \
 		../../../../Documents/QT/5.6/mingw49_32/include/QtWidgets/QApplication \
 		../../../../Documents/QT/5.6/mingw49_32/include/QtWidgets/qapplication.h \
 		../../../../Documents/QT/5.6/mingw49_32/include/QtWidgets/qdesktopwidget.h \
@@ -543,7 +547,10 @@ debug/dreieckobject.o: dreieckobject.cpp dreieckobject.h \
 		../raEngine/include/glm/gtc/quaternion.inl \
 		../raEngine/include/glm/gtc/type_ptr.inl \
 		../raEngine/include/glm/gtc/matrix_transform.hpp \
-		../raEngine/include/glm/gtc/matrix_transform.inl
+		../raEngine/include/glm/gtc/matrix_transform.inl \
+		../raEngine/shaderlist.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QMap \
+		../raEngine/tsingleton.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\dreieckobject.o dreieckobject.cpp
 
 debug/dreieckgamestate.o: dreieckgamestate.cpp dreieckgamestate.h \

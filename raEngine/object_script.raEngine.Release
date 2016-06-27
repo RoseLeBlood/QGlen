@@ -1,0 +1,15 @@
+INPUT(
+./release\gamewindow.o
+./release\scenemanager.o
+./release\gamestate.o
+./release\gamestatemanager.o
+./release\physikobject.o
+./release\colorpositionvertex.o
+./release\debuglog.o
+./release\shaderlist.o
+./release\xmlconfig.o
+./release\qglen.o
+./release\camera.o
+./release\moc_gamewindow.o
+./release\moc_xmlconfig.o
+);
