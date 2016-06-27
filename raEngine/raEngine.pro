@@ -29,8 +29,12 @@ SOURCES += \
     camera.cpp \
     qglen.cpp \
     xmlconfig.cpp \
+<<<<<<< HEAD
     tsingleton.cpp \
     shaderlist.cpp
+=======
+    tsingleton.cpp
+>>>>>>> 5d18df288e58703d7732b4aa62335b8240a15abb
 
 HEADERS +=\
         raengine_global.h \
@@ -46,8 +50,12 @@ HEADERS +=\
     camera.h \
     qglen.h \
     xmlconfig.h \
+<<<<<<< HEAD
     tsingleton.h \
     shaderlist.h
+=======
+    tsingleton.h
+>>>>>>> 5d18df288e58703d7732b4aa62335b8240a15abb
 
 unix {
     target.path = /usr/lib
