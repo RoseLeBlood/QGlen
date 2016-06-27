@@ -28,10 +28,10 @@ HEADERS  += \
 
 
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../raEngine/release/ -lQGlEn
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../raEngine/debug/ -lQGlEn
-else:unix: LIBS += -L$$PWD/../raEngine/ -lQGlEn
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../release/ -lQGlEn
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../debug/ -lQGlEn
+else:unix: LIBS += -L$$PWD/../../ -lQGlEn
 
-INCLUDEPATH += $$PWD/../raEngine/3dpart
-INCLUDEPATH += $$PWD/../raEngine/include
-DEPENDPATH += $$PWD/../raEngine/
+INCLUDEPATH += $$PWD/../../3dpart
+INCLUDEPATH += $$PWD/../../include
+DEPENDPATH += $$PWD/../../
