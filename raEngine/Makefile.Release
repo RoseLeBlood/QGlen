@@ -11,7 +11,7 @@ MAKEFILE      = Makefile.Release
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DUNICODE -DRAENGINE_LIBRARY -DQT_QML_DEBUG -DQT_NO_DEBUG -DQT_OPENGL_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_CORE_LIB
+DEFINES       = -DUNICODE -DRAENGINE_LIBRARY -DRAEDEBUG -DQT_QML_DEBUG -DQT_NO_DEBUG -DQT_OPENGL_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -fno-keep-inline-dllexport -O2 -Wall -Wextra $(DEFINES)
 CXXFLAGS      = -pipe -fno-keep-inline-dllexport -O2 -std=gnu++0x -frtti -Wall -Wextra -fexceptions -mthreads $(DEFINES)
 INCPATH       = -I. -Iinclude -I..\..\..\..\Documents\QT\5.6\mingw49_32\include -I..\..\..\..\Documents\QT\5.6\mingw49_32\include\QtOpenGL -I..\..\..\..\Documents\QT\5.6\mingw49_32\include\QtSvg -I..\..\..\..\Documents\QT\5.6\mingw49_32\include\QtWidgets -I..\..\..\..\Documents\QT\5.6\mingw49_32\include\QtGui -I..\..\..\..\Documents\QT\5.6\mingw49_32\include\QtANGLE -I..\..\..\..\Documents\QT\5.6\mingw49_32\include\QtNetwork -I..\..\..\..\Documents\QT\5.6\mingw49_32\include\QtXml -I..\..\..\..\Documents\QT\5.6\mingw49_32\include\QtCore -Irelease -I..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\win32-g++ 
@@ -50,11 +50,10 @@ SOURCES       = gamewindow.cpp \
 		physikobject.cpp \
 		colorpositionvertex.cpp \
 		debuglog.cpp \
-		camera.cpp \
-		qglen.cpp \
+		shaderlist.cpp \
 		xmlconfig.cpp \
-		tsingleton.cpp \
-		shaderlist.cpp release\moc_gamewindow.cpp \
+		qglen.cpp \
+		camera.cpp release\moc_gamewindow.cpp \
 		release\moc_xmlconfig.cpp
 OBJECTS       = release/gamewindow.o \
 		release/scenemanager.o \
@@ -63,11 +62,10 @@ OBJECTS       = release/gamewindow.o \
 		release/physikobject.o \
 		release/colorpositionvertex.o \
 		release/debuglog.o \
-		release/camera.o \
-		release/qglen.o \
-		release/xmlconfig.o \
-		release/tsingleton.o \
 		release/shaderlist.o \
+		release/xmlconfig.o \
+		release/qglen.o \
+		release/camera.o \
 		release/moc_gamewindow.o \
 		release/moc_xmlconfig.o
 
@@ -83,22 +81,21 @@ DIST          = data/config/settings.xml \
 		irendermovable.h \
 		colorpositionvertex.h \
 		debuglog.h \
-		camera.h \
-		qglen.h \
-		xmlconfig.h \
 		tsingleton.h \
-		shaderlist.h gamewindow.cpp \
+		shaderlist.h \
+		xmlconfig.h \
+		qglen.h \
+		camera.h gamewindow.cpp \
 		scenemanager.cpp \
 		gamestate.cpp \
 		gamestatemanager.cpp \
 		physikobject.cpp \
 		colorpositionvertex.cpp \
 		debuglog.cpp \
-		camera.cpp \
-		qglen.cpp \
+		shaderlist.cpp \
 		xmlconfig.cpp \
-		tsingleton.cpp \
-		shaderlist.cpp
+		qglen.cpp \
+		camera.cpp
 QMAKE_TARGET  = raEngine
 DESTDIR        = release\ #avoid trailing-slash linebreak
 TARGET         = raEngine.dll
@@ -121,7 +118,7 @@ dist:
 	$(ZIP) raEngine.zip $(SOURCES) $(DIST) raEngine.pro ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\spec_pre.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\qdevice.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\device_config.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\common\angle.conf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\qconfig.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_3dcore.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_3dcore_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_3dinput.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_3dinput_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_3dlogic.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_3dlogic_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_3dquick.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_3dquick_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_3dquickinput.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_3dquickinput_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_3dquickrender.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_3dquickrender_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_3drender.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_3drender_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_axbase.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_axbase_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_axcontainer.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_axcontainer_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_axserver.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_axserver_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_bluetooth.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_bluetooth_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_bootstrap_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_clucene_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_concurrent.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_concurrent_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_core.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_core_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_dbus.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_dbus_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_designer.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_designer_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_designercomponents_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_gui.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_gui_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_help.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_help_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_multimedia.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_multimedia_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_multimediawidgets.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_multimediawidgets_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_network.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_network_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_nfc.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_nfc_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_opengl.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_opengl_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_openglextensions.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_openglextensions_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_platformsupport_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_positioning.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_positioning_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_printsupport.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_printsupport_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_qml.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_qml_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_qmldevtools_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_qmltest.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_qmltest_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_quick.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_quick_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_quickparticles_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_quickwidgets.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_quickwidgets_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_script.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_script_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_scripttools.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_scripttools_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_sensors.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_sensors_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_serialport.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_serialport_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_sql.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_sql_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_svg.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_svg_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_testlib.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_testlib_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_uiplugin.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_uitools.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_uitools_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_webchannel.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_webchannel_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_websockets.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_websockets_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_widgets.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_widgets_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_winextras.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_winextras_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_xml.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_xml_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_xmlpatterns.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\modules\qt_lib_xmlpatterns_private.pri ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\qt_functions.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\qt_config.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\win32\qt_config.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\win32-g++\qmake.conf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\spec_post.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\exclusive_builds.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\default_pre.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\win32\default_pre.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\resolve_config.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\exclusive_builds_post.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\default_post.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\build_pass.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\qml_debug.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\win32\rtti.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\precompile_header.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\warn_on.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\qt.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\resources.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\moc.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\win32\opengl.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\uic.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\win32\windows.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\testcase_targets.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\exceptions.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\yacc.prf ..\..\..\..\Documents\QT\5.6\mingw49_32\mkspecs\features\lex.prf raEngine.pro ..\..\..\..\Documents\QT\5.6\mingw49_32\lib\Qt5OpenGL.prl ..\..\..\..\Documents\QT\5.6\mingw49_32\lib\Qt5Svg.prl ..\..\..\..\Documents\QT\5.6\mingw49_32\lib\Qt5Widgets.prl ..\..\..\..\Documents\QT\5.6\mingw49_32\lib\Qt5Gui.prl ..\..\..\..\Documents\QT\5.6\mingw49_32\lib\Qt5Network.prl ..\..\..\..\Documents\QT\5.6\mingw49_32\lib\Qt5Xml.prl ..\..\..\..\Documents\QT\5.6\mingw49_32\lib\Qt5Core.prl  NO_PCH_SOURCES RESOURCES HEADERS SOURCES OBJECTIVE_SOURCES FORMS YACCSOURCES YACCSOURCES LEXSOURCES 
 
 clean: compiler_clean 
-	-$(DEL_FILE) release\gamewindow.o release\scenemanager.o release\gamestate.o release\gamestatemanager.o release\physikobject.o release\colorpositionvertex.o release\debuglog.o release\camera.o release\qglen.o release\xmlconfig.o release\tsingleton.o release\shaderlist.o release\moc_gamewindow.o release\moc_xmlconfig.o
+	-$(DEL_FILE) release\gamewindow.o release\scenemanager.o release\gamestate.o release\gamestatemanager.o release\physikobject.o release\colorpositionvertex.o release\debuglog.o release\shaderlist.o release\xmlconfig.o release\qglen.o release\camera.o release\moc_gamewindow.o release\moc_xmlconfig.o
 	-$(DEL_FILE) release\libraEngine.a
 
 distclean: clean 
@@ -539,7 +536,18 @@ release/gamewindow.o: gamewindow.cpp gamewindow.h \
 		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QDateTime \
 		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qdatetime.h \
 		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QThread \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qthread.h
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qthread.h \
+		shaderlist.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QMap \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/QOpenGLShaderProgram \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qopenglshaderprogram.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qvector2d.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qvector3d.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qvector4d.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qmatrix4x4.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qquaternion.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qgenericmatrix.h \
+		tsingleton.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\gamewindow.o gamewindow.cpp
 
 release/scenemanager.o: scenemanager.cpp gamewindow.h \
@@ -1301,6 +1309,340 @@ release/debuglog.o: debuglog.cpp debuglog.h \
 		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcontiguouscache.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\debuglog.o debuglog.cpp
 
+release/shaderlist.o: shaderlist.cpp shaderlist.h \
+		raengine_global.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qglobal.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qconfig.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qfeatures.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsystemdetection.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qprocessordetection.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcompilerdetection.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qtypeinfo.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qtypetraits.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qisenum.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsysinfo.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qlogging.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qflags.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qbasicatomic.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_bootstrap.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qgenericatomic.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_cxx11.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_gcc.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_msvc.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_armv7.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_armv6.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_armv5.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_ia64.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_x86.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_unix.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qglobalstatic.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qmutex.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qnumeric.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qversiontagging.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QString \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qstring.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qchar.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qbytearray.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qrefcount.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qnamespace.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qarraydata.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qstringbuilder.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qobject.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qobjectdefs.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qobjectdefs_impl.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qlist.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qalgorithms.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qiterator.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qhashfunctions.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qpair.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qbytearraylist.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qstringlist.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qregexp.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qstringmatcher.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcoreevent.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qscopedpointer.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qmetatype.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qvarlengtharray.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcontainerfwd.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qobject_impl.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QMap \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qmap.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qdebug.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qhash.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qtextstream.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qiodevice.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qlocale.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qvariant.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qshareddata.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qvector.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qpoint.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qset.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcontiguouscache.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/QOpenGLShaderProgram \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qopenglshaderprogram.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qopengl.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qt_windows.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtANGLE/GLES3/gl3.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtANGLE/GLES3/gl3platform.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtANGLE/KHR/khrplatform.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtANGLE/GLES2/gl2.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtANGLE/GLES2/gl2platform.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qopengles2ext.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qopenglext.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qvector2d.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qvector3d.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qvector4d.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qmatrix4x4.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qquaternion.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qgenericmatrix.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qdatastream.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qrect.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qmargins.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsize.h \
+		tsingleton.h \
+		gamewindow.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/QWindow \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qwindow.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QObject \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QEvent \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QMargins \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QRect \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qsurface.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qsurfaceformat.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qwindowdefs.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qwindowdefs_win.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qicon.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qpixmap.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qpaintdevice.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qcolor.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qrgb.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qrgba64.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsharedpointer.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsharedpointer_impl.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qimage.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qpixelformat.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qtransform.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qmatrix.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qpolygon.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qregion.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qline.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qpainterpath.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qcursor.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/QOpenGLFunctions \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qopenglfunctions.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qopenglcontext.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QScopedPointer \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/QSurfaceFormat \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qopenglversionfunctions.h \
+		debuglog.h \
+		include/glm/vec2.hpp \
+		include/glm/detail/type_vec2.hpp \
+		include/glm/detail/type_vec.hpp \
+		include/glm/detail/precision.hpp \
+		include/glm/detail/type_int.hpp \
+		include/glm/detail/setup.hpp \
+		include/glm/detail/_swizzle.hpp \
+		include/glm/detail/_swizzle_func.hpp \
+		include/glm/detail/type_vec2.inl \
+		include/glm/vec3.hpp \
+		include/glm/detail/type_vec3.hpp \
+		include/glm/detail/type_vec3.inl \
+		include/glm/vec4.hpp \
+		include/glm/detail/type_vec4.hpp \
+		include/glm/detail/type_vec4.inl \
+		include/glm/detail/type_vec4_sse2.inl \
+		include/glm/detail/type_vec4_avx.inl \
+		include/glm/detail/type_vec4_avx2.inl \
+		include/glm/mat4x4.hpp \
+		include/glm/detail/type_mat4x4.hpp \
+		include/glm/fwd.hpp \
+		include/glm/detail/type_float.hpp \
+		include/glm/detail/type_mat.hpp \
+		include/glm/detail/type_mat4x4.inl \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QDir \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qdir.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qfileinfo.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qfile.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qfiledevice.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QCoreApplication \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcoreapplication.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qeventloop.h \
+		xmlconfig.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QSettings \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsettings.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\shaderlist.o shaderlist.cpp
+
+release/xmlconfig.o: xmlconfig.cpp xmlconfig.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QSettings \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsettings.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qobject.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qobjectdefs.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qnamespace.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qglobal.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qconfig.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qfeatures.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsystemdetection.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qprocessordetection.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcompilerdetection.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qtypeinfo.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qtypetraits.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qisenum.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsysinfo.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qlogging.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qflags.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qbasicatomic.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_bootstrap.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qgenericatomic.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_cxx11.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_gcc.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_msvc.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_armv7.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_armv6.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_armv5.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_ia64.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_x86.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_unix.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qglobalstatic.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qmutex.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qnumeric.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qversiontagging.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qobjectdefs_impl.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qstring.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qchar.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qbytearray.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qrefcount.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qarraydata.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qstringbuilder.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qlist.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qalgorithms.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qiterator.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qhashfunctions.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qpair.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qbytearraylist.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qstringlist.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qregexp.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qstringmatcher.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcoreevent.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qscopedpointer.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qmetatype.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qvarlengtharray.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcontainerfwd.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qobject_impl.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qvariant.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qmap.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qdebug.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qhash.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qtextstream.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qiodevice.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qlocale.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qshareddata.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qvector.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qpoint.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qset.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcontiguouscache.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QString \
+		raengine_global.h \
+		tsingleton.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QFile \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qfile.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qfiledevice.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QXmlStreamReader \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qxmlstream.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QStringList \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QDebug \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QDir \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qdir.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qfileinfo.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QCoreApplication \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcoreapplication.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qeventloop.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\xmlconfig.o xmlconfig.cpp
+
+release/qglen.o: qglen.cpp qglen.h \
+		raengine_global.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qglobal.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qconfig.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qfeatures.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsystemdetection.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qprocessordetection.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcompilerdetection.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qtypeinfo.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qtypetraits.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qisenum.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsysinfo.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qlogging.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qflags.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qbasicatomic.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_bootstrap.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qgenericatomic.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_cxx11.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_gcc.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_msvc.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_armv7.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_armv6.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_armv5.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_ia64.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_x86.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_unix.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qglobalstatic.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qmutex.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qnumeric.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qversiontagging.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QCoreApplication \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcoreapplication.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qstring.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qchar.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qbytearray.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qrefcount.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qnamespace.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qarraydata.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qstringbuilder.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qobject.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qobjectdefs.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qobjectdefs_impl.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qlist.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qalgorithms.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qiterator.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qhashfunctions.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qpair.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qbytearraylist.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qstringlist.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qregexp.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qstringmatcher.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcoreevent.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qscopedpointer.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qmetatype.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qvarlengtharray.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcontainerfwd.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qobject_impl.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qeventloop.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QDir \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qdir.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qfileinfo.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qfile.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qfiledevice.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qiodevice.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qshareddata.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qhash.h \
+		xmlconfig.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QSettings \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsettings.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qvariant.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qmap.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qdebug.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qtextstream.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qlocale.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qvector.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qpoint.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qset.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcontiguouscache.h \
+		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QString \
+		tsingleton.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\qglen.o qglen.cpp
+
 release/camera.o: camera.cpp camera.h \
 		iobject.h \
 		raengine_global.h \
@@ -1520,323 +1862,6 @@ release/camera.o: camera.cpp camera.h \
 		include/glm/gtc/type_ptr.hpp \
 		include/glm/gtc/type_ptr.inl
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\camera.o camera.cpp
-
-release/qglen.o: qglen.cpp qglen.h \
-		raengine_global.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qglobal.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qconfig.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qfeatures.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsystemdetection.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qprocessordetection.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcompilerdetection.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qtypeinfo.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qtypetraits.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qisenum.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsysinfo.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qlogging.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qflags.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qbasicatomic.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_bootstrap.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qgenericatomic.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_cxx11.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_gcc.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_msvc.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_armv7.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_armv6.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_armv5.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_ia64.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_x86.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_unix.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qglobalstatic.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qmutex.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qnumeric.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qversiontagging.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\qglen.o qglen.cpp
-
-release/xmlconfig.o: xmlconfig.cpp xmlconfig.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QSettings \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsettings.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qobject.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qobjectdefs.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qnamespace.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qglobal.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qconfig.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qfeatures.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsystemdetection.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qprocessordetection.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcompilerdetection.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qtypeinfo.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qtypetraits.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qisenum.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsysinfo.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qlogging.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qflags.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qbasicatomic.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_bootstrap.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qgenericatomic.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_cxx11.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_gcc.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_msvc.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_armv7.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_armv6.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_armv5.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_ia64.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_x86.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_unix.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qglobalstatic.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qmutex.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qnumeric.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qversiontagging.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qobjectdefs_impl.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qstring.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qchar.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qbytearray.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qrefcount.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qarraydata.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qstringbuilder.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qlist.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qalgorithms.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qiterator.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qhashfunctions.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qpair.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qbytearraylist.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qstringlist.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qregexp.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qstringmatcher.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcoreevent.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qscopedpointer.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qmetatype.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qvarlengtharray.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcontainerfwd.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qobject_impl.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qvariant.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qmap.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qdebug.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qhash.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qtextstream.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qiodevice.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qlocale.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qshareddata.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qvector.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qpoint.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qset.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcontiguouscache.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QString \
-		raengine_global.h \
-		tsingleton.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QFile \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qfile.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qfiledevice.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QXmlStreamReader \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qxmlstream.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QStringList \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QDebug \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QDir \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qdir.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qfileinfo.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QCoreApplication \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcoreapplication.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qeventloop.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\xmlconfig.o xmlconfig.cpp
-
-release/tsingleton.o: tsingleton.cpp tsingleton.h \
-		raengine_global.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qglobal.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qconfig.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qfeatures.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsystemdetection.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qprocessordetection.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcompilerdetection.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qtypeinfo.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qtypetraits.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qisenum.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsysinfo.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qlogging.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qflags.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qbasicatomic.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_bootstrap.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qgenericatomic.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_cxx11.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_gcc.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_msvc.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_armv7.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_armv6.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_armv5.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_ia64.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_x86.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_unix.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qglobalstatic.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qmutex.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qnumeric.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qversiontagging.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\tsingleton.o tsingleton.cpp
-
-release/shaderlist.o: shaderlist.cpp shaderlist.h \
-		raengine_global.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qglobal.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qconfig.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qfeatures.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsystemdetection.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qprocessordetection.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcompilerdetection.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qtypeinfo.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qtypetraits.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qisenum.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsysinfo.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qlogging.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qflags.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qbasicatomic.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_bootstrap.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qgenericatomic.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_cxx11.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_gcc.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_msvc.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_armv7.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_armv6.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_armv5.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_ia64.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_x86.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qatomic_unix.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qglobalstatic.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qmutex.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qnumeric.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qversiontagging.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QString \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qstring.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qchar.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qbytearray.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qrefcount.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qnamespace.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qarraydata.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qstringbuilder.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qobject.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qobjectdefs.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qobjectdefs_impl.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qlist.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qalgorithms.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qiterator.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qhashfunctions.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qpair.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qbytearraylist.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qstringlist.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qregexp.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qstringmatcher.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcoreevent.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qscopedpointer.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qmetatype.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qvarlengtharray.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcontainerfwd.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qobject_impl.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QMap \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qmap.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qdebug.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qhash.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qtextstream.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qiodevice.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qlocale.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qvariant.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qshareddata.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qvector.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qpoint.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qset.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcontiguouscache.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/QOpenGLShaderProgram \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qopenglshaderprogram.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qopengl.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qt_windows.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtANGLE/GLES3/gl3.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtANGLE/GLES3/gl3platform.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtANGLE/KHR/khrplatform.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtANGLE/GLES2/gl2.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtANGLE/GLES2/gl2platform.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qopengles2ext.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qopenglext.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qvector2d.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qvector3d.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qvector4d.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qmatrix4x4.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qquaternion.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qgenericmatrix.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qdatastream.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qrect.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qmargins.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsize.h \
-		tsingleton.h \
-		gamewindow.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/QWindow \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qwindow.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QObject \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QEvent \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QMargins \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QRect \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qsurface.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qsurfaceformat.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qwindowdefs.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qwindowdefs_win.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qicon.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qpixmap.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qpaintdevice.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qcolor.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qrgb.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qrgba64.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsharedpointer.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsharedpointer_impl.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qimage.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qpixelformat.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qtransform.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qmatrix.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qpolygon.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qregion.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qline.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qpainterpath.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qcursor.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/QOpenGLFunctions \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qopenglfunctions.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qopenglcontext.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QScopedPointer \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/QSurfaceFormat \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtGui/qopenglversionfunctions.h \
-		debuglog.h \
-		include/glm/vec2.hpp \
-		include/glm/detail/type_vec2.hpp \
-		include/glm/detail/type_vec.hpp \
-		include/glm/detail/precision.hpp \
-		include/glm/detail/type_int.hpp \
-		include/glm/detail/setup.hpp \
-		include/glm/detail/_swizzle.hpp \
-		include/glm/detail/_swizzle_func.hpp \
-		include/glm/detail/type_vec2.inl \
-		include/glm/vec3.hpp \
-		include/glm/detail/type_vec3.hpp \
-		include/glm/detail/type_vec3.inl \
-		include/glm/vec4.hpp \
-		include/glm/detail/type_vec4.hpp \
-		include/glm/detail/type_vec4.inl \
-		include/glm/detail/type_vec4_sse2.inl \
-		include/glm/detail/type_vec4_avx.inl \
-		include/glm/detail/type_vec4_avx2.inl \
-		include/glm/mat4x4.hpp \
-		include/glm/detail/type_mat4x4.hpp \
-		include/glm/fwd.hpp \
-		include/glm/detail/type_float.hpp \
-		include/glm/detail/type_mat.hpp \
-		include/glm/detail/type_mat4x4.inl \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QDir \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qdir.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qfileinfo.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qfile.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qfiledevice.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QCoreApplication \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qcoreapplication.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qeventloop.h \
-		xmlconfig.h \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/QSettings \
-		../../../../Documents/QT/5.6/mingw49_32/include/QtCore/qsettings.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\shaderlist.o shaderlist.cpp
 
 release/moc_gamewindow.o: release/moc_gamewindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\moc_gamewindow.o release\moc_gamewindow.cpp

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /*
     This file is part of QGlEn.
 
@@ -75,8 +74,4 @@ void endQGlEn()
 {
 
 }
-=======
-#include "qglen.h"
 
-
->>>>>>> 5d18df288e58703d7732b4aa62335b8240a15abb

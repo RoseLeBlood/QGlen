@@ -34,14 +34,10 @@
 
 #include "raengine_global.h"
 
-<<<<<<< HEAD
+
 class XmlConfig;
 
 RAENGINESHARED_EXPORT XmlConfig* startQGlEn(int argc, char *argv[]);
 RAENGINESHARED_EXPORT void endQGlEn();
-=======
-
-
->>>>>>> 5d18df288e58703d7732b4aa62335b8240a15abb
 
 #endif // QGLEN_H

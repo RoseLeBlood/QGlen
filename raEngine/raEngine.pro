@@ -11,6 +11,7 @@ TARGET = raEngine
 TEMPLATE = lib
 
 DEFINES += RAENGINE_LIBRARY
+debug: DEFINES += RAEDEBUG
 
 LIBS += -fopenmp
 INCLUDEPATH    += $$PWD/include
@@ -26,15 +27,10 @@ SOURCES += \
     physikobject.cpp \
     colorpositionvertex.cpp \
     debuglog.cpp \
-    camera.cpp \
-    qglen.cpp \
+    shaderlist.cpp \
     xmlconfig.cpp \
-<<<<<<< HEAD
-    tsingleton.cpp \
-    shaderlist.cpp
-=======
-    tsingleton.cpp
->>>>>>> 5d18df288e58703d7732b4aa62335b8240a15abb
+    qglen.cpp \
+    camera.cpp
 
 HEADERS +=\
         raengine_global.h \
@@ -47,15 +43,11 @@ HEADERS +=\
     irendermovable.h \
     colorpositionvertex.h \
     debuglog.h \
-    camera.h \
-    qglen.h \
-    xmlconfig.h \
-<<<<<<< HEAD
     tsingleton.h \
-    shaderlist.h
-=======
-    tsingleton.h
->>>>>>> 5d18df288e58703d7732b4aa62335b8240a15abb
+    shaderlist.h \
+    xmlconfig.h \
+    qglen.h \
+    camera.h
 
 unix {
     target.path = /usr/lib
