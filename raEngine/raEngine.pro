@@ -16,6 +16,7 @@ LIBS += -fopenmp
 INCLUDEPATH    += $$PWD/include
 
 win32: LIBS +=  -lopengl32 -lglu32 -lgdi32
+win32: LIBS += -L$$PWD/include/sdl2/lib/ -lSDL2
 
 SOURCES += \
     gamewindow.cpp \
@@ -44,5 +45,8 @@ unix {
     target.path = /usr/lib
     INSTALLS += target
 }
+
+
+
 
 
