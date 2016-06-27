@@ -29,24 +29,42 @@
     Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
 */
-#ifndef RAENGINE_GLOBAL_H
-#define RAENGINE_GLOBAL_H
+#ifndef TSINGLETON_H
+#define TSINGLETON_H
 
-#include <QtCore/qglobal.h>
+#include <raengine_global.h>
+
+template <typename C> class RAENGINESHARED_EXPORT TSingleton
+{
+ public:
+    static C* instance ()
+    {
+       if (!m_pInstance)
+       {
+          m_pInstance = new C ();
+          m_pInstance->CreateInstance();
+       }
+       return m_pInstance;
+    }
+    virtual ~TSingleton ()
+    {
+       if(m_pInstance)
+       {
+           m_pInstance->DestroyInstance();
+           m_pInstance = 0;
+       }
+    }
+
+    virtual void CreateInstance() = 0;
+    virtual void DestroyInstance() = 0;
+ private:
+    static C* m_pInstance;
+ protected:
+    TSingleton () { }
+ };
+ template <typename C> C* TSingleton <C>::m_pInstance = 0;
 
 
-#if defined(RAENGINE_LIBRARY)
-#  define RAENGINESHARED_EXPORT Q_DECL_EXPORT
-#else
-#  define RAENGINESHARED_EXPORT Q_DECL_IMPORT
-#endif
 
+#endif // TSINGLETON_H
 
-#define XmlShaderVersion 0x01001 // version 1.00-1
-#define XmlConfigVersion 0x01001 // version 1.00-1
-
-#define XmlConfigDir "config"
-#define XmlConfigFile "settings.xml"
-#define XmlShaderDir "shader"
-
-#endif // RAENGINE_GLOBAL_H

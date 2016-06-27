@@ -29,24 +29,6 @@
     Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
 */
-#ifndef RAENGINE_GLOBAL_H
-#define RAENGINE_GLOBAL_H
-
-#include <QtCore/qglobal.h>
+#include "tsingleton.h"
 
 
-#if defined(RAENGINE_LIBRARY)
-#  define RAENGINESHARED_EXPORT Q_DECL_EXPORT
-#else
-#  define RAENGINESHARED_EXPORT Q_DECL_IMPORT
-#endif
-
-
-#define XmlShaderVersion 0x01001 // version 1.00-1
-#define XmlConfigVersion 0x01001 // version 1.00-1
-
-#define XmlConfigDir "config"
-#define XmlConfigFile "settings.xml"
-#define XmlShaderDir "shader"
-
-#endif // RAENGINE_GLOBAL_H
