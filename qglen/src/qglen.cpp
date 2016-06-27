@@ -33,10 +33,40 @@
 #include <QCoreApplication>
 #include <QDir>
 #include "xmlconfig.h"
-#include <qdebug.h>
+#include "debuglog.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <qapplication.h>
+#include <QtGlobal>
+#include "debuglog.h"
+
+void myMessageOutput(QtMsgType type, const QMessageLogContext &, const QString & str)
+ {
+     //in this function, you can write the message to any stream!
+     switch (type) {
+     case QtDebugMsg:
+         DebugLog::instance()->info(str);
+         break;
+     case QtWarningMsg:
+         DebugLog::instance()->warning(str);
+         break;
+     case QtCriticalMsg:
+         DebugLog::instance()->error(str);
+         break;
+     case QtInfoMsg:
+         DebugLog::instance()->info(str);
+         break;
+     case QtFatalMsg:
+         DebugLog::instance()->error(str);
+         abort();
+     }
+ }
+
 
 XmlConfig* startQGlEn()
 {
+   qInstallMessageHandler(myMessageOutput);  //install : set the callback
+
      QDir( QCoreApplication::applicationDirPath() ).mkdir(XmlConfigDir);
      QDir( QCoreApplication::applicationDirPath() ).mkdir(XmlShaderDir);
 
@@ -56,20 +86,22 @@ XmlConfig* startQGlEn()
                                    "   fColor = vColor;\n"
                                    "}\n");
      shader->setGeometryShaderCode("");
-     shader->setName("ColorPosition");
+     shader->setName("Basic");
 
      XmlConfigReader::instance()->saveShader(shader);
      delete shader;
 
      XmlConfigReader::instance()->saveConfig(XmlConfigReader::instance()->getConfig());
 #endif
+     DebugLog::instance()->InitLog("raEngineLog.html");
 
     return XmlConfigReader::instance()->getConfig();
 
 }
 
-void endQGlEn()
+int endQGlEn(int exec)
 {
-
+    DebugLog::instance()->ExitLog();
+    return exec;
 }
 

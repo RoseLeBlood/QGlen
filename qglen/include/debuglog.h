@@ -41,27 +41,40 @@
 
 #include <stdio.h>
 
-class RAENGINESHARED_EXPORT DebugLog
+#include <QString>
+#include <QFile>
+#include <QTextStream>
+#include "tsingleton.h"
+
+class RAENGINESHARED_EXPORT DebugLog : public TSingleton<DebugLog>
 {
+    friend class TSingleton<DebugLog>;
+protected:
+    DebugLog() { }
+
+    virtual void CreateInstance() { }
+    virtual void DestroyInstance() { }
 public:
-    DebugLog();
+    bool InitLog(const QString file);
+    bool ExitLog();
 
-    virtual bool InitLog(QString File);
-    virtual bool ExitLog();
+    bool WriteToLogDirect(const QString Format);
+    bool WriteToLog(const QString Format);
 
-    virtual bool Write(const glm::vec2& v);
-    virtual bool Write(const glm::vec3& v);
-    virtual bool Write(const glm::mat4& m);
-    virtual bool Write(const QString& Format);
+    void ok(const QString x)            { WriteToLog("<b><font color=\"#008000\">OK:</font></b>" + x); }
+    void info(const QString x)          { WriteToLog("<b><font color=\"#008000\">INFO:</font></b> " + x); }
+    void warning(const QString x)       { WriteToLog("<b><font color=\"#FF0000\">WARNUNG:</font></b>" + x); }
+    void error(const QString x)         { WriteToLog("<b><font color=\"#FF0000\">FEHLER:</font></b>" + x); }
 
-    virtual void OK(const QString& x) { WriteToLogDirect("<b><font color=\"#008000\">OK:</font></b>" + x); }
-    virtual void Error(const QString& x) { WriteToLogDirect("<b><font color=\"#800000\">Error:</font></b>" + x); }
-    virtual void Warning(const QString& x){ WriteToLogDirect("<b><font color=\"#000080\">Warning:</font></b>" + x); }
-protected:
-    virtual bool WriteToLogDirect(const QString& Format);
+    void nullpointer(const QString x)   { WriteToLog("<b><font color=\"#FF0000\">FEHLER:</font></b> <i>" + x + "</i> ist NULL!"); }
+    void invalidvalue(const QString x)  { WriteToLog("<b><font color=\"#FF0000\">FEHLER:</font></b> <i>" + x + "</i> hat einen ungültigen Wert!"); }
+    void outofmem()                     { WriteToLog("<b><font color=\"#FF0000\">FEHLER:</font></b> Nicht genug Speicher!"); }
 
-protected:
-    FILE *m_File;
+    void file(const QString f)          { WriteToLog("<tr><td><font size=\"2\"><b><font color=\"#FF0000\">FEHLER:</font></b> Die Datei <i>" + f + "</i> konnte nicht geöffnet, gelesen, erstellt oder beschrieben werden!</font></td>"); }
+private:
+    QFile       flr_file;
+    QTextStream flr_stream;
 };
+
 
 #endif // DEBUGLOG_H

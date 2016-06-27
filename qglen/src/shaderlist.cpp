@@ -36,14 +36,18 @@
 
 void ShaderList::Add(QString strName, QOpenGLShaderProgram *mPrg)
 {
-    if(m_pListShader.contains(strName))
+    if(mPrg == 0)
     {
-        qDebug() << "Shader Program: " << strName << "allready in list";
+        qWarning() << "Shader Program: " << strName << "error";
+    }
+    else if(m_pListShader.contains(strName))
+    {
+        qInfo() << "Shader Program: " << strName << "allready in list";
         return;
     }
     else
     {
-        qDebug() << "Add Shader Program: " << strName;
+        qDebug() << "Add Shader Program: " << strName << "to List";
            m_pListShader.insert(strName, mPrg);
     }
 }

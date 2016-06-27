@@ -57,8 +57,7 @@ unix {
 
 DISTFILES += \
     data/config/settings.xml \
-    data/shader/ToonShader.rs \
-    data/shader/ColorPosition.rs
+    data/shader/ToonShader.rs
 
 
 

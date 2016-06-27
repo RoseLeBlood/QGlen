@@ -225,7 +225,7 @@ bool XmlConfigReader::saveShader(XmlShader* shader)
     _xmlSetting->setValue("VertexCode", shader->getVertexShaderCode());
     _xmlSetting->setValue("FragmentCode", shader->getFragmentShaderCode());
     _xmlSetting->setValue("GeometryCode", shader->getGeometryShaderCode());
-
+    _xmlSetting->setValue("Name", shader->getName());
     delete _xmlSetting;
 
     return true;

@@ -38,6 +38,6 @@
 class XmlConfig;
 
 RAENGINESHARED_EXPORT XmlConfig *startQGlEn();
-RAENGINESHARED_EXPORT void endQGlEn();
+RAENGINESHARED_EXPORT int endQGlEn(int exec);
 
 #endif // QGLEN_H

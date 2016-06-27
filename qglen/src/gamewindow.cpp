@@ -45,6 +45,7 @@
 #include <QDateTime>
 #include <QThread>
 #include "shaderlist.h"
+#include "debuglog.h"
 
 GameWindow::GameWindow(QWindow *parent)
     : QWindow(parent)
@@ -62,9 +63,8 @@ GameWindow::GameWindow(QWindow *parent)
 
     m_previous = QDateTime::currentMSecsSinceEpoch();
     m_lag = 0.0;
-    m_pLog = new DebugLog();
-    m_pLog->InitLog("raEngineLog.html");
-    m_pLog->OK("Log Created");
+
+
 }
 GameWindow::~GameWindow()
 {
@@ -93,9 +93,7 @@ void GameWindow::printVersionInformation()
 #undef CASE
 
   // qPrintable() will print our QString w/o quotes around it.
-  qDebug() << qPrintable(glType) << qPrintable(glVersion) << "(" << qPrintable(glProfile) << ")";
-
-  m_pLog->OK(glType + glVersion + "(" + glProfile + ")");
+  qInfo() << qPrintable(glType) << qPrintable(glVersion) << "(" << qPrintable(glProfile) << ")";
 }
 void GameWindow::Initialize()
 {

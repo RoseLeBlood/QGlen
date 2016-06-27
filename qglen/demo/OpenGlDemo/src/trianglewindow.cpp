@@ -61,6 +61,6 @@ int main(int argc, char *argv[])
     TriangleWindow window(cfg);
     window.show();
 
-    return app.exec();
+    return endQGlEn(app.exec());
 }
 

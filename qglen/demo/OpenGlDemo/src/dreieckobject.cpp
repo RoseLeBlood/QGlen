@@ -86,7 +86,7 @@ bool DreieckObject::Initialize()
     // Application-specific initialization
      {
        // Create Shader (Do not release until VAO is created)
-       m_program = ShaderList::instance()->GetByName("ColorPosition");
+       m_program = ShaderList::instance()->GetByName("Basic");
        m_program->bind();
 
        // Create Buffer (Do not release until VAO is created)

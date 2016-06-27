@@ -36,7 +36,7 @@
 
 #include <QtGui/QWindow>
 #include <QtGui/QOpenGLFunctions>
-#include "debuglog.h"
+
 
 class QTimer;
 class QPainter;
@@ -81,7 +81,6 @@ protected:
 
     qint64              m_previous;
     qint64              m_lag;
-    DebugLog            *m_pLog;
 private:
     void printVersionInformation();
 
