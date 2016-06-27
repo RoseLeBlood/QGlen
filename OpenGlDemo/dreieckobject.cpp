@@ -72,24 +72,8 @@ static const ColorPositionVertex sg_vertexes[] = {
 #undef VERTEX_FTR
 
 
+#include <shaderlist.h>
 
-
-static const char *vertexShaderSource =
-    "layout(location = 0) in vec3 position;\n"
-    "layout(location = 1) in vec3 color;\n"
-    "out vec4 vColor;\n"
-    "uniform highp mat4 matCamera;\n"
-    "void main() {\n"
-    "   gl_Position = matCamera * vec4(position, 1.0);\n"
-    "   vColor = vec4(color, 1.0f);\n"
-    "}\n";
-
-static const char *fragmentShaderSource =
-    "in highp vec4 vColor;\n"
-    "out highp vec4 fColor;\n"
-    "void main() {\n"
-    "   fColor = vColor;\n"
-    "}\n";
 
 DreieckObject::DreieckObject(GameWindow* window) : IObject("DreieckObject", window)
 {
@@ -102,10 +86,7 @@ bool DreieckObject::Initialize()
     // Application-specific initialization
      {
        // Create Shader (Do not release until VAO is created)
-       m_program = new QOpenGLShaderProgram();
-       m_program->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource);
-       m_program->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource);
-       m_program->link();
+       m_program = ShaderList::instance()->GetByName("ColorPosition");
        m_program->bind();
 
        // Create Buffer (Do not release until VAO is created)

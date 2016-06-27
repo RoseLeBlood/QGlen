@@ -37,11 +37,12 @@
 
 
 #include "dreieckgamestate.h"
+#include <xmlconfig.h>
 
 class TriangleWindow : public GameWindow
 {
 public:
-    TriangleWindow();
+    TriangleWindow(XmlConfig *cfg);
 
 };
 

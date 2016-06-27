@@ -29,24 +29,39 @@
     Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
 */
-#ifndef RAENGINE_GLOBAL_H
-#define RAENGINE_GLOBAL_H
+#ifndef SHADER_H
+#define SHADER_H
 
-#include <QtCore/qglobal.h>
+#include "raengine_global.h"
+#include <QString>
+#include <qobject.h>
+#include <QMap>
+#include <QOpenGLShaderProgram>
 
+#include "tsingleton.h"
+#include <gamewindow.h>
 
-#if defined(RAENGINE_LIBRARY)
-#  define RAENGINESHARED_EXPORT Q_DECL_EXPORT
-#else
-#  define RAENGINESHARED_EXPORT Q_DECL_IMPORT
-#endif
+class RAENGINESHARED_EXPORT ShaderList : public TSingleton<ShaderList>
+{
+    friend class GameWindow;
+public:
+    ShaderList() { }
 
+    void Add(QString strName, QOpenGLShaderProgram* mPrg);
+    void AddFromSource(QString strName, QString verteSource, QString fagmentSource,
+                       QString geometrySource = "" );
+    void AddFromFile(QString strName, QString vertexFileName, QString fagmentFileName,
+                     QString geometryFileName = "" );
 
-#define XmlShaderVersion 0x01001 // version 1.00-1
-#define XmlConfigVersion 0x01001 // version 1.00-1
+    QOpenGLShaderProgram* GetByName(QString strName);
 
-#define XmlConfigDir "config"
-#define XmlConfigFile "settings.xml"
-#define XmlShaderDir "shader"
+    virtual void CreateInstance();
+    virtual void DestroyInstance();
+protected:
+    void loadShaders(GameWindow* wnd);
+private:
+    QMap<QString, QOpenGLShaderProgram*>   m_pListShader;
+    GameWindow *m_wnd;
+};
 
-#endif // RAENGINE_GLOBAL_H
+#endif // SHADER_H

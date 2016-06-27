@@ -44,6 +44,7 @@
 #include "gamestatemanager.h"
 #include <QDateTime>
 #include <QThread>
+#include "shaderlist.h"
 
 GameWindow::GameWindow(QWindow *parent)
     : QWindow(parent)
@@ -97,6 +98,7 @@ void GameWindow::printVersionInformation()
 void GameWindow::Initialize()
 {
     printVersionInformation();
+    ShaderList::instance()->loadShaders(this);
     m_gameStateManager->Initialize();
 }
 void GameWindow::Move(double renderTime, double elapsedTime)

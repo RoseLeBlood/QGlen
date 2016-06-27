@@ -29,35 +29,48 @@
     Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
 */
-#include "trianglewindow.h"
-#include <QApplication>
 #include "qglen.h"
+#include <QCoreApplication>
+#include <QDir>
+#include "xmlconfig.h"
 
-
-
-TriangleWindow::TriangleWindow(XmlConfig *cfg) : GameWindow()
+XmlConfig* startQGlEn(int argc, char *argv[])
 {
-    QSurfaceFormat format;
-    format.setProfile(QSurfaceFormat::CoreProfile);
-    format.setDepthBufferSize(cfg->getDepth());
-    format.setStencilBufferSize(8);
-    format.setSamples(cfg->getSamples());
+    Q_UNUSED(argc);
+    Q_UNUSED(argv);
 
-    setFormat(format);
+     QDir( QCoreApplication::applicationDirPath() ).mkdir(XmlConfigDir);
+     QDir( QCoreApplication::applicationDirPath() ).mkdir(XmlShaderDir);
 
+#if  RAEDEBUG
+     XmlShader* shader = new XmlShader();
+     shader->setVertexShaderCode("in vec3 position;\n"
+                                 "in vec3 color;\n"
+                                 "out vec4 vColor;\n"
+                                 "uniform highp mat4 matCamera;\n"
+                                 "void main() {\n"
+                                 "   gl_Position = matCamera * vec4(position, 1.0);\n"
+                                 "   vColor = vec4(color, 1.0);\n"
+                                 "}\n");
+     shader->setFragmentShaderCode("in highp vec4 vColor;\n"
+                                   "out highp vec4 fColor;\n"
+                                   "void main() {\n"
+                                   "   fColor = vColor;\n"
+                                   "}\n");
+     shader->setGeometryShaderCode("");
+     shader->setName("ColorPosition");
 
-    this->resize(cfg->getWight(), cfg->getHeight());
+     XmlConfigReader::instance()->saveShader(shader);
+     delete shader;
 
-    this->AddGameState("Dreieck_test", new DreieckGameState(this));
+     XmlConfigReader::instance()->saveConfig(XmlConfigReader::instance()->getConfig());
+#endif
+
+    return XmlConfigReader::instance()->getConfig();
+
 }
 
-int main(int argc, char *argv[])
+void endQGlEn()
 {
-    QApplication app(argc, argv);
-    XmlConfig *cfg =  startQGlEn(argc, argv);
 
-    TriangleWindow window(cfg);
-    window.show();
-
-    return app.exec();
 }

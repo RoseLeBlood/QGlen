@@ -6,7 +6,11 @@ INPUT(
 ./debug\physikobject.o
 ./debug\colorpositionvertex.o
 ./debug\debuglog.o
-./debug\icamera.o
-./debug\orthocamera.o
+./debug\camera.o
+./debug\qglen.o
+./debug\xmlconfig.o
+./debug\tsingleton.o
+./debug\shaderlist.o
 ./debug\moc_gamewindow.o
+./debug\moc_xmlconfig.o
 );

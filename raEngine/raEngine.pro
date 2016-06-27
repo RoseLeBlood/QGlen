@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += network opengl svg multimedia gui
+QT       += network opengl svg xml gui
 
 
 TARGET = raEngine
@@ -26,7 +26,11 @@ SOURCES += \
     physikobject.cpp \
     colorpositionvertex.cpp \
     debuglog.cpp \
-    camera.cpp
+    camera.cpp \
+    qglen.cpp \
+    xmlconfig.cpp \
+    tsingleton.cpp \
+    shaderlist.cpp
 
 HEADERS +=\
         raengine_global.h \
@@ -39,12 +43,21 @@ HEADERS +=\
     irendermovable.h \
     colorpositionvertex.h \
     debuglog.h \
-    camera.h
+    camera.h \
+    qglen.h \
+    xmlconfig.h \
+    tsingleton.h \
+    shaderlist.h
 
 unix {
     target.path = /usr/lib
     INSTALLS += target
 }
+
+DISTFILES += \
+    data/config/settings.xml \
+    data/shader/ToonShader.rs \
+    data/shader/ColorPosition.rs
 
 
 
