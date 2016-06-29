@@ -34,57 +34,61 @@
 #include <QCoreApplication>
 #include <QTextStream>
 #include <qdebug.h>
-
-#define MAX_PATH 260
+#include <qdir.h>
 
 bool DebugLog::InitLog(const QString file)
 {
-    flr_file.setFileName(file);
-    flr_file.open(QIODevice::WriteOnly);
-    flr_stream.setDevice(&flr_file);
 
-    WriteToLogDirect("<!DOCTYPE HTML>\n<html>");
-    WriteToLogDirect("<head>\n\t<meta charset=\"utf-8\">\n\t"
-                     "<title>QGlen Log Datei</title>\n\t"
-                     "<meta name=\"robots\" content=\"noindex,nofollow\">"
-                     "<meta charset=\"UTF-8\">\n"
-                     "\n</head>\n<body>");
+        flr_file.setFileName(file);
+        flr_file.open(QIODevice::WriteOnly);
+        flr_stream.setDevice(&flr_file);
+
+        WriteToLogDirect("<!DOCTYPE HTML>\n<html>");
+        WriteToLogDirect("<head>\n\t<meta charset=\"utf-8\">\n\t"
+                         "<title>QGlen Log Datei</title>\n\t"
+                         "<meta name=\"robots\" content=\"noindex,nofollow\">"
+                         "<meta charset=\"UTF-8\">\n"
+                         "\n</head>\n<body>");
     return true;
 }
 bool DebugLog::ExitLog()
 {
-    // Datei schlie�en
-    if(flr_file.isOpen())
-    {
-        WriteToLogDirect("</body>");
-        WriteToLogDirect("</html>");
+        // Datei schlie�en
+        if(flr_file.isOpen())
+        {
+            WriteToLogDirect("</body>");
+            WriteToLogDirect("</html>");
 
-        flr_stream.flush();
-        flr_stream.setDevice(NULL);
-        flr_file.close();
-    }
-
+            flr_stream.flush();
+            flr_stream.setDevice(NULL);
+            flr_file.close();
+        }
     return true;
 }
 
 bool DebugLog::WriteToLogDirect(const QString pcFormat)
 {
-    // String ins Logbuch schreiben
-    if(flr_file.isOpen())
+    LOCK(m_pSection)
     {
-        flr_stream << pcFormat << "\n";
-        flr_stream.flush();
+        // String ins Logbuch schreiben
+        if(flr_file.isOpen())
+        {
+            flr_stream << pcFormat << "\n";
+            flr_stream.flush();
 
+        }
     }
-
     return true;
 }
 bool DebugLog::WriteToLog(const QString pcFormat)
 {
-    if(flr_file.isOpen())
+    LOCK(m_pSection)
     {
-        flr_stream  << "<tr><td><font size=\"2\" color=\"#000080\">" << pcFormat <<  "</font></td></tr><br>" << "\n";
-        flr_stream.flush();
+        if(flr_file.isOpen())
+        {
+            flr_stream  << "<tr><td><font size=\"2\" color=\"#000080\">" << pcFormat <<  "</font></td></tr><br>" << "\n";
+            flr_stream.flush();
+        }
     }
     return true;
 }

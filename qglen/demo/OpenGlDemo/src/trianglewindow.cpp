@@ -40,7 +40,7 @@ TriangleWindow::TriangleWindow(XmlConfig *cfg) : GameWindow()
     QSurfaceFormat format;
     format.setProfile(QSurfaceFormat::CoreProfile);
     format.setDepthBufferSize(cfg->getDepth());
-    format.setStencilBufferSize(8);
+    format.setStencilBufferSize(cfg->getStencil());
     format.setSamples(cfg->getSamples());
 
     setFormat(format);

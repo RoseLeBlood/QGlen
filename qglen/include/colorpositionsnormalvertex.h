@@ -29,56 +29,53 @@
     Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
 */
-#ifndef COLORPOSITIONVERTEX_H
-#define COLORPOSITIONVERTEX_H
+#ifndef COLORPOSITIONSNORMALVERTEX_H
+#define COLORPOSITIONSNORMALVERTEX_H
 
 #include "ivertex.h"
 
-
-class RAENGINESHARED_EXPORT ColorPositionVertex : IVertex
+class RAENGINESHARED_EXPORT PositionsNormalVertex : IVertex
 {
 public:
   // Constructors
-    ColorPositionVertex();
-    explicit ColorPositionVertex(const glm::vec3 &position);
-    ColorPositionVertex(const glm::vec2 &position);
-    ColorPositionVertex(const glm::vec3 &position, const glm::vec3 &color);
+    PositionsNormalVertex();
+    explicit PositionsNormalVertex(const glm::vec3 &position, const glm::vec3 &normal);
 
   // Accessors / Mutators
    const glm::vec3& getPosition() const;
-   const glm::vec3& getColor() const;
+   const glm::vec3& getNormal() const;
   void setPosition(const glm::vec3& position);
-  void setColor(const glm::vec3& color);
+  void setNormal(const glm::vec3& normal);
 
   // OpenGL Helpers
   static const int PositionTupleSize = 3;
-  static const int ColorTupleSize = 3;
+  static const int NormalTupleSize = 3;
   static Q_DECL_CONSTEXPR int positionOffset();
-  static Q_DECL_CONSTEXPR int colorOffset();
+  static Q_DECL_CONSTEXPR int normalOffset();
   static Q_DECL_CONSTEXPR int stride();
 protected:
   glm::vec3 m_position;
-  glm::vec3 m_color;
+  glm::vec3 m_normal;
+
 };
 
-Q_DECLARE_TYPEINFO(ColorPositionVertex, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO(PositionsNormalVertex, Q_MOVABLE_TYPE);
 
 // Constructors
- inline ColorPositionVertex::ColorPositionVertex() {}
- inline ColorPositionVertex::ColorPositionVertex(const glm::vec3 &position) : m_position(position) {}
- inline ColorPositionVertex::ColorPositionVertex(const glm::vec2 &position) : m_position(glm::vec3(position,1.0f)) { }
- inline ColorPositionVertex::ColorPositionVertex(const glm::vec3 &position, const glm::vec3 &color) : m_position(position), m_color(color) {}
+ inline PositionsNormalVertex::PositionsNormalVertex() {}
+ inline PositionsNormalVertex::PositionsNormalVertex(const glm::vec3 &position, const glm::vec3 &normal) : m_position(position), m_normal(normal) {}
 
 // Accessors / Mutators
- inline const glm::vec3& ColorPositionVertex::getPosition() const { return m_position; }
- inline const glm::vec3& ColorPositionVertex::getColor() const { return m_color; }
-void inline ColorPositionVertex::setPosition(const glm::vec3& position) { m_position = position; }
-void inline ColorPositionVertex::setColor(const glm::vec3 &color) { m_color = color; }
+ inline const glm::vec3& PositionsNormalVertex::getPosition() const { return m_position; }
+ inline const glm::vec3& PositionsNormalVertex::getNormal() const { return m_normal; }
+void inline PositionsNormalVertex::setPosition(const glm::vec3& position) { m_position = position; }
+void inline PositionsNormalVertex::setNormal(const glm::vec3 &normal) { m_normal = normal; }
 
-Q_DECL_CONSTEXPR inline int ColorPositionVertex::positionOffset() { return offsetof(ColorPositionVertex, m_position); }
-Q_DECL_CONSTEXPR inline int ColorPositionVertex::colorOffset() { return offsetof(ColorPositionVertex, m_color); }
-Q_DECL_CONSTEXPR inline int ColorPositionVertex::stride() { return sizeof(ColorPositionVertex); }
+Q_DECL_CONSTEXPR inline int PositionsNormalVertex::positionOffset() { return offsetof(PositionsNormalVertex, m_position); }
+Q_DECL_CONSTEXPR inline int PositionsNormalVertex::normalOffset() { return offsetof(PositionsNormalVertex, m_normal); }
+Q_DECL_CONSTEXPR inline int PositionsNormalVertex::stride() { return sizeof(PositionsNormalVertex); }
 
 
 
-#endif // COLORPOSITIONVERTEX_H
+
+#endif // COLORPOSITIONSNORMALVERTEX_H

@@ -12,7 +12,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+    along with QGlEn.  If not, see <http://www.gnu.org/licenses/>.
 
     Diese Datei ist Teil von QGlEn.
 
@@ -29,15 +29,37 @@
     Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
 */
-#ifndef QGLEN_H
-#define QGLEN_H
+#ifndef LOCK_H
+#define LOCK_H
 
 #include "raengine_global.h"
+#include <QMutex>
 
-#include <QString>
-class XmlConfig;
+class RAENGINESHARED_EXPORT CriticalSection : public QMutex
+{
+public:
+    CriticalSection();
+    ~CriticalSection();
+};
+class RAENGINESHARED_EXPORT CriticalBlock
+{
+public:
+    CriticalBlock(CriticalSection* rc) :  m_rc(rc)
+    {
+        m_rc->lock();
+    }
+    ~CriticalBlock(void)
+    {
+        m_rc->unlock();
+    }
+    operator bool()
+    {
+        return true;
+    }
+private:
+    CriticalSection*		m_rc;
+};
 
-RAENGINESHARED_EXPORT XmlConfig *startQGlEn(const QString& gameName = QString("qglen"));
-RAENGINESHARED_EXPORT int endQGlEn(int exec);
+#define LOCK(x) if (CriticalBlock __csc = x)
 
-#endif // QGLEN_H
+#endif // LOCK_H

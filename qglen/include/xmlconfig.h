@@ -40,11 +40,51 @@
 
 class QApplication;
 
+namespace ScreenReselution
+{
+    enum ScreenReselution_t : int
+    {
+        SuperHiVision_7680_4320,
+        UltraHD_3840_2160,
+        FullHD_1920_1080,
+        HD_1280_720,
+
+    };
+    inline QString ScreenReselutionToString(ScreenReselution::ScreenReselution_t value)
+    {
+        switch (value) {
+        case ScreenReselution::HD_1280_720:
+            return "720p";
+        case ScreenReselution::FullHD_1920_1080:
+            return "1080p";
+        case ScreenReselution::UltraHD_3840_2160:
+            return "4K";
+        case ScreenReselution::SuperHiVision_7680_4320:
+            return "8K";
+        default:
+            return "720p";
+        }
+    }
+    inline ScreenReselution::ScreenReselution_t StringToScreenReselution(QString value)
+    {
+        if(value == "1080p")
+            return ScreenReselution::FullHD_1920_1080;
+        else if(value == "4K")
+            return ScreenReselution::UltraHD_3840_2160;
+        else if(value == "8K")
+            return ScreenReselution::SuperHiVision_7680_4320;
+
+        return ScreenReselution::HD_1280_720;
+    }
+}
+
+
 class RAENGINESHARED_EXPORT XmlConfig : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool FullScreen READ isFullScreen WRITE setFullScreen)
     Q_PROPERTY(int Samples READ getSamples WRITE setSamples)
+    Q_PROPERTY(int Stencil READ getStencil WRITE setStencil)
     Q_PROPERTY(int Depth READ getDepth WRITE setDepth)
     Q_PROPERTY(int Wight READ getWight WRITE setWight)
     Q_PROPERTY(int Height READ getHeight WRITE setHeight)
@@ -52,11 +92,16 @@ public:
 
 
 
-    XmlConfig() : XmlConfig(800,600,0,8,false) { }
-    explicit XmlConfig(int wight, int height, int samples, int depth, bool fullscreen)
-        : QObject(), m_iSamples(samples), m_iDepht(depth), m_bFullScreen(fullscreen), m_iH(height), m_iW(wight)
+    XmlConfig() : XmlConfig(ScreenReselution::HD_1280_720,0,0,0,false) { }
+    XmlConfig(QString res, int samples, int depth, int stencil, bool fullscreen)
+        : QObject(), m_iSamples(samples), m_iDepht(depth), m_bFullScreen(fullscreen), m_stencil(stencil)
     {
-
+        calcHW(ScreenReselution::StringToScreenReselution(res));
+    }
+    explicit XmlConfig(ScreenReselution::ScreenReselution_t res, int samples, int depth, int stencil, bool fullscreen)
+        : QObject(), m_iSamples(samples), m_iDepht(depth), m_bFullScreen(fullscreen), m_stencil(stencil)
+    {
+        calcHW(res);
     }
     XmlConfig(const XmlConfig& other) : QObject()
     {
@@ -65,26 +110,58 @@ public:
         m_bFullScreen = other.m_bFullScreen;
         m_iH = other.m_iH;
         m_iW = other.m_iW;
+        m_configResulutions = other.m_configResulutions;
     }
 
     int getSamples() { return m_iSamples; }
     int getDepth() { return m_iDepht; }
+    int getStencil() { return m_stencil; }
     bool isFullScreen() { return m_bFullScreen; }
     int getWight() { return m_iW; }
     int getHeight() { return m_iH; }
+    ScreenReselution::ScreenReselution_t getResulution() { return m_configResulutions; }
 
     void setSamples(int samples) {  m_iSamples = samples; }
     void setDepth(int depth) {  m_iDepht = depth; }
+    void setStencil(int stencil) {  m_stencil = stencil; }
     void setFullScreen(bool fullscreen) {  m_bFullScreen = fullscreen; }
     void setWight(int w) {  m_iW = w; }
     void setHeight(int h) {  m_iH = h; }
+    void setResulution(ScreenReselution::ScreenReselution_t res) { calcHW(res); }
+protected:
+    void calcHW(ScreenReselution::ScreenReselution_t res)
+    {
+        m_configResulutions = res;
+        switch (m_configResulutions) {
+        case ScreenReselution::HD_1280_720:
+            m_iH = 720;
+            m_iW = 1280;
+            break;
+        case ScreenReselution::FullHD_1920_1080:
+            m_iH = 1080;
+            m_iW = 1920;
+            break;
+        case ScreenReselution::UltraHD_3840_2160:
+            m_iH = 2160;
+            m_iW = 3840;
+            break;
+        case ScreenReselution::SuperHiVision_7680_4320:
+            m_iH = 4320;
+            m_iW = 7680;
+            break;
+        default:
+            break;
+        }
+    }
 
 private:
     int m_iSamples;
     int m_iDepht;
     bool m_bFullScreen;
+    ScreenReselution::ScreenReselution_t    m_configResulutions;
     int m_iH;
     int m_iW;
+    int m_stencil;
 };
 
 class RAENGINESHARED_EXPORT XmlShader : public QObject

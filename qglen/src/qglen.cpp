@@ -39,7 +39,7 @@
 #include <qapplication.h>
 #include <QtGlobal>
 #include "debuglog.h"
-
+#include <QDateTime>
 void myMessageOutput(QtMsgType type, const QMessageLogContext &, const QString & str)
  {
      //in this function, you can write the message to any stream!
@@ -63,14 +63,17 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &, const QString &
  }
 
 
-XmlConfig* startQGlEn()
+XmlConfig* startQGlEn(const QString& gameName)
 {
    qInstallMessageHandler(myMessageOutput);  //install : set the callback
 
      QDir( QCoreApplication::applicationDirPath() ).mkdir(XmlConfigDir);
      QDir( QCoreApplication::applicationDirPath() ).mkdir(XmlShaderDir);
+    QDir( QCoreApplication::applicationDirPath() ).mkdir(LogDir);
 
-#if  RAEDEBUG
+
+     DebugLog::instance()->InitLog(gameName + ".html" + "_" + QDateTime::currentDateTime().toString());
+
      XmlShader* shader = new XmlShader();
      shader->setVertexShaderCode("in vec3 position;\n"
                                  "in vec3 color;\n"
@@ -92,8 +95,7 @@ XmlConfig* startQGlEn()
      delete shader;
 
      XmlConfigReader::instance()->saveConfig(XmlConfigReader::instance()->getConfig());
-#endif
-     DebugLog::instance()->InitLog("raEngineLog.html");
+
 
     return XmlConfigReader::instance()->getConfig();
 

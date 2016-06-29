@@ -32,7 +32,7 @@
 #ifndef IOBJECT_H
 #define IOBJECT_H
 
-#include "raengine_global.h"
+#include "criticalsection.h"
 #include <QString>
 
 #include <QPainter>
@@ -51,7 +51,7 @@ namespace SceneManagerPrio {
     };
 }
 
-class RAENGINESHARED_EXPORT IObject
+class RAENGINESHARED_EXPORT IObject : public CriticalSection
 {
 public:
     IObject(QString name, GameWindow *wnd) : m_strName(name), m_pWindow(wnd) { }

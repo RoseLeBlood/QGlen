@@ -3,7 +3,7 @@
         <Version>4097</Version>
         <VertexCode>
                 #version 330
-            in vec4 Position;
+                in vec4 Position;
                 in vec3 Normal;
                 in vec3 Color;
 
@@ -24,6 +24,8 @@
         </VertexCode>
     <FragmentCode>
                 #version 330
+                #define NumberOfLights 16
+
                 in vec3 EyespaceNormal;
                 in vec3 Diffuse;
                 out vec4 FragColor;

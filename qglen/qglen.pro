@@ -31,7 +31,9 @@ SOURCES += \
     src/shaderlist.cpp \
     src/xmlconfig.cpp \
     src/qglen.cpp \
-    src/camera.cpp
+    src/camera.cpp \
+    src/CriticalSection.cpp \
+    include/src/colorpositionsnormalvertex.cpp
 
 HEADERS +=\
         include/raengine_global.h \
@@ -48,7 +50,10 @@ HEADERS +=\
     include/shaderlist.h \
     include/xmlconfig.h \
     include/qglen.h \
-    include/camera.h
+    include/camera.h \
+    include/criticalsection.h \
+    include/colorpositionsnormalvertex.h \
+    include/ivertex.h
 
 unix {
     target.path = /usr/lib

@@ -38,6 +38,11 @@
 #include <QDir>
 #include <QCoreApplication>
 
+
+#include <QMetaEnum>
+
+
+
 XmlConfigReader::XmlFormat::XmlFormat()
 {
 
@@ -131,8 +136,6 @@ bool XmlConfigReader::XmlFormat::writeXmlFile(QIODevice &device, const QSettings
     return true;
 }
 
-
-
 XmlConfig*  XmlConfigReader::getConfig()
 {
     if(m_pConfig != 0)
@@ -144,21 +147,24 @@ XmlConfig*  XmlConfigReader::getConfig()
     QSettings *_xmlSetting = new QSettings(dir.absoluteFilePath(XmlConfigFile), XmlFormat::getFormat());
     if (_xmlSetting == 0)
     {
+        qCritical() << "Config file not found, use std config";
         //qLog.error("Config file not found, use std config");
         m_pConfig = new XmlConfig();
         return m_pConfig;
     }
     if (_xmlSetting->value("Version").toInt() != XmlConfigVersion)
     {
+        //QByteArray::number(myNumber).toHex()
+        qCritical() << "Config file wrong version Number " << QByteArray::number(_xmlSetting->value("Version").toInt()).toHex() << " != " <<  QByteArray::number(XmlConfigVersion).toHex();
         //qLog.error("Config file wrong version Number");
         m_pConfig = new XmlConfig();
     }
     else
     {
-        m_pConfig = new XmlConfig(_xmlSetting->value("wight", 800).toInt(),
-                         _xmlSetting->value("height", 600).toInt(),
+        m_pConfig = new XmlConfig(_xmlSetting->value("Reselution", ScreenReselution::ScreenReselutionToString(ScreenReselution::HD_1280_720)).toString(),
                          _xmlSetting->value("samples", 2).toInt(),
                          _xmlSetting->value("depth", 1).toInt(),
+                         _xmlSetting->value("stencil", 1).toInt(),
                          _xmlSetting->value("fullscreen", false).toBool());
     }
     delete _xmlSetting;
@@ -173,12 +179,13 @@ XmlShader*  XmlConfigReader::getShader(QString filePath)
     QSettings *_xmlSetting = new QSettings(dir.absoluteFilePath(filePath), XmlFormat::getFormat());
     if (_xmlSetting == 0)
     {
+         qCritical() << "Shader Config file not found";
         //qLog.error("Shader Config file not found");
         return 0;
     }
     if (_xmlSetting->value("Version").toInt() != XmlShaderVersion)
     {
-        //qLog.error("Shader Config file have the wrong version Number");
+        qCritical() << "Shader Config file have the wrong version Number";
         return 0;
     }
     XmlShader* shader = new XmlShader();
@@ -202,8 +209,8 @@ bool XmlConfigReader::saveConfig(XmlConfig* cfg)
 
     _xmlSetting->setValue("Version", XmlConfigVersion);
     _xmlSetting->setValue("fullscreen", cfg->isFullScreen());
-    _xmlSetting->setValue("height", cfg->getHeight());
-    _xmlSetting->setValue("wight", cfg->getWight());
+    _xmlSetting->setValue("Reselution", ScreenReselution::ScreenReselutionToString(cfg->getResulution()));
+    _xmlSetting->setValue("stencil", cfg->getStencil());
     _xmlSetting->setValue("samples", cfg->getSamples());
     _xmlSetting->setValue("depth", cfg->getDepth());
 
@@ -218,7 +225,7 @@ bool XmlConfigReader::saveShader(XmlShader* shader)
     QSettings *_xmlSetting = new QSettings(dir.absoluteFilePath(shader->getName() + ".rs"), XmlFormat::getFormat());
     if (_xmlSetting == 0)
     {
-        //qLog.error("Shader Config file not found");
+        qCritical() << "Shader Config file not found";
         return false;
     }
     _xmlSetting->setValue("Version", XmlShaderVersion);

@@ -43,10 +43,11 @@
 
 
 #define XmlShaderVersion 0x01001 // version 1.00-1
-#define XmlConfigVersion 0x01001 // version 1.00-1
+#define XmlConfigVersion 0x01015 // version 1.01-5
 
 #define XmlConfigDir "config"
 #define XmlConfigFile "settings.xml"
 #define XmlShaderDir "shader"
+#define LogDir "log"
 
 #endif // RAENGINE_GLOBAL_H

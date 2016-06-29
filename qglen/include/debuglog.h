@@ -45,12 +45,14 @@
 #include <QFile>
 #include <QTextStream>
 #include "tsingleton.h"
+#include "criticalsection.h"
 
 class RAENGINESHARED_EXPORT DebugLog : public TSingleton<DebugLog>
 {
     friend class TSingleton<DebugLog>;
 protected:
-    DebugLog() { }
+    DebugLog() { m_pSection = new CriticalSection(); }
+    ~DebugLog() { if(m_pSection != NULL) { delete[] m_pSection; m_pSection = NULL; } }
 
     virtual void CreateInstance() { }
     virtual void DestroyInstance() { }
@@ -74,6 +76,7 @@ public:
 private:
     QFile       flr_file;
     QTextStream flr_stream;
+    CriticalSection *m_pSection;
 };
 
 
