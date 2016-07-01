@@ -33,7 +33,7 @@ SOURCES += \
     src/qglen.cpp \
     src/camera.cpp \
     src/CriticalSection.cpp \
-    include/src/colorpositionsnormalvertex.cpp
+    src/colorpositionsnormalvertex.cpp
 
 HEADERS +=\
         include/raengine_global.h \
