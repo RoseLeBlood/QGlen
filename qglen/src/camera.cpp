@@ -56,7 +56,7 @@ bool Camera::Initialize()
 {
     return true;
 }
-void Camera::Render(QPainter* , double )
+void Camera::Render(double )
 {
 
 }

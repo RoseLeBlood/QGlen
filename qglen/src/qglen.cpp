@@ -45,7 +45,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &, const QString &
      //in this function, you can write the message to any stream!
      switch (type) {
      case QtDebugMsg:
-         DebugLog::instance()->info(str);
+         DebugLog::instance()->ok(str);
          break;
      case QtWarningMsg:
          DebugLog::instance()->warning(str);
@@ -65,14 +65,13 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &, const QString &
 
 XmlConfig* startQGlEn(const QString& gameName)
 {
-   qInstallMessageHandler(myMessageOutput);  //install : set the callback
+
 
      QDir( QCoreApplication::applicationDirPath() ).mkdir(XmlConfigDir);
      QDir( QCoreApplication::applicationDirPath() ).mkdir(XmlShaderDir);
-    QDir( QCoreApplication::applicationDirPath() ).mkdir(LogDir);
 
-
-     DebugLog::instance()->InitLog(gameName + ".html" + "_" + QDateTime::currentDateTime().toString());
+     DebugLog::instance()->InitLog(gameName + "_" + ".html");
+     qInstallMessageHandler(myMessageOutput);  //install : set the callback
 
      XmlShader* shader = new XmlShader();
      shader->setVertexShaderCode("in vec3 position;\n"
@@ -97,7 +96,9 @@ XmlConfig* startQGlEn(const QString& gameName)
      XmlConfigReader::instance()->saveConfig(XmlConfigReader::instance()->getConfig());
 
 
-    return XmlConfigReader::instance()->getConfig();
+    XmlConfig *p = XmlConfigReader::instance()->getConfig();
+    p->setGameName(gameName);
+    return p;
 
 }
 

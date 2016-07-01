@@ -32,22 +32,12 @@
 #include "trianglewindow.h"
 #include <QApplication>
 #include "qglen.h"
+#include <gamebatch.h>
 
 
-
-TriangleWindow::TriangleWindow(XmlConfig *cfg) : GameWindow()
+TriangleWindow::TriangleWindow(XmlConfig *cfg) : GameWindow(cfg)
 {
-    QSurfaceFormat format;
-    format.setProfile(QSurfaceFormat::CoreProfile);
-    format.setDepthBufferSize(cfg->getDepth());
-    format.setStencilBufferSize(cfg->getStencil());
-    format.setSamples(cfg->getSamples());
-
-    setFormat(format);
-
-
-    this->resize(cfg->getWight(), cfg->getHeight());
-
+    m_pBatch = new gameBatch(this);
     this->AddGameState("Dreieck_test", new DreieckGameState(this));
 }
 

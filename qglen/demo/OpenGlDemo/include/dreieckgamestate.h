@@ -42,11 +42,11 @@ public:
 
     virtual bool Switch(bool , GameState* ) { return true; }
 
-    virtual bool Render(QPainter *painter, double smoothStep)
+    virtual bool Render(double smoothStep)
     {
         GetGameWindow()->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-        return GameState::Render(painter, smoothStep);
+        return GameState::Render(smoothStep);
     }
 
     virtual bool Move(double renderTime, double elapsedTime)

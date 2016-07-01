@@ -58,8 +58,8 @@ public:
     virtual bool Destroy();
 
     virtual void Move(double renderTime, double elapsedTime);
-    virtual void Input();
-    virtual void Render(QPainter *painter, double smoothStep);
+    virtual void Input(GamePadState *pStates, int numDevices);
+    virtual void Render(double smoothStep);
 
 
     void SetPosition(QVector3D vector) { m_Position = vector; }

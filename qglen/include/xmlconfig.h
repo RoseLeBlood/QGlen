@@ -88,6 +88,7 @@ class RAENGINESHARED_EXPORT XmlConfig : public QObject
     Q_PROPERTY(int Depth READ getDepth WRITE setDepth)
     Q_PROPERTY(int Wight READ getWight WRITE setWight)
     Q_PROPERTY(int Height READ getHeight WRITE setHeight)
+    Q_PROPERTY(QString GameName READ getGameName WRITE setGameName)
 public:
 
 
@@ -120,6 +121,7 @@ public:
     int getWight() { return m_iW; }
     int getHeight() { return m_iH; }
     ScreenReselution::ScreenReselution_t getResulution() { return m_configResulutions; }
+    QString getGameName() { return m_gameName; }
 
     void setSamples(int samples) {  m_iSamples = samples; }
     void setDepth(int depth) {  m_iDepht = depth; }
@@ -128,6 +130,7 @@ public:
     void setWight(int w) {  m_iW = w; }
     void setHeight(int h) {  m_iH = h; }
     void setResulution(ScreenReselution::ScreenReselution_t res) { calcHW(res); }
+    void setGameName(QString h) {  m_gameName = h; }
 protected:
     void calcHW(ScreenReselution::ScreenReselution_t res)
     {
@@ -162,6 +165,7 @@ private:
     int m_iH;
     int m_iW;
     int m_stencil;
+    QString m_gameName;
 };
 
 class RAENGINESHARED_EXPORT XmlShader : public QObject

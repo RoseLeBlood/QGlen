@@ -38,11 +38,14 @@
 
 #include "dreieckgamestate.h"
 #include <xmlconfig.h>
-
+#include <gamebatch.h>
+#include <QTextDocument>
 class TriangleWindow : public GameWindow
 {
 public:
     TriangleWindow(XmlConfig *cfg);
+private:
+    gameBatch *m_pBatch;
 
 };
 

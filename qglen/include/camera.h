@@ -88,11 +88,11 @@ public:
     virtual void Reset();
     virtual void Input(CameraDirection::CameraDirection_t dir, float value);
     virtual void Move(double renderTime, double elapsedTime);
-    virtual void Render(QPainter *painter, double smoothStep);
+    virtual void Render(double smoothStep);
 
 
 
-    virtual void Input() { }
+    virtual void Input(GamePadState *pStates, int numDevices) { }
 
 
     //Change the pitch (up, down) for the free camera

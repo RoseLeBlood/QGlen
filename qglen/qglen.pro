@@ -33,7 +33,8 @@ SOURCES += \
     src/qglen.cpp \
     src/camera.cpp \
     src/CriticalSection.cpp \
-    src/colorpositionsnormalvertex.cpp
+    src/colorpositionsnormalvertex.cpp \
+    include/gamebatch.cpp
 
 HEADERS +=\
         include/raengine_global.h \
@@ -53,7 +54,8 @@ HEADERS +=\
     include/camera.h \
     include/criticalsection.h \
     include/colorpositionsnormalvertex.h \
-    include/ivertex.h
+    include/ivertex.h \
+    include/gamebatch.h
 
 unix {
     target.path = /usr/lib

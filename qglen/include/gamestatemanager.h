@@ -52,10 +52,10 @@ public:
     void Remove(QString name);
     void Reset();
 
-    bool Render(QPainter *painter, double smoothStep);
+    bool Render(double smoothStep);
     bool Move(double renderTime, double elapsedTime);
     void Switch(QString name);
-    void Input();
+    void Input(GamePadState* pStates, int numDevices);
 
     GameState* GetGameStateByName(QString name);
 private:

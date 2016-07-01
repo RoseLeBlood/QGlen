@@ -38,7 +38,6 @@
 
 bool DebugLog::InitLog(const QString file)
 {
-
         flr_file.setFileName(file);
         flr_file.open(QIODevice::WriteOnly);
         flr_stream.setDevice(&flr_file);

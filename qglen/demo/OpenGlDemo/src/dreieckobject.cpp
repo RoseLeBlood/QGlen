@@ -135,11 +135,11 @@ void DreieckObject::Move(double renderTime, double elapsedTime)
     }
     m_program->release();
 }
-void DreieckObject::Input()
+void DreieckObject::Input(GamePadState *pStates, int numDevices)
 {
 
 }
-void DreieckObject::Render(QPainter *painter, double smoothStep)
+void DreieckObject::Render(double smoothStep)
 {
     GetGameWindow()->glEnable(GL_MULTISAMPLE);
     // Render using our shader

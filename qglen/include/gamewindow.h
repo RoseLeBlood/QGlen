@@ -36,10 +36,11 @@
 
 #include <QtGui/QWindow>
 #include <QtGui/QOpenGLFunctions>
-
+#include <xmlconfig.h>
+#include <QtGamepad/QGamepadManager>
+#include <QtGamepad/QGamepad>
 
 class QTimer;
-class QPainter;
 class QOpenGLContext;
 class QOpenGLPaintDevice;
 class GameStateManager;
@@ -48,21 +49,60 @@ class QElapsedTimer;
 
 #define MS_PER_UPDATE 16
 
+namespace GamePadDevice
+{
+    enum GamePadDevice_t
+    {
+        One = 0,
+        First = 1,
+        Three = 2,
+        Four = 3,
+
+        MAX = 4
+    };
+}
+struct RAENGINESHARED_EXPORT GamePadState
+{
+    double axisLeftX;
+    double axisLeftY;
+    double axisRightX;
+    double axisRightY;
+    bool buttonA;
+    bool buttonB;
+    bool buttonX;
+    bool buttonY;
+    bool buttonL1;
+    bool buttonR1;
+    double buttonL2;
+    double buttonR2;
+    bool buttonSelect;
+    bool buttonStart;
+    bool buttonL3;
+    bool buttonR3;
+    bool buttonUp;
+    bool buttonDown;
+    bool buttonLeft;
+    bool buttonRight;
+    bool buttonCenter;
+    bool buttonGuide;
+};
+struct RAENGINESHARED_EXPORT GamePadStates;
+
 class RAENGINESHARED_EXPORT GameWindow : public QWindow, public QOpenGLFunctions
 {
     Q_OBJECT
 public:
-    explicit GameWindow(QWindow *parent = 0);
+    explicit GameWindow( XmlConfig* pConfig, QWindow *parent = 0);
     ~GameWindow();
 
     virtual void Initialize();
-    virtual void Render(QPainter *painter, double smoothStep);
+    virtual void Render(double smoothStep);
     virtual void Input();
     virtual void Move(double renderTime, double elapsedTime);
 
     void SwitchGameState(QString name);
 
-
+    GamePadState getState(GamePadDevice::GamePadDevice_t id);
 public slots:
     void renderEvent();
 protected:
@@ -81,6 +121,11 @@ protected:
 
     qint64              m_previous;
     qint64              m_lag;
+
+    XmlConfig           *m_pConfig;
+    int                 m_numConnectedGamePads;
+    QGamepad            *m_gamepad[GamePadDevice::MAX];
+    GamePadState        m_pStates[GamePadDevice::MAX];
 private:
     void printVersionInformation();
 

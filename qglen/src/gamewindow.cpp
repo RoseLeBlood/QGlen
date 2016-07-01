@@ -46,8 +46,10 @@
 #include <QThread>
 #include "shaderlist.h"
 #include "debuglog.h"
+#include "xmlconfig.h"
 
-GameWindow::GameWindow(QWindow *parent)
+
+GameWindow::GameWindow(XmlConfig *pConfig, QWindow *parent)
     : QWindow(parent)
     , m_update_pending(false)
     , m_context(0)
@@ -55,7 +57,20 @@ GameWindow::GameWindow(QWindow *parent)
       m_gameStateManager(new GameStateManager(this)),
       m_runTime(0)
 {
+    m_pConfig = pConfig;
 
+    QSurfaceFormat format;
+    format.setProfile(QSurfaceFormat::CoreProfile);
+    format.setDepthBufferSize(pConfig->getDepth());
+    format.setStencilBufferSize(pConfig->getStencil());
+    format.setSamples(pConfig->getSamples());
+    format.setSwapBehavior(QSurfaceFormat::DoubleBuffer);
+    format.setSwapInterval(0);
+
+    setFormat(format);
+    setTitle(pConfig->getGameName());
+
+    resize(pConfig->getWight(), pConfig->getHeight());
 
     setSurfaceType(QWindow::OpenGLSurface);
     m_pTimer = new QElapsedTimer();
@@ -64,6 +79,18 @@ GameWindow::GameWindow(QWindow *parent)
     m_previous = QDateTime::currentMSecsSinceEpoch();
     m_lag = 0.0;
 
+    auto gamepads = QGamepadManager::instance()->connectedGamepads();
+    if (gamepads.isEmpty())
+    {
+        m_gamepad[0] = new QGamepad(0, this);
+        m_numConnectedGamePads = 1;
+    }
+    else
+    {
+        for(int i = 0; i < gamepads.length(); i++)
+            m_gamepad[i] = new QGamepad( (gamepads.at(i)) , this);
+        m_numConnectedGamePads = gamepads.length();
+    }
 
 }
 GameWindow::~GameWindow()
@@ -71,6 +98,7 @@ GameWindow::~GameWindow()
     delete m_device;
     delete m_pTimer;
 }
+
 
 void GameWindow::printVersionInformation()
 {
@@ -105,9 +133,10 @@ void GameWindow::Move(double renderTime, double elapsedTime)
 {
     m_gameStateManager->Move(renderTime, elapsedTime);
 }
-void GameWindow::Render(QPainter *painter, double smoothStep)
+void GameWindow::Render(double smoothStep)
 {
-   m_gameStateManager->Render(painter, smoothStep);
+   m_gameStateManager->Render(smoothStep);
+
 }
 void GameWindow::SwitchGameState(QString name)
 {
@@ -115,7 +144,36 @@ void GameWindow::SwitchGameState(QString name)
 }
 void GameWindow::Input()
 {
-    m_gameStateManager->Input();
+    for(int i=0; i < m_numConnectedGamePads; i++)
+    {
+        //int i = 0;
+        m_pStates[i].axisLeftX = m_gamepad[i]->axisLeftX();
+        m_pStates[i].axisLeftY = m_gamepad[i]->axisLeftY();
+        m_pStates[i].axisRightX = m_gamepad[i]->axisRightX();
+        m_pStates[i].axisRightY = m_gamepad[i]->axisRightY();
+        m_pStates[i].buttonA = m_gamepad[i]->buttonA();
+        m_pStates[i].buttonB = m_gamepad[i]->buttonB();
+        m_pStates[i].buttonX = m_gamepad[i]->buttonX();
+        m_pStates[i].buttonY = m_gamepad[i]->buttonY();
+        m_pStates[i].buttonL1 = m_gamepad[i]->buttonL1();
+        m_pStates[i].buttonR1 = m_gamepad[i]->buttonR1();
+        m_pStates[i].buttonL2 = m_gamepad[i]->buttonL2();
+        m_pStates[i].buttonR2 = m_gamepad[i]->buttonR2();
+        m_pStates[i].buttonSelect = m_gamepad[i]->buttonSelect();
+        m_pStates[i].buttonStart = m_gamepad[i]->buttonStart();
+        m_pStates[i].buttonL3 = m_gamepad[i]->buttonL3();
+        m_pStates[i].buttonR3 = m_gamepad[i]->buttonR3();
+        m_pStates[i].buttonUp = m_gamepad[i]->buttonUp();
+        m_pStates[i].buttonDown = m_gamepad[i]->buttonDown();
+        m_pStates[i].buttonLeft = m_gamepad[i]->buttonLeft();
+        m_pStates[i].buttonRight = m_gamepad[i]->buttonRight();
+        m_pStates[i].buttonCenter = m_gamepad[i]->buttonCenter();
+        m_pStates[i].buttonGuide = m_gamepad[i]->buttonGuide();
+    }
+    m_gameStateManager->Input(m_pStates, m_numConnectedGamePads);
+
+    if( m_pStates[0].buttonY == true)
+        this->close();
 }
 
 
@@ -128,9 +186,6 @@ void GameWindow::renderIntern()
     m_lag += elapsed;
 
 
-    if (!m_device)
-        m_device = new QOpenGLPaintDevice;
-
     Input();
 
     while (m_lag >= MS_PER_UPDATE)
@@ -139,11 +194,8 @@ void GameWindow::renderIntern()
         m_lag -= MS_PER_UPDATE;
     }
 
-
-    m_device->setSize(size());
-
-    QPainter painter(m_device);
-    Render(&painter, m_lag / MS_PER_UPDATE);
+    Render(m_lag / MS_PER_UPDATE);
+    m_context->swapBuffers(this);
 
     m_runTime += elapsed;
 
@@ -200,12 +252,21 @@ void GameWindow::renderEvent()
     renderIntern();
 
 
-    m_context->swapBuffers(this);
+
 
     if (!m_update_pending) {
         m_update_pending = true;
         QCoreApplication::postEvent(this, new QEvent(QEvent::UpdateRequest));
     }
 }
+GamePadState GameWindow::getState(GamePadDevice::GamePadDevice_t id)
+{
+    if(id < m_numConnectedGamePads )
+        { return m_pStates[id]; }
+
+    // TODO: FallBack to KeyBoard and Mouse
+    return GamePadState();
+}
+
 void GameWindow::SetGameStateManager(GameStateManager* pManager) { m_gameStateManager =  pManager; }
 void GameWindow::AddGameState(QString name, GameState* pState) { m_gameStateManager->Add(name, pState); }

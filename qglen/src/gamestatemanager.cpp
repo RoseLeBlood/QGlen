@@ -32,6 +32,7 @@
 #include <QPainter>
 #include "gamewindow.h"
 #include "gamestatemanager.h"
+#include <QDebug>
 
 GameStateManager::GameStateManager(GameWindow *pGame)
     : m_pGameWindow(pGame),
@@ -51,9 +52,11 @@ bool GameStateManager::Add(QString name, GameState *pGameState)
 
         if(m_pCurrent == 0)
             m_pCurrent = pGameState;
-
+        qInfo() << "Add GameState " << name << "to GameStateManager";
         return true;
     }
+    qInfo() << "GameState " << name << "allready in GameStateManager";
+
     return false;
 }
 bool GameStateManager::Initialize()
@@ -116,19 +119,19 @@ void GameStateManager::Switch(GameState *pState)
     m_pCurrent->Switch(true, pOld);
     Initialize();
 }
-bool GameStateManager::Render(QPainter *painter, double smoothStep)
+bool GameStateManager::Render(double smoothStep)
 {
     if(m_pCurrent != 0)
     {
-       return m_pCurrent->Render(painter, smoothStep);
+       return m_pCurrent->Render(smoothStep);
     }
     return false;
 }
-void GameStateManager::Input()
+void GameStateManager::Input(GamePadState *pStates, int numDevices)
 {
     if(m_pCurrent != 0)
     {
-       m_pCurrent->Input();
+       m_pCurrent->Input(pStates, numDevices);
     }
 }
 

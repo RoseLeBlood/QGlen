@@ -49,9 +49,9 @@ public:
     virtual bool Destroy();
     virtual bool Switch(bool next, GameState* pOld)  = 0;
 
-    virtual bool Render(QPainter *painter, double smoothStep); //
+    virtual bool Render(double smoothStep); //
     virtual bool Move(double renderTime, double elapsedTime); //
-    virtual bool Input();
+    virtual bool Input(GamePadState *pStates, int numDevices);
     GameWindow* GetGameWindow()
         { return m_pGameWindow; }
 

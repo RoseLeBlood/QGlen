@@ -49,9 +49,9 @@ bool GameState::Destroy()
    return  m_Scene->Destroy();
 }
 
-bool GameState::Render(QPainter *painter, double smoothStep)
+bool GameState::Render(double smoothStep)
 {
-    return m_Scene->Render(painter, smoothStep);
+    return m_Scene->Render(smoothStep);
 }
 
 bool GameState::Move(double renderTime, double elapsedTime)
@@ -62,7 +62,7 @@ void GameState::AddObjectToScene(IObject* pObject)
 {
     m_Scene->AddObjectToScene(pObject);
 }
-bool GameState::Input()
+bool GameState::Input(GamePadState *pStates, int numDevices)
 {
-    return m_Scene->Input();;
+    return m_Scene->Input(pStates, numDevices);;
 }

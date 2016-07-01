@@ -74,7 +74,7 @@ public:
         return true;
     }
 
-    virtual bool Render(QPainter *painter, double smoothStep)
+    virtual bool Render(double smoothStep)
     {
         for(int i= 0; i < SceneManagerPrio::MAX; i++)
         {
@@ -88,7 +88,7 @@ public:
                     if( object->Prio() == i)
                     {
                         if(object->CanDraw())
-                            object->Render(painter, smoothStep);
+                            object->Render(smoothStep);
                     }
                 }
             }
@@ -111,7 +111,7 @@ public:
         }
         return true;
     }
-    virtual bool Input()
+    virtual bool Input(GamePadState *pStates, int numDevices)
     {
         for (std::list<IObject*>::iterator item = m_GameStates.begin();
              item != m_GameStates.end();
@@ -121,7 +121,7 @@ public:
             if(object != NULL )
             {
                 if(object->CanUpdate())
-                    object->Input();
+                    object->Input(pStates, numDevices);
             }
         }
         return true;

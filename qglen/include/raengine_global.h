@@ -48,6 +48,5 @@
 #define XmlConfigDir "config"
 #define XmlConfigFile "settings.xml"
 #define XmlShaderDir "shader"
-#define LogDir "log"
 
 #endif // RAENGINE_GLOBAL_H
