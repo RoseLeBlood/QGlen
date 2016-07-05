@@ -86,13 +86,12 @@ public:
     virtual bool Destroy();
 
     virtual void Reset();
-    virtual void Input(CameraDirection::CameraDirection_t dir, float value);
-    virtual void Move(double renderTime, double elapsedTime);
+    virtual void Input(GamePadState *pStates, int numDevices, float value);
+    virtual void Move(GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag);
     virtual void Render(double smoothStep);
 
 
 
-    virtual void Input(GamePadState *pStates, int numDevices) { }
 
 
     //Change the pitch (up, down) for the free camera

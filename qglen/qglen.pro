@@ -11,12 +11,17 @@ TARGET = QGlEn
 TEMPLATE = lib
 
 DEFINES += RAENGINE_LIBRARY
-debug: DEFINES += RAEDEBUG
+
+CONFIG(debug,debug|release) {
+      DEFINES += RAEDEBUG
+}
+
 
 LIBS += -fopenmp
 INCLUDEPATH    += $$PWD/3dpart
 INCLUDEPATH    += $$PWD/include
 
+CONFIG += c++17
 
 win32: LIBS +=  -lopengl32 -lglu32 -lgdi32
 
@@ -34,7 +39,8 @@ SOURCES += \
     src/camera.cpp \
     src/CriticalSection.cpp \
     src/colorpositionsnormalvertex.cpp \
-    include/gamebatch.cpp
+    src/gamebatch.cpp \
+    src/openglerror.cpp
 
 HEADERS +=\
         include/raengine_global.h \
@@ -55,7 +61,12 @@ HEADERS +=\
     include/criticalsection.h \
     include/colorpositionsnormalvertex.h \
     include/ivertex.h \
-    include/gamebatch.h
+    include/gamebatch.h \
+    include/openglerror.h \
+    include/macros.h \
+    include/openglbuffer.h \
+    include/openglshaderprogram.h \
+    include/openglvertexarrayobject.h
 
 unix {
     target.path = /usr/lib

@@ -65,8 +65,7 @@ public:
     virtual bool Initialize() = 0;
     virtual bool Destroy() = 0;
 
-    virtual void Move(double renderTime, double elapsedTime) = 0;
-    virtual void Input(GamePadState *pStates, int numDevices) = 0;
+    virtual void Move(GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag) = 0;
     virtual void Render(double smoothStep) = 0;
 
     GameWindow* GetGameWindow() { return m_pWindow; }

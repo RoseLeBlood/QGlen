@@ -46,6 +46,9 @@ class QOpenGLPaintDevice;
 class GameStateManager;
 class GameState;
 class QElapsedTimer;
+class QOpenGLDebugMessage;
+class QOpenGLDebugLogger;
+class OpenGLError;
 
 #define MS_PER_UPDATE 16
 
@@ -98,15 +101,17 @@ public:
     virtual void Initialize();
     virtual void Render(double smoothStep);
     virtual void Input();
-    virtual void Move(double renderTime, double elapsedTime);
+    virtual void Move(GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag = false);
 
     void SwitchGameState(QString name);
 
     GamePadState getState(GamePadDevice::GamePadDevice_t id);
 public slots:
     void renderEvent();
+    void messageLogged(const QOpenGLDebugMessage &msg);
 protected:
     bool event(QEvent *event) Q_DECL_OVERRIDE;
+    void errorEventGL(OpenGLError *event);
     void renderIntern();
     void exposeEvent(QExposeEvent *event) Q_DECL_OVERRIDE;
 
@@ -126,6 +131,10 @@ protected:
     int                 m_numConnectedGamePads;
     QGamepad            *m_gamepad[GamePadDevice::MAX];
     GamePadState        m_pStates[GamePadDevice::MAX];
+
+#ifdef RAEDEBUG
+     QOpenGLDebugLogger *m_debugLogger;
+#endif
 private:
     void printVersionInformation();
 

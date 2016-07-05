@@ -50,8 +50,8 @@ public:
     virtual bool Switch(bool next, GameState* pOld)  = 0;
 
     virtual bool Render(double smoothStep); //
-    virtual bool Move(double renderTime, double elapsedTime); //
-    virtual bool Input(GamePadState *pStates, int numDevices);
+    virtual bool Move(GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag); //
+
     GameWindow* GetGameWindow()
         { return m_pGameWindow; }
 

@@ -53,9 +53,8 @@ public:
     void Reset();
 
     bool Render(double smoothStep);
-    bool Move(double renderTime, double elapsedTime);
+    bool Move(GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag);
     void Switch(QString name);
-    void Input(GamePadState* pStates, int numDevices);
 
     GameState* GetGameStateByName(QString name);
 private:

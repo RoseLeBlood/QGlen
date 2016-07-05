@@ -49,12 +49,12 @@ public:
         return GameState::Render(smoothStep);
     }
 
-    virtual bool Move(double renderTime, double elapsedTime)
+    virtual bool Move(GamePadState *pStates, int numDevices,double renderTime, double elapsedTime, bool lag)
     {
         const qreal retinaScale = GetGameWindow()->devicePixelRatio();
         GetGameWindow()->glViewport(0, 0, GetGameWindow()->width() * retinaScale, GetGameWindow()->height() * retinaScale);
 
-        return GameState::Move(renderTime, elapsedTime);
+        return GameState::Move(pStates, numDevices, renderTime, elapsedTime, lag);
     }
     bool Initialize();
 };

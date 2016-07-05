@@ -56,9 +56,25 @@
 
 // Create a colored cube
 static const ColorPositionVertex sg_vertexes[] = {
-    ColorPositionVertex( glm::vec3( 0.00f,  0.75f, 1.0f), glm::vec3(1.0f, 0.0f, 0.0f) ),
-     ColorPositionVertex( glm::vec3(-0.75f, -0.75f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f) ),
-     ColorPositionVertex( glm::vec3( 0.75f, -0.75f, 1.0f), glm::vec3(0.0f, 0.0f, 1.0f) )
+    // Face 1 (Front)
+        VERTEX_FTR, VERTEX_FTL, VERTEX_FBL,
+        VERTEX_FBL, VERTEX_FBR, VERTEX_FTR,
+      // Face 2 (Back)
+        VERTEX_BBR, VERTEX_BTL, VERTEX_BTR,
+        VERTEX_BTL, VERTEX_BBR, VERTEX_BBL,
+      // Face 3 (Top)
+        VERTEX_FTR, VERTEX_BTR, VERTEX_BTL,
+        VERTEX_BTL, VERTEX_FTL, VERTEX_FTR,
+      // Face 4 (Bottom)
+        VERTEX_FBR, VERTEX_FBL, VERTEX_BBL,
+        VERTEX_BBL, VERTEX_BBR, VERTEX_FBR,
+      // Face 5 (Left)
+        VERTEX_FBL, VERTEX_FTL, VERTEX_BTL,
+        VERTEX_FBL, VERTEX_BTL, VERTEX_BBL,
+      // Face 6 (Right)
+        VERTEX_FTR, VERTEX_FBR, VERTEX_BBR,
+        VERTEX_BBR, VERTEX_BTR, VERTEX_FTR
+
 };
 
 #undef VERTEX_BBR
@@ -77,7 +93,7 @@ static const ColorPositionVertex sg_vertexes[] = {
 
 DreieckObject::DreieckObject(GameWindow* window) : IObject("DreieckObject", window)
 {
-    m_Position = QVector3D(0, 0, -5);
+    m_Position = glm::vec3(0, 0, -5);
 }
 
 
@@ -109,6 +125,7 @@ bool DreieckObject::Initialize()
        m_vertex.release();
        m_program->release();
      }
+    GetGameWindow()->glEnable(GL_CULL_FACE);
     return true;
 }
 
@@ -117,31 +134,41 @@ bool DreieckObject::Destroy()
     return true;
 }
 
-void DreieckObject::Move(double renderTime, double elapsedTime)
-{
-    const qreal retinaScale = GetGameWindow()->devicePixelRatio();
-    GetGameWindow()->glViewport(0, 0, GetGameWindow()->width() * retinaScale, GetGameWindow()->height() * retinaScale);
-
-    m_program->bind();
-    {
-        glm::mat4 matProjection =glm::perspective(45.0f, ((float)(GetGameWindow()->width() / GetGameWindow()->height())), 0.1f, 100.f);
-        glm::mat4 matView = glm::translate(glm::mat4(1.0f), glm::vec3(m_Position.x(), m_Position.y(), m_Position.z()));
-        matView = glm::rotate(matView, (float)(2.0f * (renderTime / 100.0f)  / GetGameWindow()->screen()->refreshRate()), glm::vec3(0.0f, 1.0f, 0.0f));
-        glm::mat4 matModel = glm::scale(glm::mat4(1.0f), glm::vec3(0.8f));
-        glm::mat4 matCamera = matProjection *matView * matModel;
-
-        GetGameWindow()->glUniformMatrix4fv(m_matrixUniform, 1, GL_FALSE, glm::value_ptr(matCamera));
-
-    }
-    m_program->release();
-}
-void DreieckObject::Input(GamePadState *pStates, int numDevices)
+void DreieckObject::Move(GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag)
 {
 
+    glm::vec3 pos_delta = glm::vec3();
+
+
+
+
+
+            pos_delta.y -= 2.0f * (float)(pStates->axisRightY / GetGameWindow()->screen()->refreshRate());
+
+            pos_delta.x -= 2.0f * (float)(pStates->axisLeftX / GetGameWindow()->screen()->refreshRate());
+            pos_delta.z -= 2.0f * (float)(pStates->axisLeftY / GetGameWindow()->screen()->refreshRate());
+
+        if(!lag)
+        {
+            m_Position += pos_delta;
+
+            m_program->bind();
+            {
+                glm::mat4 matProjection =glm::perspective(45.0f, ((float)(GetGameWindow()->width() / GetGameWindow()->height())), 0.1f, 100.f);
+                glm::mat4 matView = glm::translate(glm::mat4(1.0f), m_Position);
+                //matView = glm::rotate(matView, rotate, glm::vec3(0.0f, 1.0f, 0.0f));
+                glm::mat4 matModel = glm::scale(glm::mat4(1.0f), glm::vec3(0.8f));
+                glm::mat4 matCamera = matProjection *matView * matModel;
+
+                GetGameWindow()->glUniformMatrix4fv(m_matrixUniform, 1, GL_FALSE, glm::value_ptr(matCamera));
+
+            }
+            m_program->release();
+                }
 }
+
 void DreieckObject::Render(double smoothStep)
 {
-    GetGameWindow()->glEnable(GL_MULTISAMPLE);
     // Render using our shader
     m_program->bind();
     {

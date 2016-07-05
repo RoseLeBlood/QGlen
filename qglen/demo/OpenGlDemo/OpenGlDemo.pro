@@ -10,6 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = OpenGlDemo
 TEMPLATE = app
+CONFIG += c++14
 
 INCLUDEPATH += $$PWD/include
 

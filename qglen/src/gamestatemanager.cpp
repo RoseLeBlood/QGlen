@@ -63,15 +63,17 @@ bool GameStateManager::Initialize()
 {
     if(m_pCurrent != 0)
     {
-        m_pCurrent->Initialize();
+        return m_pCurrent->Initialize();
     }
+    return true;
 }
 bool GameStateManager::Destroy()
 {
     if(m_pCurrent != 0)
     {
-        m_pCurrent->Destroy();
+       return m_pCurrent->Destroy();
     }
+    return true;
 }
 
 void GameStateManager::Remove(QString name)
@@ -127,19 +129,12 @@ bool GameStateManager::Render(double smoothStep)
     }
     return false;
 }
-void GameStateManager::Input(GamePadState *pStates, int numDevices)
-{
-    if(m_pCurrent != 0)
-    {
-       m_pCurrent->Input(pStates, numDevices);
-    }
-}
 
-bool GameStateManager::Move(double renderTime, double elapsedTime)
+bool GameStateManager::Move(GamePadState *pStates, int numDevices,double renderTime, double elapsedTime, bool lag)
 {
     if(m_pCurrent != 0)
     {
-       return m_pCurrent->Move(renderTime, elapsedTime );
+       return m_pCurrent->Move(pStates, numDevices, renderTime, elapsedTime, lag );
     }
     return false;
 }

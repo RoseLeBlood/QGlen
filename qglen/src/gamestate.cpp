@@ -54,15 +54,11 @@ bool GameState::Render(double smoothStep)
     return m_Scene->Render(smoothStep);
 }
 
-bool GameState::Move(double renderTime, double elapsedTime)
+bool GameState::Move(GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag)
 {
-    return m_Scene->Move(renderTime, elapsedTime);;
+    return m_Scene->Move(pStates, numDevices, renderTime, elapsedTime, lag);;
 }
 void GameState::AddObjectToScene(IObject* pObject)
 {
     m_Scene->AddObjectToScene(pObject);
-}
-bool GameState::Input(GamePadState *pStates, int numDevices)
-{
-    return m_Scene->Input(pStates, numDevices);;
 }

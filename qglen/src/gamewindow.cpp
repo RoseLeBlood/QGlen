@@ -38,7 +38,7 @@
 #include <Qtimer>
 #include <QElapsedTimer>
 #include <ctime>
-
+#include <QOpenGLDebugLogger>
 #include <qdebug.h>
 
 #include "gamestatemanager.h"
@@ -47,7 +47,8 @@
 #include "shaderlist.h"
 #include "debuglog.h"
 #include "xmlconfig.h"
-
+#include "openglerror.h"
+#include <macros.h>
 
 GameWindow::GameWindow(XmlConfig *pConfig, QWindow *parent)
     : QWindow(parent)
@@ -57,15 +58,18 @@ GameWindow::GameWindow(XmlConfig *pConfig, QWindow *parent)
       m_gameStateManager(new GameStateManager(this)),
       m_runTime(0)
 {
+    OpenGLError::pushErrorHandler(this);
+
     m_pConfig = pConfig;
 
     QSurfaceFormat format;
+    format.setOption(QSurfaceFormat::DebugContext);
     format.setProfile(QSurfaceFormat::CoreProfile);
     format.setDepthBufferSize(pConfig->getDepth());
     format.setStencilBufferSize(pConfig->getStencil());
     format.setSamples(pConfig->getSamples());
     format.setSwapBehavior(QSurfaceFormat::DoubleBuffer);
-    format.setSwapInterval(0);
+    format.setSwapInterval(1);
 
     setFormat(format);
     setTitle(pConfig->getGameName());
@@ -97,6 +101,8 @@ GameWindow::~GameWindow()
 {
     delete m_device;
     delete m_pTimer;
+
+    OpenGLError::popErrorHandler();
 }
 
 
@@ -126,12 +132,22 @@ void GameWindow::printVersionInformation()
 void GameWindow::Initialize()
 {
     printVersionInformation();
+#ifdef    RAEDEBUG
+  m_debugLogger = new QOpenGLDebugLogger(this);
+  if (m_debugLogger->initialize())
+  {
+    qDebug() << "QGLen  Debug Logger" << m_debugLogger << "\n";
+    connect(m_debugLogger, SIGNAL(messageLogged(QOpenGLDebugMessage)), this, SLOT(messageLogged(QOpenGLDebugMessage)));
+    m_debugLogger->startLogging();
+  }
+#endif // GL_DEBUG
+
     ShaderList::instance()->loadShaders(this);
     m_gameStateManager->Initialize();
 }
-void GameWindow::Move(double renderTime, double elapsedTime)
+void GameWindow::Move(GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag)
 {
-    m_gameStateManager->Move(renderTime, elapsedTime);
+    m_gameStateManager->Move(pStates, numDevices, renderTime, elapsedTime, lag);
 }
 void GameWindow::Render(double smoothStep)
 {
@@ -170,8 +186,6 @@ void GameWindow::Input()
         m_pStates[i].buttonCenter = m_gamepad[i]->buttonCenter();
         m_pStates[i].buttonGuide = m_gamepad[i]->buttonGuide();
     }
-    m_gameStateManager->Input(m_pStates, m_numConnectedGamePads);
-
     if( m_pStates[0].buttonY == true)
         this->close();
 }
@@ -187,10 +201,10 @@ void GameWindow::renderIntern()
 
 
     Input();
-
+    Move(m_pStates, m_numConnectedGamePads, m_runTime, elapsed, false);
     while (m_lag >= MS_PER_UPDATE)
     {
-        Move(m_runTime, elapsed);
+        Move(m_pStates, m_numConnectedGamePads, m_runTime, elapsed, true);
         m_lag -= MS_PER_UPDATE;
     }
 
@@ -198,13 +212,16 @@ void GameWindow::renderIntern()
     m_context->swapBuffers(this);
 
     m_runTime += elapsed;
-
-    QThread::msleep(m_lag);
 }
 
 
 bool GameWindow::event(QEvent *event)
 {
+    if (event->type() == OpenGLError::type())
+    {
+        errorEventGL(static_cast<OpenGLError*>(event));
+        return true;
+    }
     switch (event->type()) {
     case QEvent::UpdateRequest:
         m_update_pending = false;
@@ -213,6 +230,10 @@ bool GameWindow::event(QEvent *event)
     default:
         return QWindow::event(event);
     }
+}
+void GameWindow::errorEventGL(OpenGLError *event)
+{
+  qFatal("%s::%s => Returned an error!", event->callerName(), event->functionName());
 }
 
 void GameWindow::exposeEvent(QExposeEvent *event)
@@ -270,3 +291,62 @@ GamePadState GameWindow::getState(GamePadDevice::GamePadDevice_t id)
 
 void GameWindow::SetGameStateManager(GameStateManager* pManager) { m_gameStateManager =  pManager; }
 void GameWindow::AddGameState(QString name, GameState* pState) { m_gameStateManager->Add(name, pState); }
+
+void GameWindow::messageLogged(const QOpenGLDebugMessage &msg)
+{
+  QString error;
+
+  // Format based on severity
+  switch (msg.severity())
+  {
+  case QOpenGLDebugMessage::NotificationSeverity:
+    error += "--";
+    break;
+  case QOpenGLDebugMessage::HighSeverity:
+    error += "!!";
+    break;
+  case QOpenGLDebugMessage::MediumSeverity:
+    error += "!~";
+    break;
+  case QOpenGLDebugMessage::LowSeverity:
+    error += "~~";
+    break;
+  }
+
+  error += " (";
+
+  // Format based on source
+#define CASE(c) case QOpenGLDebugMessage::c: error += #c; break
+  switch (msg.source())
+  {
+    CASE(APISource);
+    CASE(WindowSystemSource);
+    CASE(ShaderCompilerSource);
+    CASE(ThirdPartySource);
+    CASE(ApplicationSource);
+    CASE(OtherSource);
+    CASE(InvalidSource);
+  }
+#undef CASE
+
+  error += " : ";
+
+  // Format based on type
+#define CASE(c) case QOpenGLDebugMessage::c: error += #c; break
+  switch (msg.type())
+  {
+    CASE(ErrorType);
+    CASE(DeprecatedBehaviorType);
+    CASE(UndefinedBehaviorType);
+    CASE(PortabilityType);
+    CASE(PerformanceType);
+    CASE(OtherType);
+    CASE(MarkerType);
+    CASE(GroupPushType);
+    CASE(GroupPopType);
+  }
+#undef CASE
+
+  error += ")";
+  qDebug() << qPrintable(error) << "\n" << qPrintable(msg.message()) << "\n";
+}

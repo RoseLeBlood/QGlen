@@ -37,7 +37,7 @@
 DreieckGameState::DreieckGameState(GameWindow *wnd) : GameState(wnd)
 {
       AddObjectToScene(new DreieckObject(wnd));
-      AddObjectToScene(new Camera("Came", wnd));
+     // AddObjectToScene(new Camera("camera", wnd));
 }
 bool DreieckGameState::Initialize()
 {

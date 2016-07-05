@@ -96,7 +96,7 @@ public:
         return true;
     }
 
-    virtual bool Move(double renderTime, double elapsedTime)
+    virtual bool Move(GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag)
     {
         for (std::list<IObject*>::iterator item = m_GameStates.begin();
              item != m_GameStates.end();
@@ -106,22 +106,7 @@ public:
             if(object != NULL )
             {
                 if(object->CanUpdate())
-                    object->Move(renderTime, elapsedTime);
-            }
-        }
-        return true;
-    }
-    virtual bool Input(GamePadState *pStates, int numDevices)
-    {
-        for (std::list<IObject*>::iterator item = m_GameStates.begin();
-             item != m_GameStates.end();
-             item++)
-        {
-            IObject* object = ((IObject*)(*item));
-            if(object != NULL )
-            {
-                if(object->CanUpdate())
-                    object->Input(pStates, numDevices);
+                    object->Move(pStates, numDevices, renderTime, elapsedTime, lag);
             }
         }
         return true;

@@ -89,9 +89,8 @@ void Camera::GetMatricies(glm::mat4 &P, glm::mat4 &V, glm::mat4 &M)
     V = view;
     M = model;
 }
-void Camera::Move(double renderTime, double elapsedTime)
+void Camera::Move(GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag)
 {
-    return ;
 
     camera_direction = glm::normalize(camera_look_at - camera_position);
     //need to set the matrix state. this is only important because lighting doesn't work if this isn't done
@@ -137,10 +136,20 @@ void Camera::SetMode(CameraType::CameraType_t cam_mode) {
     camera_up = glm::vec3(0, 1, 0);
     rotation_quaternion = glm::quat(1, 0, 0, 0);
 }
-void Camera::Input(CameraDirection::CameraDirection_t dir, float value)
+void Camera::Input(GamePadState *pStates, int numDevices, float value)
 {
-    if (m_cam_mode == CameraType::Free) {
-        switch (dir) {
+    if (m_cam_mode == CameraType::Free && numDevices != -1)
+    {
+        if(pStates->axisLeftY >= 0.01f || pStates->axisLeftY <= -0.01f) // Up && Down
+             camera_position_delta += camera_up * (float)pStates->axisLeftY;
+
+        if(pStates->axisLeftX >= 0.01f || pStates->axisLeftX <= -0.01f) // left && right
+             camera_position_delta += glm::cross(camera_direction, camera_up) * (float)pStates->axisLeftX;
+
+        if(pStates->axisLeftY >= 0.01f || pStates->axisLeftY <= -0.01f)
+             camera_position_delta += camera_direction * (float)pStates->axisLeftY;
+
+        /*switch (pStates) {
             case CameraDirection::UP:
                 camera_position_delta += camera_up * value;
                 break;
@@ -158,8 +167,8 @@ void Camera::Input(CameraDirection::CameraDirection_t dir, float value)
                 break;
             case CameraDirection::BACK:
                 camera_position_delta -= camera_direction * value;
-                break;
-        }
+                break
+        }*/
     }
 }
 void Camera::ChangePitch(float degrees)
