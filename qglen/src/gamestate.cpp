@@ -53,7 +53,7 @@ bool GameState::Destroy()
 
 bool GameState::Render(double smoothStep)
 {
-    return m_Scene->Render(smoothStep);
+    return m_Scene->Render(m_matView, m_matProjection, smoothStep);
 }
 
 bool GameState::Move(GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag)

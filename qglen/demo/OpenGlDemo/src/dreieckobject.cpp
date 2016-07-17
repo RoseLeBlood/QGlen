@@ -90,10 +90,12 @@ static const qglen::ColorPositionVertex sg_vertexes[] = {
 
 #include <shaderlist.h>
 
+glm::mat4 matModel;
 
 DreieckObject::DreieckObject(qglen::GameWindow* window) : qglen::IObject("DreieckObject", window)
 {
-    m_Position = glm::vec3(0, 0, -5);
+    m_Position = glm::vec3(0, 0, 0);
+    matModel = glm::translate(glm::mat4(1.0f), m_Position);
 }
 
 
@@ -126,6 +128,8 @@ bool DreieckObject::Initialize()
        m_program->release();
      }
     GetGameWindow()->glEnable(GL_CULL_FACE);
+
+
     return true;
 }
 
@@ -134,44 +138,14 @@ bool DreieckObject::Destroy()
     return true;
 }
 
-void DreieckObject::Move(qglen::GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag)
-{
-
-    glm::vec3 pos_delta = glm::vec3();
-
-
-
-
-
-            pos_delta.y -= 2.0f * (float)(pStates->axisRightY / GetGameWindow()->screen()->refreshRate());
-
-            pos_delta.x -= 2.0f * (float)(pStates->axisLeftX / GetGameWindow()->screen()->refreshRate());
-            pos_delta.z -= 2.0f * (float)(pStates->axisLeftY / GetGameWindow()->screen()->refreshRate());
-
-        if(!lag)
-        {
-            m_Position += pos_delta;
-
-            m_program->bind();
-            {
-                glm::mat4 matProjection =glm::perspective(45.0f, ((float)(GetGameWindow()->width() / GetGameWindow()->height())), 0.1f, 100.f);
-                glm::mat4 matView = glm::translate(glm::mat4(1.0f), m_Position);
-                //matView = glm::rotate(matView, rotate, glm::vec3(0.0f, 1.0f, 0.0f));
-                glm::mat4 matModel = glm::scale(glm::mat4(1.0f), glm::vec3(0.8f));
-                glm::mat4 matCamera = matProjection *matView * matModel;
-
-                GetGameWindow()->glUniformMatrix4fv(m_matrixUniform, 1, GL_FALSE, glm::value_ptr(matCamera));
-
-            }
-            m_program->release();
-                }
-}
-
-void DreieckObject::Render(double smoothStep)
+void DreieckObject::Render(const glm::mat4& pView, const glm::mat4& pProj, double smoothStep)
 {
     // Render using our shader
     m_program->bind();
     {
+        glm::mat4 matCamera = pProj * pView * matModel  ;
+        GetGameWindow()->glUniformMatrix4fv(m_matrixUniform, 1, GL_FALSE, glm::value_ptr(matCamera));
+
 
         m_object.bind();
         GetGameWindow()->glDrawArrays(GL_TRIANGLES, 0, sizeof(sg_vertexes) / sizeof(sg_vertexes[0]));

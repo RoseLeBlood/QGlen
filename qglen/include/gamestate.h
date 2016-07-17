@@ -65,6 +65,8 @@ protected:
 protected:
     SceneManager                 *m_Scene;
     GameWindow                   *m_pGameWindow;
+    glm::mat4                    m_matProjection;
+    glm::mat4                    m_matView;
 };
 QGLEN_END
 

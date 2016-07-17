@@ -49,7 +49,7 @@ public:
     DreieckObject(qglen::GameWindow* window);
 
 
-    virtual bool CanUpdate() { return true; }
+    virtual bool CanUpdate() { return false; }
     virtual bool CanDraw() { return true; }
     virtual qglen::SceneManagerPrio::SceneManagerPrio_t
         Prio() { return qglen::SceneManagerPrio::First; }
@@ -57,9 +57,8 @@ public:
     virtual bool Initialize();
     virtual bool Destroy();
 
-    virtual void Move(qglen::GamePadState *pStates, int numDevices,double renderTime, double elapsedTime, bool lag);
-
-    virtual void Render(double smoothStep);
+    virtual void Move(qglen::GamePadState *pStates, int numDevices,double renderTime, double elapsedTime, bool lag) { }
+    virtual void Render(const glm::mat4& pView, const glm::mat4& pProj, double smoothStep);
 
 
 private:

@@ -72,6 +72,7 @@ GameWindow::GameWindow(XmlConfig *pConfig, QWindow *parent)
     format.setSwapInterval(1);
 
     setFormat(format);
+    m_rBounds = rect(0,0, pConfig->getWight(), pConfig->getHeight());
 
     resize(pConfig->getWight(), pConfig->getHeight());
 
@@ -146,8 +147,7 @@ void GameWindow::Initialize()
 }
 void GameWindow::Move(GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag)
 {
-    const qreal retinaScale = devicePixelRatio();
-    glViewport(0, 0, width() * retinaScale, height() * retinaScale);
+    glViewport(m_rBounds.left, m_rBounds.top, m_rBounds.getWidth(), m_rBounds.getHeight());
 
     m_gameStateManager->Move(pStates, numDevices, renderTime, elapsedTime, lag);
 }
@@ -237,7 +237,20 @@ void GameWindow::errorEventGL(OpenGLError *event)
 {
   qFatal("%s::%s => Returned an error!", event->callerName(), event->functionName());
 }
+void GameWindow::setBounds(rect bounds)
+{
+    m_rBounds = bounds;
+    resize(bounds.getWidth(), bounds.getHeight());
+}
+void GameWindow::resizeEvent(QResizeEvent *event)
+{
+    const qreal retinaScale = devicePixelRatio();
 
+    QWindow::resizeEvent(event);
+    m_rBounds.setHeight(height() * retinaScale);
+    m_rBounds.setWidth(width() * retinaScale);
+
+}
 void GameWindow::exposeEvent(QExposeEvent *event)
 {
     Q_UNUSED(event);

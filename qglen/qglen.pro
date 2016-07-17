@@ -35,14 +35,14 @@ SOURCES += \
     src/debuglog.cpp \
     src/shaderlist.cpp \
     src/xmlconfig.cpp \
-    src/camera.cpp \
     src/CriticalSection.cpp \
     src/colorpositionsnormalvertex.cpp \
     src/gamebatch.cpp \
     src/openglerror.cpp \
     src/color.cpp \
     src/qglenenapplication.cpp \
-    src/openglvertexarrayobject.cpp
+    src/openglvertexarrayobject.cpp \
+    src/rect.cpp
 
 HEADERS +=\
         include/raengine_global.h \
@@ -59,7 +59,6 @@ HEADERS +=\
     include/shaderlist.h \
     include/xmlconfig.h \
     include/qglen.h \
-    include/camera.h \
     include/criticalsection.h \
     include/colorpositionsnormalvertex.h \
     include/ivertex.h \
@@ -70,7 +69,8 @@ HEADERS +=\
     include/openglshaderprogram.h \
     include/openglvertexarrayobject.h \
     include/color.h \
-    include/qglenenapplication.h
+    include/qglenenapplication.h \
+    include/rect.h
 
 unix {
     target.path = /usr/lib

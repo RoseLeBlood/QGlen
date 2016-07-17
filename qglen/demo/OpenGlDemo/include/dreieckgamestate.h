@@ -49,6 +49,7 @@ public:
 
         return qglen::GameState::Render(smoothStep);
     }
+    virtual bool Move(qglen::GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag);
     bool Initialize();
 };
 

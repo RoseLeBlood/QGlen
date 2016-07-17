@@ -37,6 +37,7 @@
 
 #include <QPainter>
 #include "gamewindow.h"
+#include <glm/mat4x4.hpp>
 
 QGLEN_BEGIN
 
@@ -56,7 +57,14 @@ namespace SceneManagerPrio {
 class RAENGINESHARED_EXPORT IObject : public CriticalSection
 {
 public:
-    IObject(QString name, GameWindow *wnd) : m_strName(name), m_pWindow(wnd) { }
+    IObject(QString name, GameWindow *wnd, glm::mat4 *mWorld = 0)
+        :  m_pWindow(wnd), m_bVisual(true), m_bSelected(false), m_strName(name)
+    {
+        if(mWorld != 0)
+            m_matWorld = *mWorld;
+        else
+            m_matWorld = glm::mat4(1);
+    }
 
     virtual bool                                     CanUpdate() = 0;
     virtual bool                                     CanDraw() = 0;
@@ -68,17 +76,43 @@ public:
     virtual bool Destroy() = 0;
 
     virtual void Move(GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag) = 0;
-    virtual void Render(double smoothStep) = 0;
+    virtual void Render(const glm::mat4& pView, const glm::mat4& pProj, double smoothStep) = 0;
 
     GameWindow* GetGameWindow() { return m_pWindow; }
+
+    virtual void  setWorldMatrix(const glm::mat4& value) { m_matWorld = value; }
+    virtual glm::mat4& getWorldMatrix(void) { return m_matWorld; }
+
+    virtual void setSelected(bool sel) { m_bSelected = sel; }
+    virtual bool isSelected() { return m_bSelected; }
+
+    virtual void setVisual(bool vis) { m_bVisual = vis; }
+    virtual bool IsVisual() { return m_bVisual; }
+
+    virtual const float getBoundingsphereRadius()		{ return 1.0f; }
+    virtual bool		Intersects(const glm::vec3* pRayPos,
+                                   const glm::vec3* pRayDir,
+                                   float* pDist)
+    {
+        Q_UNUSED(pRayPos)
+        Q_UNUSED(pRayDir)
+        Q_UNUSED(pDist)
+        return false;
+    };
+
 protected:
     virtual void    SetName(QString name)   { m_strName = name; }
     IObject() { }
 
     GameWindow  *m_pWindow;
+
+    glm::mat4       m_matWorld;
+    bool            m_bVisual;
+    bool            m_bSelected;
 private:
     QString     m_strName;
 };
+
 QGLEN_END
 
 #endif // IOBJECT_H

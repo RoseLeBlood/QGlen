@@ -39,6 +39,7 @@
 #include <xmlconfig.h>
 #include <QtGamepad/QGamepadManager>
 #include <QtGamepad/QGamepad>
+#include <rect.h>
 
 class QTimer;
 class QOpenGLContext;
@@ -112,6 +113,8 @@ public:
     void SwitchGameState(QString name);
 
     GamePadState getState(GamePadDevice::GamePadDevice_t id);
+    rect getBounds() { return m_rBounds; }
+    void setBounds(rect bounds);
 public slots:
     void renderEvent();
     void messageLogged(const QOpenGLDebugMessage &msg);
@@ -120,6 +123,7 @@ protected:
     void errorEventGL(qglen::OpenGLError *event);
     void renderIntern();
     void exposeEvent(QExposeEvent *event) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
 
      void SetGameStateManager(qglen::GameStateManager* pManager);
      void AddGameState(QString name, qglen::GameState* pState);
@@ -146,6 +150,7 @@ private:
 
 private:
     bool m_update_pending;
+    qglen::rect  m_rBounds;
 };
 QGLEN_END
 

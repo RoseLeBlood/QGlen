@@ -35,6 +35,8 @@
 #include "iobject.h"
 #include "list"
 
+#include <glm/mat4x4.hpp>
+
 class QPainter;
 QGLEN_BEGIN
 
@@ -75,7 +77,7 @@ public:
         return true;
     }
 
-    virtual bool Render(double smoothStep)
+    virtual bool Render(const glm::mat4& pView, const glm::mat4& pProj, double smoothStep)
     {
         for(int i= 0; i < SceneManagerPrio::MAX; i++)
         {
@@ -89,7 +91,7 @@ public:
                     if( object->Prio() == i)
                     {
                         if(object->CanDraw())
-                            object->Render(smoothStep);
+                            object->Render(pView, pProj, smoothStep);
                     }
                 }
             }
