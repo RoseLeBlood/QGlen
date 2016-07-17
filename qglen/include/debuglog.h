@@ -47,6 +47,8 @@
 #include "tsingleton.h"
 #include "criticalsection.h"
 
+QGLEN_BEGIN
+
 class RAENGINESHARED_EXPORT DebugLog : public TSingleton<DebugLog>
 {
     friend class TSingleton<DebugLog>;
@@ -79,5 +81,6 @@ private:
     CriticalSection *m_pSection;
 };
 
+QGLEN_END
 
 #endif // DEBUGLOG_H

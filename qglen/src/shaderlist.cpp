@@ -33,8 +33,11 @@
 #include <QDir>
 #include <QCoreApplication>
 #include <xmlconfig.h>
+#include <openglshaderprogram.h>
 
-void ShaderList::Add(QString strName, QOpenGLShaderProgram *mPrg)
+QGLEN_BEGIN
+
+void ShaderList::Add(QString strName, OpenGLShaderProgram *mPrg)
 {
     if(mPrg == 0)
     {
@@ -59,7 +62,7 @@ void ShaderList::AddFromSource(QString strName, QString verteSource, QString fag
         return;
     }
 
-    QOpenGLShaderProgram *prg = new QOpenGLShaderProgram();
+    OpenGLShaderProgram *prg = new OpenGLShaderProgram();
     prg->addShaderFromSourceCode(QOpenGLShader::Vertex, verteSource);
     prg->addShaderFromSourceCode(QOpenGLShader::Fragment, fagmentSource);
     if(geometrySource != "")
@@ -77,7 +80,7 @@ void ShaderList::AddFromFile(QString strName, QString vertexFileName, QString fa
         return;
     }
 
-    QOpenGLShaderProgram prg;
+    OpenGLShaderProgram prg;
     prg.addShaderFromSourceFile(QOpenGLShader::Vertex, "Shader/" + vertexFileName);
     prg.addShaderFromSourceCode(QOpenGLShader::Fragment, "Shader/" + fagmentFileName);
     if(geometryFileName != "")
@@ -88,7 +91,7 @@ void ShaderList::AddFromFile(QString strName, QString vertexFileName, QString fa
     Add(strName, &prg);
 }
 
-QOpenGLShaderProgram* ShaderList::GetByName(QString strName)
+OpenGLShaderProgram* ShaderList::GetByName(QString strName)
 {
     if(m_pListShader.contains(strName))
     {
@@ -125,7 +128,7 @@ void ShaderList::CreateInstance()
 }
 void ShaderList::DestroyInstance()
 {
-    foreach(QOpenGLShaderProgram *str, m_pListShader)
+    foreach(OpenGLShaderProgram *str, m_pListShader)
     {
         //code
         str->release();
@@ -134,3 +137,4 @@ void ShaderList::DestroyInstance()
     m_pListShader.clear();
 }
 
+QGLEN_END

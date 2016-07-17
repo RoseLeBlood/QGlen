@@ -3,6 +3,8 @@
 #include <QCoreApplication>
 #include <QDebug>
 
+QGLEN_BEGIN
+
 QStack<QObject*> OpenGLError::m_errorHandler;
 
 OpenGLError::OpenGLError(QString callerName, QString fnName, ObjectType::ObjectType_t objType, FunctionType::FunctionType_t fnType) :
@@ -63,4 +65,4 @@ void OpenGLError::popErrorHandler()
 {
   m_errorHandler.pop();
 }
-
+QGLEN_END

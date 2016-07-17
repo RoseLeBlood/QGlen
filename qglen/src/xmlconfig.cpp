@@ -42,6 +42,7 @@
 #include <QMetaEnum>
 
 
+QGLEN_BEGIN
 
 XmlConfigReader::XmlFormat::XmlFormat()
 {
@@ -238,7 +239,7 @@ bool XmlConfigReader::saveShader(XmlShader* shader)
     return true;
 }
 
-
+QGLEN_END
 
 
 

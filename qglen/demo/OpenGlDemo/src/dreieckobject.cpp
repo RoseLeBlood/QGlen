@@ -43,19 +43,19 @@
 
 
 // Front Verticies
-#define VERTEX_FTR ColorPositionVertex( glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3( 1.0f, 0.0f, 0.0f ) )
-#define VERTEX_FTL ColorPositionVertex( glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3( 0.0f, 1.0f, 0.0f ) )
-#define VERTEX_FBL ColorPositionVertex( glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3( 0.0f, 0.0f, 1.0f ) )
-#define VERTEX_FBR ColorPositionVertex( glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3( 0.0f, 0.0f, 0.0f ) )
+#define VERTEX_FTR qglen::ColorPositionVertex( glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3( 1.0f, 0.0f, 0.0f ) )
+#define VERTEX_FTL qglen::ColorPositionVertex( glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3( 0.0f, 1.0f, 0.0f ) )
+#define VERTEX_FBL qglen::ColorPositionVertex( glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3( 0.0f, 0.0f, 1.0f ) )
+#define VERTEX_FBR qglen::ColorPositionVertex( glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3( 0.0f, 0.0f, 0.0f ) )
 
 // Back Verticies
-#define VERTEX_BTR ColorPositionVertex( glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3( 1.0f, 1.0f, 0.0f ) )
-#define VERTEX_BTL ColorPositionVertex( glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3( 0.0f, 1.0f, 1.0f ) )
-#define VERTEX_BBL ColorPositionVertex( glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3( 1.0f, 0.0f, 1.0f ) )
-#define VERTEX_BBR ColorPositionVertex( glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3( 1.0f, 1.0f, 1.0f ) )
+#define VERTEX_BTR qglen::ColorPositionVertex( glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3( 1.0f, 1.0f, 0.0f ) )
+#define VERTEX_BTL qglen::ColorPositionVertex( glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3( 0.0f, 1.0f, 1.0f ) )
+#define VERTEX_BBL qglen::ColorPositionVertex( glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3( 1.0f, 0.0f, 1.0f ) )
+#define VERTEX_BBR qglen::ColorPositionVertex( glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3( 1.0f, 1.0f, 1.0f ) )
 
 // Create a colored cube
-static const ColorPositionVertex sg_vertexes[] = {
+static const qglen::ColorPositionVertex sg_vertexes[] = {
     // Face 1 (Front)
         VERTEX_FTR, VERTEX_FTL, VERTEX_FBL,
         VERTEX_FBL, VERTEX_FBR, VERTEX_FTR,
@@ -91,7 +91,7 @@ static const ColorPositionVertex sg_vertexes[] = {
 #include <shaderlist.h>
 
 
-DreieckObject::DreieckObject(GameWindow* window) : IObject("DreieckObject", window)
+DreieckObject::DreieckObject(qglen::GameWindow* window) : qglen::IObject("DreieckObject", window)
 {
     m_Position = glm::vec3(0, 0, -5);
 }
@@ -102,7 +102,7 @@ bool DreieckObject::Initialize()
     // Application-specific initialization
      {
        // Create Shader (Do not release until VAO is created)
-       m_program = ShaderList::instance()->GetByName("Basic");
+       m_program = qglen::ShaderList::instance()->GetByName("Basic");
        m_program->bind();
 
        // Create Buffer (Do not release until VAO is created)
@@ -116,8 +116,8 @@ bool DreieckObject::Initialize()
        m_object.bind();
        m_program->enableAttributeArray(0);
        m_program->enableAttributeArray(1);
-       m_program->setAttributeBuffer(0, GL_FLOAT, ColorPositionVertex::positionOffset(), ColorPositionVertex::PositionTupleSize, ColorPositionVertex::stride());
-       m_program->setAttributeBuffer(1, GL_FLOAT, ColorPositionVertex::colorOffset(), ColorPositionVertex::ColorTupleSize, ColorPositionVertex::stride());
+       m_program->setAttributeBuffer(0, GL_FLOAT, qglen::ColorPositionVertex::positionOffset(), qglen::ColorPositionVertex::PositionTupleSize, qglen::ColorPositionVertex::stride());
+       m_program->setAttributeBuffer(1, GL_FLOAT, qglen::ColorPositionVertex::colorOffset(), qglen::ColorPositionVertex::ColorTupleSize, qglen::ColorPositionVertex::stride());
        m_matrixUniform = m_program->uniformLocation("matCamera");
 
        // Release (unbind) all
@@ -134,7 +134,7 @@ bool DreieckObject::Destroy()
     return true;
 }
 
-void DreieckObject::Move(GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag)
+void DreieckObject::Move(qglen::GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag)
 {
 
     glm::vec3 pos_delta = glm::vec3();

@@ -35,6 +35,7 @@
 #include <QTextStream>
 #include <qdebug.h>
 #include <qdir.h>
+QGLEN_BEGIN
 
 bool DebugLog::InitLog(const QString file)
 {
@@ -91,3 +92,4 @@ bool DebugLog::WriteToLog(const QString pcFormat)
     }
     return true;
 }
+QGLEN_END

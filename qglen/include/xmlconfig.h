@@ -37,6 +37,7 @@
 #include "raengine_global.h"
 #include "tsingleton.h"
 
+QGLEN_BEGIN
 
 class QApplication;
 
@@ -219,5 +220,6 @@ public:
 private:
     XmlConfig *m_pConfig;
 };
+QGLEN_END
 
 #endif // XMLCONFIG_H

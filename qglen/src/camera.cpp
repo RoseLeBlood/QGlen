@@ -30,6 +30,7 @@
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
 */
 #include "camera.h"
+QGLEN_BEGIN
 
 Camera::Camera(QString strName, GameWindow *gameWnd) : IObject(strName, gameWnd),
       m_cam_mode(CameraType::Free),
@@ -254,3 +255,4 @@ void Camera::SetPos(CameraDirection::CameraDirection_t mouseButton, bool down, i
     }
     mouse_position = glm::vec3(x, y, 0);
 }
+QGLEN_END

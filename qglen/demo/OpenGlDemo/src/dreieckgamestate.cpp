@@ -34,7 +34,7 @@
 
 
 
-DreieckGameState::DreieckGameState(GameWindow *wnd) : GameState(wnd)
+DreieckGameState::DreieckGameState(qglen::GameWindow *wnd) : qglen::GameState(wnd)
 {
       AddObjectToScene(new DreieckObject(wnd));
      // AddObjectToScene(new Camera("camera", wnd));

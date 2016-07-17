@@ -40,28 +40,30 @@
 
 #include "tsingleton.h"
 #include <gamewindow.h>
-
+QGLEN_BEGIN
+class OpenGLShaderProgram;
 class RAENGINESHARED_EXPORT ShaderList : public TSingleton<ShaderList>
 {
     friend class GameWindow;
 public:
     ShaderList() { }
 
-    void Add(QString strName, QOpenGLShaderProgram* mPrg);
+    void Add(QString strName, OpenGLShaderProgram* mPrg);
     void AddFromSource(QString strName, QString verteSource, QString fagmentSource,
                        QString geometrySource = "" );
     void AddFromFile(QString strName, QString vertexFileName, QString fagmentFileName,
                      QString geometryFileName = "" );
 
-    QOpenGLShaderProgram* GetByName(QString strName);
+    OpenGLShaderProgram *GetByName(QString strName);
 
     virtual void CreateInstance();
     virtual void DestroyInstance();
 protected:
     void loadShaders(GameWindow* wnd);
 private:
-    QMap<QString, QOpenGLShaderProgram*>   m_pListShader;
+    QMap<QString, OpenGLShaderProgram*>   m_pListShader;
     GameWindow *m_wnd;
 };
+QGLEN_END
 
 #endif // SHADER_H

@@ -35,9 +35,13 @@
 #include "raengine_global.h"
 
 #include <QString>
+
+
+QGLEN_BEGIN
+
 class XmlConfig;
 
 RAENGINESHARED_EXPORT XmlConfig *startQGlEn(const QString& gameName = QString("qglen"));
 RAENGINESHARED_EXPORT int endQGlEn(int exec);
-
+QGLEN_END
 #endif // QGLEN_H

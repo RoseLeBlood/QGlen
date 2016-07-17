@@ -42,6 +42,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+QGLEN_BEGIN
+
 class GameWindow;
 
 namespace CameraDirection
@@ -157,4 +159,5 @@ public:
     glm::mat4 MVP;
 };
 
+QGLEN_END
 #endif // ICAMERA_H

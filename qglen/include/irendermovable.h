@@ -34,6 +34,8 @@
 
 #include "iobject.h"
 
+QGLEN_BEGIN
+
 class RAENGINESHARED_EXPORT IRenderMovable : public IObject
 {
 public:
@@ -44,5 +46,6 @@ public:
 protected:
     IRenderMovable() { }
 };
+QGLEN_END
 
 #endif // IRENDERMOVABLE_H

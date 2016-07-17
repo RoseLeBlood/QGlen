@@ -33,6 +33,7 @@
 #define TSINGLETON_H
 
 #include <raengine_global.h>
+QGLEN_BEGIN
 
 template <typename C> class RAENGINESHARED_EXPORT TSingleton
 {
@@ -65,6 +66,6 @@ template <typename C> class RAENGINESHARED_EXPORT TSingleton
  template <typename C> C* TSingleton <C>::m_pInstance = 0;
 
 
-
+QGLEN_END
 #endif // TSINGLETON_H
 

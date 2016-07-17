@@ -37,6 +37,8 @@
 #include <map>
 #include "gamestate.h"
 
+QGLEN_BEGIN
+
 class GameWindow;
 
 class GameStateManager
@@ -64,5 +66,7 @@ private:
     GameState                      *m_pCurrent;
     GameWindow                     *m_pGameWindow;
 };
+
+QGLEN_END
 
 #endif // GAMESTATEMANAGER_H

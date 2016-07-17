@@ -21,7 +21,7 @@ LIBS += -fopenmp
 INCLUDEPATH    += $$PWD/3dpart
 INCLUDEPATH    += $$PWD/include
 
-CONFIG += c++17
+CONFIG += c++14
 
 win32: LIBS +=  -lopengl32 -lglu32 -lgdi32
 
@@ -35,12 +35,14 @@ SOURCES += \
     src/debuglog.cpp \
     src/shaderlist.cpp \
     src/xmlconfig.cpp \
-    src/qglen.cpp \
     src/camera.cpp \
     src/CriticalSection.cpp \
     src/colorpositionsnormalvertex.cpp \
     src/gamebatch.cpp \
-    src/openglerror.cpp
+    src/openglerror.cpp \
+    src/color.cpp \
+    src/qglenenapplication.cpp \
+    src/openglvertexarrayobject.cpp
 
 HEADERS +=\
         include/raengine_global.h \
@@ -66,7 +68,9 @@ HEADERS +=\
     include/macros.h \
     include/openglbuffer.h \
     include/openglshaderprogram.h \
-    include/openglvertexarrayobject.h
+    include/openglvertexarrayobject.h \
+    include/color.h \
+    include/qglenenapplication.h
 
 unix {
     target.path = /usr/lib

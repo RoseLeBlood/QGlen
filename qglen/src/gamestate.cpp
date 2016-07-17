@@ -35,6 +35,8 @@
 #include <map>
 #include "gamewindow.h"
 
+QGLEN_BEGIN
+
 GameState::GameState(GameWindow* pWnd)
 {
     m_Scene = new SceneManager(pWnd);
@@ -62,3 +64,4 @@ void GameState::AddObjectToScene(IObject* pObject)
 {
     m_Scene->AddObjectToScene(pObject);
 }
+QGLEN_END

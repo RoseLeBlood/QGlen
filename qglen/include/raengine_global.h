@@ -49,4 +49,8 @@
 #define XmlConfigFile "settings.xml"
 #define XmlShaderDir "shader"
 
+#define QGLEN_BEGIN namespace qglen {
+#define QGLEN_END }
+
+
 #endif // RAENGINE_GLOBAL_H

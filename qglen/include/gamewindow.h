@@ -43,14 +43,20 @@
 class QTimer;
 class QOpenGLContext;
 class QOpenGLPaintDevice;
-class GameStateManager;
-class GameState;
 class QElapsedTimer;
 class QOpenGLDebugMessage;
 class QOpenGLDebugLogger;
+
+QGLEN_BEGIN
+
+
+class GameStateManager;
+class GameState;
 class OpenGLError;
 
 #define MS_PER_UPDATE 16
+
+
 
 namespace GamePadDevice
 {
@@ -111,23 +117,23 @@ public slots:
     void messageLogged(const QOpenGLDebugMessage &msg);
 protected:
     bool event(QEvent *event) Q_DECL_OVERRIDE;
-    void errorEventGL(OpenGLError *event);
+    void errorEventGL(qglen::OpenGLError *event);
     void renderIntern();
     void exposeEvent(QExposeEvent *event) Q_DECL_OVERRIDE;
 
-     void SetGameStateManager(GameStateManager* pManager);
-     void AddGameState(QString name, GameState* pState);
+     void SetGameStateManager(qglen::GameStateManager* pManager);
+     void AddGameState(QString name, qglen::GameState* pState);
 protected:
     QOpenGLContext      *m_context;
     QOpenGLPaintDevice  *m_device;
-    GameStateManager    *m_gameStateManager;
+    qglen::GameStateManager    *m_gameStateManager;
     QElapsedTimer       *m_pTimer;
     qint64              m_runTime;
 
     qint64              m_previous;
     qint64              m_lag;
 
-    XmlConfig           *m_pConfig;
+    qglen::XmlConfig           *m_pConfig;
     int                 m_numConnectedGamePads;
     QGamepad            *m_gamepad[GamePadDevice::MAX];
     GamePadState        m_pStates[GamePadDevice::MAX];
@@ -141,5 +147,6 @@ private:
 private:
     bool m_update_pending;
 };
+QGLEN_END
 
 #endif // GAMEWINDOW_H

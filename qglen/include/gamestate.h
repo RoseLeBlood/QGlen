@@ -38,6 +38,8 @@
 class QPainter;
 class QString;
 
+QGLEN_BEGIN
+
 class GameWindow;
 
 class RAENGINESHARED_EXPORT GameState
@@ -64,5 +66,6 @@ protected:
     SceneManager                 *m_Scene;
     GameWindow                   *m_pGameWindow;
 };
+QGLEN_END
 
 #endif // GAMESTATE_H

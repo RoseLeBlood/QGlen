@@ -40,12 +40,12 @@
 #include <xmlconfig.h>
 #include <gamebatch.h>
 #include <QTextDocument>
-class TriangleWindow : public GameWindow
+class TriangleWindow : public qglen::GameWindow
 {
 public:
-    TriangleWindow(XmlConfig *cfg);
+    TriangleWindow(qglen::XmlConfig *cfg);
 private:
-    gameBatch *m_pBatch;
+    qglen::gameBatch *m_pBatch;
 
 };
 

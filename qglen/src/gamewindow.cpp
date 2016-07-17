@@ -49,13 +49,13 @@
 #include "xmlconfig.h"
 #include "openglerror.h"
 #include <macros.h>
-
+QGLEN_BEGIN
 GameWindow::GameWindow(XmlConfig *pConfig, QWindow *parent)
     : QWindow(parent)
     , m_update_pending(false)
     , m_context(0)
     , m_device(0),
-      m_gameStateManager(new GameStateManager(this)),
+      m_gameStateManager(new qglen::GameStateManager(this)),
       m_runTime(0)
 {
     OpenGLError::pushErrorHandler(this);
@@ -72,7 +72,6 @@ GameWindow::GameWindow(XmlConfig *pConfig, QWindow *parent)
     format.setSwapInterval(1);
 
     setFormat(format);
-    setTitle(pConfig->getGameName());
 
     resize(pConfig->getWight(), pConfig->getHeight());
 
@@ -147,6 +146,9 @@ void GameWindow::Initialize()
 }
 void GameWindow::Move(GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag)
 {
+    const qreal retinaScale = devicePixelRatio();
+    glViewport(0, 0, width() * retinaScale, height() * retinaScale);
+
     m_gameStateManager->Move(pStates, numDevices, renderTime, elapsedTime, lag);
 }
 void GameWindow::Render(double smoothStep)
@@ -350,3 +352,4 @@ void GameWindow::messageLogged(const QOpenGLDebugMessage &msg)
   error += ")";
   qDebug() << qPrintable(error) << "\n" << qPrintable(msg.message()) << "\n";
 }
+QGLEN_END

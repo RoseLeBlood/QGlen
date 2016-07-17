@@ -6,6 +6,8 @@
 #include <QStack>
 #include <QString>
 
+QGLEN_BEGIN
+
 namespace FunctionType
 {
     enum FunctionType_t
@@ -54,5 +56,7 @@ private:
   static QStack<QObject*> m_errorHandler;
 
 };
+
+QGLEN_END
 
 #endif // OPENGLERROR_H

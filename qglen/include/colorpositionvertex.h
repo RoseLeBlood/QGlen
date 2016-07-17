@@ -34,7 +34,7 @@
 
 #include "ivertex.h"
 
-
+QGLEN_BEGIN
 class RAENGINESHARED_EXPORT ColorPositionVertex : IVertex
 {
 public:
@@ -61,7 +61,7 @@ protected:
   glm::vec3 m_color;
 };
 
-Q_DECLARE_TYPEINFO(ColorPositionVertex, Q_MOVABLE_TYPE);
+
 
 // Constructors
  inline ColorPositionVertex::ColorPositionVertex() {}
@@ -79,6 +79,8 @@ Q_DECL_CONSTEXPR inline int ColorPositionVertex::positionOffset() { return offse
 Q_DECL_CONSTEXPR inline int ColorPositionVertex::colorOffset() { return offsetof(ColorPositionVertex, m_color); }
 Q_DECL_CONSTEXPR inline int ColorPositionVertex::stride() { return sizeof(ColorPositionVertex); }
 
+QGLEN_END
 
+Q_DECLARE_TYPEINFO(qglen::ColorPositionVertex, Q_MOVABLE_TYPE);
 
 #endif // COLORPOSITIONVERTEX_H

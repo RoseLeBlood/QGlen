@@ -43,21 +43,21 @@
 #include <openglbuffer.h>
 #include <glm/vec3.hpp>
 
-class DreieckObject : public IObject
+class DreieckObject : public qglen::IObject
 {
 public:
-    DreieckObject(GameWindow* window);
+    DreieckObject(qglen::GameWindow* window);
 
 
     virtual bool CanUpdate() { return true; }
     virtual bool CanDraw() { return true; }
-    virtual SceneManagerPrio::SceneManagerPrio_t
-        Prio() { return SceneManagerPrio::First; }
+    virtual qglen::SceneManagerPrio::SceneManagerPrio_t
+        Prio() { return qglen::SceneManagerPrio::First; }
 
     virtual bool Initialize();
     virtual bool Destroy();
 
-    virtual void Move(GamePadState *pStates, int numDevices,double renderTime, double elapsedTime, bool lag);
+    virtual void Move(qglen::GamePadState *pStates, int numDevices,double renderTime, double elapsedTime, bool lag);
 
     virtual void Render(double smoothStep);
 
@@ -68,9 +68,9 @@ private:
      int m_matrixUniform;
 
      glm::vec3  m_Position;
-     QOpenGLBuffer m_vertex;
-     QOpenGLVertexArrayObject m_object;
-     QOpenGLShaderProgram *m_program;
+     qglen::OpenGLBuffer m_vertex;
+     qglen::OpenGLVertexArrayObject m_object;
+     qglen::OpenGLShaderProgram *m_program;
 };
 
 #endif // DREIECKOBJECT_H

@@ -36,6 +36,7 @@
 #include "list"
 
 class QPainter;
+QGLEN_BEGIN
 
 class RAENGINESHARED_EXPORT SceneManager
 {
@@ -98,6 +99,7 @@ public:
 
     virtual bool Move(GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag)
     {
+
         for (std::list<IObject*>::iterator item = m_GameStates.begin();
              item != m_GameStates.end();
              item++)
@@ -121,5 +123,6 @@ protected:
 private:
      std::list<IObject*>  m_GameStates;
 };
+QGLEN_END
 
 #endif // SCENEMANAGER_H

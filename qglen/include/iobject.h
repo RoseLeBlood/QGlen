@@ -38,6 +38,8 @@
 #include <QPainter>
 #include "gamewindow.h"
 
+QGLEN_BEGIN
+
 namespace SceneManagerPrio {
     enum SceneManagerPrio_t
     {
@@ -77,5 +79,6 @@ protected:
 private:
     QString     m_strName;
 };
+QGLEN_END
 
 #endif // IOBJECT_H

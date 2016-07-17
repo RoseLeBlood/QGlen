@@ -3,6 +3,7 @@
 
 #include <macros.h>
 #include <QOpenGLShaderProgram>
+QGLEN_BEGIN
 
 // Register to check OpenGLShaderProgram
 class RAENGINESHARED_EXPORT OpenGLShaderProgramChecked : public QOpenGLShaderProgram
@@ -26,5 +27,5 @@ public:
   explicit OpenGLShaderProgram(QObject *parent = 0) : OpenGLShaderProgramChecked(parent) {}
 };
 
-
+QGLEN_END
 #endif // OPENGLSHADERPROGRAM_H

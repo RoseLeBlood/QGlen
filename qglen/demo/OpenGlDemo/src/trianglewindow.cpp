@@ -33,24 +33,23 @@
 #include <QApplication>
 #include "qglen.h"
 #include <gamebatch.h>
+#include "qglenenapplication.h"
 
-
-TriangleWindow::TriangleWindow(XmlConfig *cfg) : GameWindow(cfg)
+TriangleWindow::TriangleWindow(qglen::XmlConfig *cfg) : qglen::GameWindow(cfg)
 {
-    m_pBatch = new gameBatch(this);
+    m_pBatch = new qglen::gameBatch(this);
     this->AddGameState("Dreieck_test", new DreieckGameState(this));
 }
-
-
 int main(int argc, char *argv[])
 {
 
-    QApplication app(argc, argv);
-    XmlConfig *cfg = startQGlEn();
+    QGlenEnApplication app(argc, argv);
+
+    return app.Play<TriangleWindow>("OpenGLDEmo");
+    /*qglen::XmlConfig *cfg = qglen::startQGlEn();
 
     TriangleWindow window(cfg);
     window.show();
 
-    return endQGlEn(app.exec());
+    return qglen::endQGlEn(app.exec());*/
 }
-

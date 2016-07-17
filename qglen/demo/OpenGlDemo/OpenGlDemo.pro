@@ -36,3 +36,4 @@ else:unix: LIBS += -L$$PWD/../../ -lQGlEn
 INCLUDEPATH += $$PWD/../../3dpart
 INCLUDEPATH += $$PWD/../../include
 DEPENDPATH += $$PWD/../../
+

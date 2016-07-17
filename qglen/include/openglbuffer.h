@@ -4,6 +4,8 @@
 #include <macros.h>
 #include <QOpenGLBuffer>
 
+QGLEN_BEGIN
+
 // Register to check OpenGLBuffer
 class RAENGINESHARED_EXPORT OpenGLBufferChecked : public QOpenGLBuffer
 {
@@ -19,6 +21,6 @@ class RAENGINESHARED_EXPORT OpenGLBuffer : public OpenGLBufferChecked
 {
   // Intentionally Empty
 };
-
+QGLEN_END
 
 #endif // OPENGLBUFFER_H

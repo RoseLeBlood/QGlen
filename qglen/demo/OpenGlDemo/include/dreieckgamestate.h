@@ -32,29 +32,22 @@
 #ifndef DREIECKGAMESTATE_H
 #define DREIECKGAMESTATE_H
 
+
 #include "gamestate.h"
 #include "dreieckobject.h"
 
-class DreieckGameState : public GameState
+class DreieckGameState : public qglen::GameState
 {
 public:
-    DreieckGameState(GameWindow *wnd);
+    DreieckGameState(qglen::GameWindow *wnd);
 
-    virtual bool Switch(bool , GameState* ) { return true; }
+    virtual bool Switch(bool , qglen::GameState* ) { return true; }
 
     virtual bool Render(double smoothStep)
     {
         GetGameWindow()->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-        return GameState::Render(smoothStep);
-    }
-
-    virtual bool Move(GamePadState *pStates, int numDevices,double renderTime, double elapsedTime, bool lag)
-    {
-        const qreal retinaScale = GetGameWindow()->devicePixelRatio();
-        GetGameWindow()->glViewport(0, 0, GetGameWindow()->width() * retinaScale, GetGameWindow()->height() * retinaScale);
-
-        return GameState::Move(pStates, numDevices, renderTime, elapsedTime, lag);
+        return qglen::GameState::Render(smoothStep);
     }
     bool Initialize();
 };

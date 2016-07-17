@@ -35,6 +35,8 @@
 #include "raengine_global.h"
 #include <QMutex>
 
+QGLEN_BEGIN
+
 class RAENGINESHARED_EXPORT CriticalSection : public QMutex
 {
 public:
@@ -60,6 +62,8 @@ private:
     CriticalSection*		m_rc;
 };
 
-#define LOCK(x) if (CriticalBlock __csc = x)
+#define LOCK(x) if (qglen::CriticalBlock __csc = x)
+
+QGLEN_END
 
 #endif // LOCK_H

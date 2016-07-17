@@ -32,7 +32,10 @@
 #include "gamewindow.h"
 #include "scenemanager.h"
 
+QGLEN_BEGIN
+
 SceneManager::SceneManager(GameWindow* _pWnd)
 {
     m_pWnd = _pWnd;
 }
+QGLEN_END

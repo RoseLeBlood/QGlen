@@ -33,7 +33,7 @@
 #include "gamewindow.h"
 #include "gamestatemanager.h"
 #include <QDebug>
-
+QGLEN_BEGIN
 GameStateManager::GameStateManager(GameWindow *pGame)
     : m_pGameWindow(pGame),
       m_pCurrent(0)
@@ -138,3 +138,4 @@ bool GameStateManager::Move(GamePadState *pStates, int numDevices,double renderT
     }
     return false;
 }
+QGLEN_END

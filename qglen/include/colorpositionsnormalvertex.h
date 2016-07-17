@@ -34,6 +34,8 @@
 
 #include "ivertex.h"
 
+QGLEN_BEGIN
+
 class RAENGINESHARED_EXPORT PositionsNormalVertex : IVertex
 {
 public:
@@ -59,7 +61,7 @@ protected:
 
 };
 
-Q_DECLARE_TYPEINFO(PositionsNormalVertex, Q_MOVABLE_TYPE);
+
 
 // Constructors
  inline PositionsNormalVertex::PositionsNormalVertex() {}
@@ -76,6 +78,8 @@ Q_DECL_CONSTEXPR inline int PositionsNormalVertex::normalOffset() { return offse
 Q_DECL_CONSTEXPR inline int PositionsNormalVertex::stride() { return sizeof(PositionsNormalVertex); }
 
 
+QGLEN_END
 
+Q_DECLARE_TYPEINFO(qglen::PositionsNormalVertex, Q_MOVABLE_TYPE);
 
 #endif // COLORPOSITIONSNORMALVERTEX_H

@@ -2,6 +2,8 @@
 #include <gamewindow.h>
 #include <QPainter>
 
+QGLEN_BEGIN
+
 inline void transformPoint(float out[4], const float m[16], const float in[4])
 {
 #define M(row,col)  m[col*4+row]
@@ -69,3 +71,4 @@ void gameBatch::drawText(QPainter *painter, const glm::vec3 &textPosWorld, QStri
     painter->drawText(textPosX, textPosY, text); // z = pointT4.z + distOverOp / 4
 
 }
+QGLEN_END

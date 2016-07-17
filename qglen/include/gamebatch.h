@@ -4,7 +4,11 @@
 #include "raengine_global.h"
 #include <glm/vec3.hpp>
 
+
 class QPainter;
+
+
+QGLEN_BEGIN
 class GameWindow;
 
 class RAENGINESHARED_EXPORT gameBatch
@@ -16,7 +20,7 @@ public:
 private:
     GameWindow *m_pWnd;
 };
-
+QGLEN_END
 
 
 #endif // GAMEBATCH_H
