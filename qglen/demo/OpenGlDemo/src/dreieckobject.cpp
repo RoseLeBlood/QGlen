@@ -39,20 +39,20 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
-
+#include <colors.h>
 
 
 // Front Verticies
-#define VERTEX_FTR qglen::ColorPositionVertex( glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3( 1.0f, 0.0f, 0.0f ) )
-#define VERTEX_FTL qglen::ColorPositionVertex( glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3( 0.0f, 1.0f, 0.0f ) )
-#define VERTEX_FBL qglen::ColorPositionVertex( glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3( 0.0f, 0.0f, 1.0f ) )
-#define VERTEX_FBR qglen::ColorPositionVertex( glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3( 0.0f, 0.0f, 0.0f ) )
+#define VERTEX_FTR qglen::ColorPositionVertex( glm::vec3( 0.5f,  0.5f,  0.5f), qglen::Colors::Red )
+#define VERTEX_FTL qglen::ColorPositionVertex( glm::vec3(-0.5f,  0.5f,  0.5f), qglen::Colors::Green )
+#define VERTEX_FBL qglen::ColorPositionVertex( glm::vec3(-0.5f, -0.5f,  0.5f), qglen::Colors::Blue )
+#define VERTEX_FBR qglen::ColorPositionVertex( glm::vec3( 0.5f, -0.5f,  0.5f), qglen::Colors::Silver )
 
 // Back Verticies
-#define VERTEX_BTR qglen::ColorPositionVertex( glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3( 1.0f, 1.0f, 0.0f ) )
-#define VERTEX_BTL qglen::ColorPositionVertex( glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3( 0.0f, 1.0f, 1.0f ) )
-#define VERTEX_BBL qglen::ColorPositionVertex( glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3( 1.0f, 0.0f, 1.0f ) )
-#define VERTEX_BBR qglen::ColorPositionVertex( glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3( 1.0f, 1.0f, 1.0f ) )
+#define VERTEX_BTR qglen::ColorPositionVertex( glm::vec3( 0.5f,  0.5f, -0.5f), qglen::Colors::Orange )
+#define VERTEX_BTL qglen::ColorPositionVertex( glm::vec3(-0.5f,  0.5f, -0.5f), qglen::Colors::LightGreen )
+#define VERTEX_BBL qglen::ColorPositionVertex( glm::vec3(-0.5f, -0.5f, -0.5f), qglen::Colors::LightBlue )
+#define VERTEX_BBR qglen::ColorPositionVertex( glm::vec3( 0.5f, -0.5f, -0.5f), qglen::Colors::White )
 
 // Create a colored cube
 static const qglen::ColorPositionVertex sg_vertexes[] = {
@@ -128,7 +128,7 @@ bool DreieckObject::Initialize()
        m_program->release();
      }
     GetGameWindow()->glEnable(GL_CULL_FACE);
-
+    GetGameWindow()->setClearColor(qglen::Colors::Black);
 
     return true;
 }

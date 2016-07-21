@@ -40,6 +40,7 @@
 #include <QtGamepad/QGamepadManager>
 #include <QtGamepad/QGamepad>
 #include <rect.h>
+#include "colors.h"
 
 class QTimer;
 class QOpenGLContext;
@@ -98,6 +99,18 @@ struct RAENGINESHARED_EXPORT GamePadState
 };
 struct RAENGINESHARED_EXPORT GamePadStates;
 
+namespace ClearMask
+{
+    enum ClearMask_t
+    {
+        Color =  GL_COLOR_BUFFER_BIT,
+        Depth =  GL_DEPTH_BUFFER_BIT,
+        Accum = GL_ACCUM_BUFFER_BIT,
+        Stencil = GL_STENCIL_BUFFER_BIT,
+
+        Default = Color | Depth | Stencil
+    };
+}
 class RAENGINESHARED_EXPORT GameWindow : public QWindow, public QOpenGLFunctions
 {
     Q_OBJECT
@@ -106,6 +119,7 @@ public:
     ~GameWindow();
 
     virtual void Initialize();
+    virtual void Clear(ClearMask::ClearMask_t type);
     virtual void Render(double smoothStep);
     virtual void Input();
     virtual void Move(GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag = false);
@@ -115,6 +129,9 @@ public:
     GamePadState getState(GamePadDevice::GamePadDevice_t id);
     rect getBounds() { return m_rBounds; }
     void setBounds(rect bounds);
+
+    void setClearColor(Color col);
+    Color getClearColor() { return m_colClearColor; }
 public slots:
     void renderEvent();
     void messageLogged(const QOpenGLDebugMessage &msg);
@@ -141,6 +158,7 @@ protected:
     int                 m_numConnectedGamePads;
     QGamepad            *m_gamepad[GamePadDevice::MAX];
     GamePadState        m_pStates[GamePadDevice::MAX];
+    Color               m_colClearColor;
 
 #ifdef RAEDEBUG
      QOpenGLDebugLogger *m_debugLogger;

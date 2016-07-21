@@ -42,7 +42,8 @@ SOURCES += \
     src/color.cpp \
     src/qglenenapplication.cpp \
     src/openglvertexarrayobject.cpp \
-    src/rect.cpp
+    src/rect.cpp \
+    src/colors.cpp
 
 HEADERS +=\
         include/raengine_global.h \
@@ -70,7 +71,8 @@ HEADERS +=\
     include/openglvertexarrayobject.h \
     include/color.h \
     include/qglenenapplication.h \
-    include/rect.h
+    include/rect.h \
+    include/colors.h
 
 unix {
     target.path = /usr/lib

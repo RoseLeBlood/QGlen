@@ -39,7 +39,7 @@ namespace qglen
         Color(const int _r, const int _g, const int _b, const int _a) : r((float)(_r) * COLORCON), g((float)(_g) * COLORCON), b((float)(_b) * COLORCON), a((float)(_a) * COLORCON)					{}
         Color(const int* pComponent) : r((float)(pComponent[0]) * COLORCON), g((float)(pComponent[1]) * COLORCON), b((float)(pComponent[2]) * COLORCON), a((float)(pComponent[3]) * COLORCON)		{}
         Color(const int c) : r(COLORCON * (float)(int)(c >> 16)), g(COLORCON * (float)(int)(c >> 8)), b(COLORCON * (float)(int)(c)), a(COLORCON * (float)(int)(c >> 24))							{}
-
+        Color(const Color& o) : r(o.r), g(o.g), b(o.b), a(o.a) { }
         operator unsigned long () const
         {
             return ((a >= 1.0f ? 255 : a <= 0.0f ? 0 : (unsigned long)(a * 255.0f)) << 24) |
@@ -62,6 +62,12 @@ namespace qglen
         static Color FromYUV(float y, float u, float v);
         static Color FromHSV(float h, float s, float v);
         static Color FromCMY(float c, float m, float y, float k = 0);
+
+        static Color FromSRGB(float r, float g, float b, float a);
+        static Color ToSRGB(float r, float g, float b, float a);
+
+        static Color FromSRGB(Color sRGB) { return Color::FromSRGB(sRGB.r, sRGB.g, sRGB.b, sRGB.a); }
+        static Color ToSRGB(Color rgb) { return Color::ToSRGB(rgb.r, rgb.g,rgb.b, rgb.a); }
     };
     inline Color operator + (const Color& a, const Color& b)	{return Color(a.r + b.r, a.g + b.g, a.b + b.b, a.a + b.a);}
     inline Color operator - (const Color& a, const Color& b)	{return Color(a.r - b.r, a.g - b.g, a.b - b.b, a.a - b.a);}

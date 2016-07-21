@@ -215,7 +215,15 @@ void GameWindow::renderIntern()
 
     m_runTime += elapsed;
 }
-
+void GameWindow::Clear(ClearMask::ClearMask_t type)
+{
+    glClear((int)type);
+}
+ void GameWindow::setClearColor(Color color)
+ {
+    this->m_colClearColor = color;
+    this->glClearColor(color.red, color.green, color.blue, color.alpa);
+ }
 
 bool GameWindow::event(QEvent *event)
 {
@@ -223,6 +231,15 @@ bool GameWindow::event(QEvent *event)
     {
         errorEventGL(static_cast<OpenGLError*>(event));
         return true;
+    }
+    if(event->type() == QEvent::WindowActivate)
+    {
+        qDebug() << "Focus IN "   ;
+
+    }
+    if(event->type() == QEvent::WindowDeactivate)
+    {
+        qDebug() << "focus out";
     }
     switch (event->type()) {
     case QEvent::UpdateRequest:
