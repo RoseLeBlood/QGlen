@@ -38,6 +38,7 @@
 #include <QPainter>
 #include "gamewindow.h"
 #include <glm/mat4x4.hpp>
+#include "materials.h"
 
 QGLEN_BEGIN
 
@@ -57,8 +58,8 @@ namespace SceneManagerPrio {
 class RAENGINESHARED_EXPORT IObject : public CriticalSection
 {
 public:
-    IObject(QString name, GameWindow *wnd, glm::mat4 *mWorld = 0)
-        :  m_pWindow(wnd), m_bVisual(true), m_bSelected(false), m_strName(name)
+    IObject(QString name, GameWindow *wnd, Material mat, glm::mat4 *mWorld = 0)
+        :  m_pWindow(wnd), m_bVisual(true), m_bSelected(false), m_matObject(mat), m_strName(name)
     {
         if(mWorld != 0)
             m_matWorld = *mWorld;
@@ -89,6 +90,9 @@ public:
     virtual void setVisual(bool vis) { m_bVisual = vis; }
     virtual bool IsVisual() { return m_bVisual; }
 
+    virtual void setMaterial(Material mat) { m_matObject = mat; }
+    virtual Material getMaterial() { return m_matObject; }
+
     virtual const float getBoundingsphereRadius()		{ return 1.0f; }
     virtual bool		Intersects(const glm::vec3* pRayPos,
                                    const glm::vec3* pRayDir,
@@ -109,6 +113,8 @@ protected:
     glm::mat4       m_matWorld;
     bool            m_bVisual;
     bool            m_bSelected;
+
+    Material        m_matObject;
 private:
     QString     m_strName;
 };

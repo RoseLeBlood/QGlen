@@ -1,0 +1,79 @@
+#ifndef CAMERA_H
+#define CAMERA_H
+
+#include "glm/gtc/quaternion.hpp"
+#include "glm/mat4x4.hpp"
+
+#include "gamewindow.h"
+#include "iobject.h"
+
+#include <glm/glm.hpp>
+
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
+
+class Camera
+{
+public:
+    Camera(qglen::GameWindow* window, glm::vec3 position = glm::vec3(0,0, -5));
+
+    virtual void Update(qglen::GamePadState *pStates, int numDevices, double elapsedTime)
+    {
+         Move( (float)(pStates->axisRightX / elapsedTime),
+                            -(float)(pStates->axisRightY / elapsedTime));
+         Yaw((float)(pStates->axisLeftY / elapsedTime));
+         Pitch((float)(pStates->axisLeftX / elapsedTime));
+        // Roll( (float)(pStates->buttonR2 / elapsedTime) );
+        // Roll( -(float)(pStates->buttonL2 / elapsedTime));
+
+         glm::quat key_quat = glm::quat(glm::vec3(m_fYaw, m_fPitch, m_fRoll));
+         m_caQuat = key_quat * m_caQuat;
+         m_caQuat = glm::normalize(m_caQuat);
+         glm::mat4 rotate = glm::mat4_cast(m_caQuat);
+
+         glm::mat4 translate = glm::mat4(1.0f);
+         translate = glm::translate(translate, m_vecPositition);
+
+         m_matView = rotate * translate;
+         m_matProj = glm::perspective(45.0f, ((float)(m_pWindow->width() / m_pWindow->height())), 0.1f, 100.f);
+
+         //m_vecVelocity =
+    }
+    void Yaw(float yaw)
+    {
+       m_fYaw = m_fSensetive * yaw;
+    }
+    void Pitch(float pitch)
+    {
+        m_fPitch = m_fSensetive * pitch;
+    }
+    void Roll(float roll)
+    {
+        m_fRoll = m_fSensetive * roll;
+    }
+    void Move(float x, float y)
+    {
+        glm::vec3 forward(m_matView[0][2], m_matView[1][2], m_matView[2][2]);
+        glm::vec3 strafe( m_matView[0][0], m_matView[1][0], m_matView[2][0]);
+        m_vecPositition +=  glm::vec3(y * forward + x * strafe) * 0.25f;
+    }
+
+    glm::mat4 getView() { return m_matView; }
+    glm::mat4 getProjektion() { return m_matProj; }
+private:
+    glm::quat  m_caQuat;
+    glm::mat4 m_matView;
+    glm::mat4 m_matProj;
+    glm::vec3 m_vecPositition;
+    glm::vec3 m_vecVelocity;
+
+    float m_fYaw;
+    float m_fPitch;
+    float m_fRoll;
+    float m_fSensetive;
+
+    qglen::GameWindow* m_pWindow;
+};
+
+#endif // CAMERA_H

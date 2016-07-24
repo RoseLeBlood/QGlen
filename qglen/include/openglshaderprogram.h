@@ -27,5 +27,27 @@ public:
   explicit OpenGLShaderProgram(QObject *parent = 0) : OpenGLShaderProgramChecked(parent) {}
 };
 
+
+class RAENGINESHARED_EXPORT OpenGLShaderProgramBlock
+{
+public:
+    OpenGLShaderProgramBlock(OpenGLShaderProgram* rc) :  m_rc(rc)
+    {
+        m_rc->bind();
+    }
+    ~OpenGLShaderProgramBlock(void)
+    {
+        m_rc->release();
+    }
+    operator bool()
+    {
+        return true;
+    }
+private:
+    OpenGLShaderProgram*		m_rc;
+};
+
+#define BIND(x) if (qglen::OpenGLShaderProgramBlock __csc = x)
+
 QGLEN_END
 #endif // OPENGLSHADERPROGRAM_H

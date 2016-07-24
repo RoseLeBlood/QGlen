@@ -40,59 +40,60 @@
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 #include <colors.h>
+#include "camera.h"
 
+GLfloat vertices[] = {
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
 
-// Front Verticies
-#define VERTEX_FTR qglen::ColorPositionVertex( glm::vec3( 0.5f,  0.5f,  0.5f), qglen::Colors::Red )
-#define VERTEX_FTL qglen::ColorPositionVertex( glm::vec3(-0.5f,  0.5f,  0.5f), qglen::Colors::Green )
-#define VERTEX_FBL qglen::ColorPositionVertex( glm::vec3(-0.5f, -0.5f,  0.5f), qglen::Colors::Blue )
-#define VERTEX_FBR qglen::ColorPositionVertex( glm::vec3( 0.5f, -0.5f,  0.5f), qglen::Colors::Silver )
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
 
-// Back Verticies
-#define VERTEX_BTR qglen::ColorPositionVertex( glm::vec3( 0.5f,  0.5f, -0.5f), qglen::Colors::Orange )
-#define VERTEX_BTL qglen::ColorPositionVertex( glm::vec3(-0.5f,  0.5f, -0.5f), qglen::Colors::LightGreen )
-#define VERTEX_BBL qglen::ColorPositionVertex( glm::vec3(-0.5f, -0.5f, -0.5f), qglen::Colors::LightBlue )
-#define VERTEX_BBR qglen::ColorPositionVertex( glm::vec3( 0.5f, -0.5f, -0.5f), qglen::Colors::White )
+        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
 
-// Create a colored cube
-static const qglen::ColorPositionVertex sg_vertexes[] = {
-    // Face 1 (Front)
-        VERTEX_FTR, VERTEX_FTL, VERTEX_FBL,
-        VERTEX_FBL, VERTEX_FBR, VERTEX_FTR,
-      // Face 2 (Back)
-        VERTEX_BBR, VERTEX_BTL, VERTEX_BTR,
-        VERTEX_BTL, VERTEX_BBR, VERTEX_BBL,
-      // Face 3 (Top)
-        VERTEX_FTR, VERTEX_BTR, VERTEX_BTL,
-        VERTEX_BTL, VERTEX_FTL, VERTEX_FTR,
-      // Face 4 (Bottom)
-        VERTEX_FBR, VERTEX_FBL, VERTEX_BBL,
-        VERTEX_BBL, VERTEX_BBR, VERTEX_FBR,
-      // Face 5 (Left)
-        VERTEX_FBL, VERTEX_FTL, VERTEX_BTL,
-        VERTEX_FBL, VERTEX_BTL, VERTEX_BBL,
-      // Face 6 (Right)
-        VERTEX_FTR, VERTEX_FBR, VERTEX_BBR,
-        VERTEX_BBR, VERTEX_BTR, VERTEX_FTR
+         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+         0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
 
-};
+        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
 
-#undef VERTEX_BBR
-#undef VERTEX_BBL
-#undef VERTEX_BTL
-#undef VERTEX_BTR
-
-#undef VERTEX_FBR
-#undef VERTEX_FBL
-#undef VERTEX_FTL
-#undef VERTEX_FTR
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
+    };
 
 
 #include <shaderlist.h>
+#include "colors.h"
 
 glm::mat4 matModel;
 
-DreieckObject::DreieckObject(qglen::GameWindow* window) : qglen::IObject("DreieckObject", window)
+DreieckObject::DreieckObject(qglen::GameWindow* window)
+    : qglen::IObject("DreieckObject", window, qglen::Materials::Pearl)
 {
     m_Position = glm::vec3(0, 0, 0);
     matModel = glm::translate(glm::mat4(1.0f), m_Position);
@@ -101,34 +102,40 @@ DreieckObject::DreieckObject(qglen::GameWindow* window) : qglen::IObject("Dreiec
 
 bool DreieckObject::Initialize()
 {
+
     // Application-specific initialization
      {
        // Create Shader (Do not release until VAO is created)
-       m_program = qglen::ShaderList::instance()->GetByName("Basic");
-       m_program->bind();
+       m_pBasicEffect = new qglen::BasicEffect(GetGameWindow(), "Basic");// qglen::ShaderList::instance()->GetByName("Basic");// new qglen::BasicEffect();
+       qDebug() << (m_pBasicEffect->getProgram() == NULL ? "null" : "nicht null");
 
-       // Create Buffer (Do not release until VAO is created)
-       m_vertex.create();
-       m_vertex.bind();
-       m_vertex.setUsagePattern(QOpenGLBuffer::StaticDraw);
-       m_vertex.allocate(sg_vertexes, sizeof(sg_vertexes));
+       BIND(m_pBasicEffect->getProgram())
+       {
+           // Create Buffer (Do not release until VAO is created)
+           m_vertex.create();
+           m_vertex.bind();
+           m_vertex.setUsagePattern(QOpenGLBuffer::StaticDraw);
+           m_vertex.allocate(vertices, sizeof(vertices));
 
-       // Create Vertex Array Object
-       m_object.create();
-       m_object.bind();
-       m_program->enableAttributeArray(0);
-       m_program->enableAttributeArray(1);
-       m_program->setAttributeBuffer(0, GL_FLOAT, qglen::ColorPositionVertex::positionOffset(), qglen::ColorPositionVertex::PositionTupleSize, qglen::ColorPositionVertex::stride());
-       m_program->setAttributeBuffer(1, GL_FLOAT, qglen::ColorPositionVertex::colorOffset(), qglen::ColorPositionVertex::ColorTupleSize, qglen::ColorPositionVertex::stride());
-       m_matrixUniform = m_program->uniformLocation("matCamera");
+           // Create Vertex Array Object
+           m_object.create();
+           m_object.bind();
 
-       // Release (unbind) all
-       m_object.release();
-       m_vertex.release();
-       m_program->release();
+           GetGameWindow()->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
+           GetGameWindow()->glEnableVertexAttribArray(0);
+              // Normal attribute
+           GetGameWindow()->glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+           GetGameWindow()->glEnableVertexAttribArray(1);
+
+           // Release (unbind) all
+           m_object.release();
+           m_vertex.release();
+        }
      }
-    GetGameWindow()->glEnable(GL_CULL_FACE);
-    GetGameWindow()->setClearColor(qglen::Colors::Black);
+    GetGameWindow()->glEnable(GL_DEPTH_TEST);
+    GetGameWindow()->glEnable(GL_FRAMEBUFFER_SRGB);
+    //GetGameWindow()->glDisable(GL_CULL_FACE);
+    GetGameWindow()->setClearColor(qglen::Color(0.1f, 0.1f, 0.1f));
 
     return true;
 }
@@ -138,19 +145,46 @@ bool DreieckObject::Destroy()
     return true;
 }
 
+
+glm::vec3 ExtractCameraPos(const glm::mat4 & a_modelView)
+{
+  glm::mat4 modelViewT = transpose(a_modelView);
+
+  // Get plane normals
+  glm::vec3 n1(modelViewT[0]);
+  glm::vec3 n2(modelViewT[1]);
+  glm::vec3 n3(modelViewT[2]);
+
+  // Get plane distances
+  float d1(modelViewT[0].w);
+  float d2(modelViewT[1].w);
+  float d3(modelViewT[2].w);
+
+  // Get the intersection of these 3 planes
+  // http://paulbourke.net/geometry/3planes/
+  glm::vec3 n2n3 = glm::cross(n2, n3);
+  glm::vec3 n3n1 = glm::cross(n3, n1);
+  glm::vec3 n1n2 = glm::cross(n1, n2);
+
+  glm::vec3 top = (n2n3 * d1) + (n3n1 * d2) + (n1n2 * d3);
+  float denom = dot(n1, n2n3);
+
+  return top / -denom;
+}
 void DreieckObject::Render(const glm::mat4& pView, const glm::mat4& pProj, double smoothStep)
 {
-    // Render using our shader
-    m_program->bind();
-    {
-        glm::mat4 matCamera = pProj * pView * matModel  ;
-        GetGameWindow()->glUniformMatrix4fv(m_matrixUniform, 1, GL_FALSE, glm::value_ptr(matCamera));
 
+    qglen::Light l(qglen::Color(1.0f, 1.0f, 1.0f), qglen::Color(1.0f, 1.0f, 1.0f) ,
+                   qglen::Color(1.0f, 1.0f, 1.0f));
+    // Render using our shader
+    BIND(m_pBasicEffect->getProgram())
+    {
+        m_pBasicEffect->Setup(this->getMaterial(), &l, 1, pView, pProj, matModel);
+        m_pBasicEffect->setViewPosition(ExtractCameraPos(pView));
 
         m_object.bind();
-        GetGameWindow()->glDrawArrays(GL_TRIANGLES, 0, sizeof(sg_vertexes) / sizeof(sg_vertexes[0]));
+        //m_pBasicEffect->Draw(this, 0, 36);
+        GetGameWindow()->glDrawArrays(GL_TRIANGLES, 0, 36);
         m_object.release();
     }
-    m_program->release();
-
 }

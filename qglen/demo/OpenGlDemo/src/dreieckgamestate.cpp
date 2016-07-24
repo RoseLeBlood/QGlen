@@ -30,15 +30,17 @@
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
 */
 #include "dreieckgamestate.h"
-//#include "camera.h"
+#include "camera.h"
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
+
+Camera *cam;
 DreieckGameState::DreieckGameState(qglen::GameWindow *wnd) : qglen::GameState(wnd)
 {
       AddObjectToScene(new DreieckObject(wnd));
      // AddObjectToScene(new Camera("camera", wnd));
-
+    cam = new Camera(wnd);
 
 
 
@@ -71,10 +73,15 @@ glm::vec3 move(float x, float y, glm::mat4 view)
     return glm::vec3(y * forward + x * strafe) * 0.25f;
 }
 
+
 bool DreieckGameState::Move(qglen::GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag)
 {
+    cam->Update(pStates, numDevices, elapsedTime);
 
+    m_matView = cam->getView();
+    m_matProjection = cam->getProjektion();
 
+    /*
    g_Position += move( (float)(pStates->axisRightX / elapsedTime),
                        -(float)(pStates->axisRightY / elapsedTime), m_matView);
 
@@ -96,6 +103,7 @@ bool DreieckGameState::Move(qglen::GamePadState *pStates, int numDevices, double
 
     m_matView = rotate * translate;
     m_matProjection = glm::perspective(45.0f, ((float)(GetGameWindow()->width() / GetGameWindow()->height())), 0.1f, 100.f);
+*/
 
     return qglen::GameState::Move(pStates, numDevices, renderTime, elapsedTime, lag);
 }

@@ -48,7 +48,7 @@ public:
                      const glm::vec3 Velocity = glm::vec3(0.0f,0,0),
                      const glm::vec3 Accelerator = glm::vec3(0.0f,0,0),
                      float mass = 1.0f) : IRenderMovable(rand->GetName() + QString("_PHYSIK")
-                                                         , rand->GetGameWindow()),
+                                                         , rand->getMaterial(), rand->GetGameWindow()),
         m_pObject(rand),
         m_Velocity(Velocity),
         m_Accelerate(Accelerator),

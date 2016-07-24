@@ -43,6 +43,8 @@
 #include <openglbuffer.h>
 #include <glm/vec3.hpp>
 
+#include "basicshader.h"
+
 class DreieckObject : public qglen::IObject
 {
 public:
@@ -52,7 +54,7 @@ public:
     virtual bool CanUpdate() { return false; }
     virtual bool CanDraw() { return true; }
     virtual qglen::SceneManagerPrio::SceneManagerPrio_t
-        Prio() { return qglen::SceneManagerPrio::First; }
+        Prio() { return qglen::SceneManagerPrio::Second; }
 
     virtual bool Initialize();
     virtual bool Destroy();
@@ -70,6 +72,9 @@ private:
      qglen::OpenGLBuffer m_vertex;
      qglen::OpenGLVertexArrayObject m_object;
      qglen::OpenGLShaderProgram *m_program;
+
+     qglen::BasicEffect    *m_pBasicEffect;
+     qglen::Light m_Light;
 };
 
 #endif // DREIECKOBJECT_H

@@ -36,6 +36,7 @@
 #include "list"
 
 #include <glm/mat4x4.hpp>
+#include "light.h"
 
 class QPainter;
 QGLEN_BEGIN
@@ -124,6 +125,8 @@ protected:
      GameWindow* m_pWnd;
 private:
      std::list<IObject*>  m_GameStates;
+     DirLight             m_pDirLights[4];
+
 };
 QGLEN_END
 
