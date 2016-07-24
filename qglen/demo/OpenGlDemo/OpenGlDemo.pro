@@ -17,12 +17,14 @@ INCLUDEPATH += $$PWD/include
 SOURCES += \
     src/trianglewindow.cpp \
     src/dreieckobject.cpp \
-    src/dreieckgamestate.cpp
+    src/dreieckgamestate.cpp \
+    src/camera.cpp
 
 HEADERS  += \
     include/trianglewindow.h \
     include/dreieckobject.h \
-    include/dreieckgamestate.h
+    include/dreieckgamestate.h \
+    include/camera.h
 
 
 
