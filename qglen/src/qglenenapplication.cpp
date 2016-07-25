@@ -2,6 +2,9 @@
 #include <QDir>
 #include <QCoreApplication>
 #include <debuglog.h>
+#include <iostream>
+
+#include <QDebug>
 
 void myMessageOutput(QtMsgType type, const QMessageLogContext &, const QString & str)
 {
@@ -28,6 +31,8 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &, const QString &
 }
 QGlenEnApplication::QGlenEnApplication(int argc, char *argv[]) : QApplication(argc, argv)
 {
+    m_clContext = NULL;
+
     QDir( QCoreApplication::applicationDirPath() ).mkdir(XmlConfigDir);
     QDir( QCoreApplication::applicationDirPath() ).mkdir(XmlShaderDir);
 
@@ -109,6 +114,34 @@ QGlenEnApplication::QGlenEnApplication(int argc, char *argv[]) : QApplication(ar
     delete shader;
 
     qglen::XmlConfigReader::instance()->saveConfig(qglen::XmlConfigReader::instance()->getConfig());
+
+    std::vector<cl::Platform> all_platforms;
+    cl::Platform::get(&all_platforms);
+    if(all_platforms.size()==0){
+         qInfo() <<"OpenCL]  No platforms found. Check OpenCL installation!\n";
+    }
+    else
+    {
+        cl::Platform default_platform=all_platforms[0];
+        std::string buf = default_platform.getInfo<CL_PLATFORM_NAME>();
+        qInfo() << "[OpenCL] Using platform: " + QString(buf.c_str());
+
+        //get default device of the default platform
+        std::vector<cl::Device> all_devices;
+        default_platform.getDevices(CL_DEVICE_TYPE_ALL, &all_devices);
+        if(all_devices.size()==0){
+            qInfo()<<"[OpenCL]  No devices found. Check OpenCL installation!\n";
+        }
+        else {
+            for(int i= 0; i <all_devices.size(); i++) {
+                cl::Device default_device=all_devices[i];
+                buf = default_device.getInfo<CL_DEVICE_NAME>();
+                qInfo()<< "[OpenCL]  Using device: "<< buf.c_str();
+            }
+
+            m_clContext = new cl::Context(all_devices);
+        }
+    }
 
 
    m_pConfig = qglen::XmlConfigReader::instance()->getConfig();

@@ -2,7 +2,7 @@
 #define QGLENENAPPLICATION_H
 
 #include <raengine_global.h>
-
+#include <CL/cl.hpp>
 
 
 #include <xmlconfig.h>
@@ -25,11 +25,12 @@ public:
         }
         return -1;
     }
-
+    cl::Context*        getOpenCLContext() { return m_clContext; }
     qglen::XmlConfig*  GetConfig() { return m_pConfig; }
 private:
     qglen::XmlConfig     *m_pConfig;
     qglen::GameWindow   *m_pWindow;
+    cl::Context         *m_clContext;
 } ;
 
 

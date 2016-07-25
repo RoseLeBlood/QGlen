@@ -43,12 +43,12 @@
 #include <openglbuffer.h>
 #include <glm/vec3.hpp>
 
-#include "basicshader.h"
 
+class qglen::BasicEffect;
 class DreieckObject : public qglen::IObject
 {
 public:
-    DreieckObject(qglen::GameWindow* window);
+    DreieckObject(QString name, qglen::GameWindow* window, glm::vec3 pos, qglen::Material mat);
 
 
     virtual bool CanUpdate() { return false; }
@@ -60,7 +60,7 @@ public:
     virtual bool Destroy();
 
     virtual void Move(qglen::GamePadState *pStates, int numDevices,double renderTime, double elapsedTime, bool lag) { }
-    virtual void Render(const glm::mat4& pView, const glm::mat4& pProj, double smoothStep);
+    virtual void Render(qglen::BasicEffect* effect,const glm::mat4& pView, const glm::mat4& pProj, double smoothStep);
 
 
 private:
@@ -73,7 +73,6 @@ private:
      qglen::OpenGLVertexArrayObject m_object;
      qglen::OpenGLShaderProgram *m_program;
 
-     qglen::BasicEffect    *m_pBasicEffect;
      qglen::Light m_Light;
 };
 

@@ -39,3 +39,8 @@ INCLUDEPATH += $$PWD/../../3dpart
 INCLUDEPATH += $$PWD/../../include
 DEPENDPATH += $$PWD/../../
 
+
+win32: LIBS += -L$$PWD/../../3dpart/opencl/ -lOpenCL
+unix: LIBS += -lOpenCL
+INCLUDEPATH += $$PWD/../../3dpart/opencl
+DEPENDPATH += $$PWD/../../3dpart/opencl
