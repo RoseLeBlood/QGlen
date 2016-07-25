@@ -30,6 +30,8 @@ public:
                        glm::mat4 view, glm::mat4 proj, glm::mat4 model);
 
     OpenGLShaderProgram* getProgram() { return m_pShader; }
+
+    operator OpenGLShaderProgram*() { return m_pShader; }
 private:
     OpenGLShaderProgram *m_pShader;
     GameWindow         *m_wnd;

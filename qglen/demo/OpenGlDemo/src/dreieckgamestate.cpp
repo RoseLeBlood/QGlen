@@ -36,10 +36,40 @@
 #include <glm/gtx/transform.hpp>
 
 Camera *cam;
-DreieckGameState::DreieckGameState(qglen::GameWindow *wnd) : qglen::GameState(wnd)
+DreieckGameState::DreieckGameState(qglen::GameWindow *wnd)
+    : qglen::GameState(wnd, "Basic")
 {
-      AddObjectToScene(new DreieckObject(wnd));
-     // AddObjectToScene(new Camera("camera", wnd));
+    glm::vec3 cubePositions[] = {
+        glm::vec3( 0.0f,  0.0f,  0.0f),
+        glm::vec3( 2.0f,  5.0f, -15.0f),
+        glm::vec3(-1.5f, -2.2f, -2.5f),
+        glm::vec3(-3.8f, -2.0f, -12.3f),
+        glm::vec3( 2.4f, -0.4f, -3.5f),
+        glm::vec3(-1.7f,  3.0f, -7.5f),
+        glm::vec3( 1.3f, -2.0f, -2.5f),
+        glm::vec3( 1.5f,  2.0f, -2.5f),
+        glm::vec3( 1.5f,  0.2f, -1.5f),
+        glm::vec3(-1.3f,  1.0f, -1.5f)
+    };
+    qglen::Material mat[] = {
+        qglen::Materials::Gold,
+        qglen::Materials::Chrome,
+        qglen::Materials::Brass,
+        qglen::Materials::Obsidiant,
+        qglen::Materials::BlackRubber,
+        qglen::Materials::Silver,
+        qglen::Materials::Bronze,
+        qglen::Materials::Copper,
+        qglen::Materials::Jade,
+        qglen::Materials::Turquise
+    };
+    for(int i=0; i < 10; i++ )
+    {
+        AddObjectToScene(new DreieckObject("Quad_" + QString::number(i), wnd, cubePositions[i],
+                                           mat[i]));
+    }
+
+      // AddObjectToScene(new Camera("camera", wnd));
     cam = new Camera(wnd);
 
 
@@ -47,63 +77,14 @@ DreieckGameState::DreieckGameState(qglen::GameWindow *wnd) : qglen::GameState(wn
 }
 bool DreieckGameState::Initialize()
 {
-
-
     return GameState::Initialize();
 }
-
-glm::vec3 g_Position = glm::vec3(0,0,-5);
-
-glm::quat    camera_quat;
-
-glm::vec2 rotate(float x, float y)
-{
-    float yaw = 0, pitch = 0;
-
-    const float mouse_Sensitivity = 0.125f;
-
-    yaw += mouse_Sensitivity *x;
-    pitch += mouse_Sensitivity * y;
-    return glm::vec2(yaw, pitch);
-}
-glm::vec3 move(float x, float y, glm::mat4 view)
-{
-    glm::vec3 forward(view[0][2], view[1][2], view[2][2]);
-    glm::vec3 strafe( view[0][0], view[1][0], view[2][0]);
-    return glm::vec3(y * forward + x * strafe) * 0.25f;
-}
-
-
 bool DreieckGameState::Move(qglen::GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag)
 {
     cam->Update(pStates, numDevices, elapsedTime);
 
     m_matView = cam->getView();
     m_matProjection = cam->getProjektion();
-
-    /*
-   g_Position += move( (float)(pStates->axisRightX / elapsedTime),
-                       -(float)(pStates->axisRightY / elapsedTime), m_matView);
-
-    glm::vec2 yp = rotate((float)(pStates->axisLeftY / elapsedTime),
-                        (float)(pStates->axisLeftX / elapsedTime));
-
-    if(pStates->buttonA)
-    {
-        g_Position = glm::vec3(0,0,-5);
-        yp = glm::vec2(0,0);
-    }
-    glm::quat key_quat = glm::quat(glm::vec3(yp.x, yp.y, 0));
-    camera_quat = key_quat * camera_quat;
-    camera_quat = glm::normalize(camera_quat);
-    glm::mat4 rotate = glm::mat4_cast(camera_quat);
-
-    glm::mat4 translate = glm::mat4(1.0f);
-    translate = glm::translate(translate, g_Position);
-
-    m_matView = rotate * translate;
-    m_matProjection = glm::perspective(45.0f, ((float)(GetGameWindow()->width() / GetGameWindow()->height())), 0.1f, 100.f);
-*/
 
     return qglen::GameState::Move(pStates, numDevices, renderTime, elapsedTime, lag);
 }

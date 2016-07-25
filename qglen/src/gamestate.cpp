@@ -34,16 +34,21 @@
 #include <QString>
 #include <map>
 #include "gamewindow.h"
+#include "shaderlist.h"
+#include "basicshader.h"
 
 QGLEN_BEGIN
 
-GameState::GameState(GameWindow* pWnd)
+GameState::GameState(GameWindow* pWnd, QString techniqName)
 {
     m_Scene = new SceneManager(pWnd);
     m_pGameWindow = pWnd;
+    m_tecName = techniqName;
 }
 bool GameState::Initialize()
 {
+    m_pEffect = new BasicEffect(m_pGameWindow, m_tecName);
+
     return m_Scene->Initialize();
 }
 bool GameState::Destroy()
@@ -53,7 +58,11 @@ bool GameState::Destroy()
 
 bool GameState::Render(double smoothStep)
 {
-    return m_Scene->Render(m_matView, m_matProjection, smoothStep);
+    BIND(m_pEffect->getProgram())
+    {
+        m_Scene->Render(m_pEffect, m_matView, m_matProjection, smoothStep);
+    }
+    return true;
 }
 
 bool GameState::Move(GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag)

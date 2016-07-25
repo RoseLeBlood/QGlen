@@ -32,94 +32,32 @@
 #ifndef SCENEMANAGER_H
 #define SCENEMANAGER_H
 
-#include "iobject.h"
+
 #include "list"
 
 #include <glm/mat4x4.hpp>
 #include "light.h"
+#include "gamewindow.h"
 
 class QPainter;
 QGLEN_BEGIN
+
+class IObject;
+class BasicEffect;
 
 class RAENGINESHARED_EXPORT SceneManager
 {
 public:
     SceneManager(GameWindow* pWnd);
 
-    virtual bool Initialize()
-    {
-        for (std::list<IObject*>::iterator item = m_GameStates.begin();
-             item != m_GameStates.end();
-             item++)
-        {
-            IObject* object = ((IObject*)(*item));
-            if(object != NULL)
-            {
-                object->Initialize();
-            }
-        }
-        return true;
-    }
-    virtual bool Destroy()
-    {
-        for (std::list<IObject*>::iterator item = m_GameStates.begin();
-             item != m_GameStates.end();
-             item++)
-        {
-            IObject* object = ((IObject*)(*item));
-            if(object != NULL)
-            {
-                object->Destroy();
-            }
-        }
+    virtual bool Initialize();
+    virtual bool Destroy();
 
-        m_GameStates.clear();
+    virtual bool Render(BasicEffect* effect, const glm::mat4& pView, const glm::mat4& pProj,
+                        double smoothStep);
 
-        return true;
-    }
-
-    virtual bool Render(const glm::mat4& pView, const glm::mat4& pProj, double smoothStep)
-    {
-        for(int i= 0; i < SceneManagerPrio::MAX; i++)
-        {
-            for (std::list<IObject*>::iterator item = m_GameStates.begin();
-                 item != m_GameStates.end();
-                 item++)
-            {
-                IObject* object = ((IObject*)(*item));
-                if(object != NULL)
-                {
-                    if( object->Prio() == i)
-                    {
-                        if(object->CanDraw())
-                            object->Render(pView, pProj, smoothStep);
-                    }
-                }
-            }
-        }
-        return true;
-    }
-
-    virtual bool Move(GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag)
-    {
-
-        for (std::list<IObject*>::iterator item = m_GameStates.begin();
-             item != m_GameStates.end();
-             item++)
-        {
-            IObject* object = ((IObject*)(*item));
-            if(object != NULL )
-            {
-                if(object->CanUpdate())
-                    object->Move(pStates, numDevices, renderTime, elapsedTime, lag);
-            }
-        }
-        return true;
-    }
-    void AddObjectToScene(IObject* obj)
-    {
-        m_GameStates.push_back(obj);
-    }
+    virtual bool Move(GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag);
+    void AddObjectToScene(IObject* obj);
     GameWindow* GetGameWindow() { return m_pWnd; }
 protected:
      GameWindow* m_pWnd;

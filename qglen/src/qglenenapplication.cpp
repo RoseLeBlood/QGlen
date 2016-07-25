@@ -67,6 +67,7 @@ QGlenEnApplication::QGlenEnApplication(int argc, char *argv[]) : QApplication(ar
                                   "    vec3 ambient;\n"
                                   "    vec3 diffuse;\n"
                                   "    vec3 specular;\n"
+                                  "    int enable;\n"
                                   "};\n"
                                   "\n"
                                   "in vec3 FragPos;\n"

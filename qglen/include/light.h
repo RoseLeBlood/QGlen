@@ -19,12 +19,17 @@ public:
     void setDiffuse(Color diffuse) { m_colDiffuse = diffuse; }
     void setSpecular(Color specular) { m_colSpecular = specular; }
     void setEnable(bool enable)     { m_bEnable = enable; }
+    void setPosition(glm::vec3 position)  { m_vecPosition = position; }
 
     Color getAmbient() { return m_colAmbient; }
     Color getDiffuse() { return m_colDiffuse; }
     Color getSpecular() { return m_colSpecular; }
+    glm::vec3   getPosition()           { return m_vecPosition; }
+
+
     bool  IsEnable()   { return m_bEnable; }
 protected:
+    glm::vec3 m_vecPosition;
     Color   m_colAmbient;
     Color   m_colDiffuse;
     Color   m_colSpecular;
@@ -52,26 +57,25 @@ public:
     PointLight() : PointLight(glm::vec3(1.0f, 1.0f, 1.0f)) { }
 
     PointLight(glm::vec3 position, float constant = 1.0f, float linear = 0.09f, float quadratic = 0.032f)
-        : DirLight(), m_vecPosition(position), m_fConstant(constant), m_fLinear(linear), m_fQuadratic(quadratic) { }
+        : DirLight(), m_fConstant(constant), m_fLinear(linear), m_fQuadratic(quadratic) { m_vecPosition = (position); }
 
     PointLight(const Color Ambient, const Color Diffuse, const Color Specular,
                glm::vec3 position, float constant = 1.0f, float linear = 0.09f, float quadratic = 0.032f)
         : DirLight(Ambient, Diffuse, Specular ),
-          m_vecPosition(position), m_fConstant(constant), m_fLinear(linear), m_fQuadratic(quadratic) { }
+          m_fConstant(constant), m_fLinear(linear), m_fQuadratic(quadratic) { m_vecPosition = (position); }
     PointLight(const PointLight& o) : DirLight(o), m_fConstant(o.m_fConstant),
-        m_fLinear(o.m_fLinear), m_fQuadratic(o.m_fQuadratic)    { }
+        m_fLinear(o.m_fLinear), m_fQuadratic(o.m_fQuadratic)    { m_vecPosition = o.m_vecPosition; }
 
-    void setPosition(glm::vec3 position)  { m_vecPosition = position; }
+
     void setConstant(float constant)      { m_fConstant = constant; }
     void setLinear(float linear)          { m_fLinear = linear; }
     void setQuadratic(float quadratic)    { m_fQuadratic = quadratic; }
 
-    glm::vec3   getPosition()           { return m_vecPosition; }
+
     float       getConstant()           { return m_fConstant; }
     float       getLinear()             { return m_fLinear; }
     float       getQuadratic()          { return m_fQuadratic; }
 protected:
-    glm::vec3 m_vecPosition;
     float m_fConstant;
     float m_fLinear;
     float m_fQuadratic;

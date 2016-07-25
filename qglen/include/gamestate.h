@@ -41,11 +41,12 @@ class QString;
 QGLEN_BEGIN
 
 class GameWindow;
+class BasicEffect;
 
 class RAENGINESHARED_EXPORT GameState
 {
 public:
-    GameState(GameWindow* pWnd);
+    GameState(GameWindow* pWnd, QString techniqName = "Basic");
 
     virtual bool Initialize();
     virtual bool Destroy();
@@ -60,13 +61,17 @@ public:
     void SetSceneManager(SceneManager* pScene) { m_Scene = pScene; }
     void AddObjectToScene(IObject* pObject);
 
+    SceneManager* getSceneManager() { return m_Scene; }
+    BasicEffect*  getEffect() { return m_pEffect; }
 protected:
     SceneManager* GetSceneManager() { return m_Scene; }
 protected:
     SceneManager                 *m_Scene;
     GameWindow                   *m_pGameWindow;
+    BasicEffect                  *m_pEffect;
     glm::mat4                    m_matProjection;
     glm::mat4                    m_matView;
+    QString                      m_tecName;
 };
 QGLEN_END
 

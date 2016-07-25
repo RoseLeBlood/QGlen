@@ -29,6 +29,7 @@
     Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
 */
+#include "basicshader.h"
 #include "dreieckobject.h"
 
 #include <QOpenGLFunctions>
@@ -92,46 +93,37 @@ GLfloat vertices[] = {
 
 glm::mat4 matModel;
 
-DreieckObject::DreieckObject(qglen::GameWindow* window)
-    : qglen::IObject("DreieckObject", window, qglen::Materials::Pearl)
+DreieckObject::DreieckObject(QString name,qglen::GameWindow* window, glm::vec3 pos, qglen::Material mat)
+    : qglen::IObject(name, window, mat)
 {
     m_Position = glm::vec3(0, 0, 0);
+    m_Position = pos;
     matModel = glm::translate(glm::mat4(1.0f), m_Position);
 }
 
 
 bool DreieckObject::Initialize()
 {
+    // Create Buffer (Do not release until VAO is created)
+    m_vertex.create();
+    m_vertex.bind();
+    m_vertex.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    m_vertex.allocate(vertices, sizeof(vertices));
 
-    // Application-specific initialization
-     {
-       // Create Shader (Do not release until VAO is created)
-       m_pBasicEffect = new qglen::BasicEffect(GetGameWindow(), "Basic");// qglen::ShaderList::instance()->GetByName("Basic");// new qglen::BasicEffect();
-       qDebug() << (m_pBasicEffect->getProgram() == NULL ? "null" : "nicht null");
+    // Create Vertex Array Object
+    m_object.create();
+    m_object.bind();
 
-       BIND(m_pBasicEffect->getProgram())
-       {
-           // Create Buffer (Do not release until VAO is created)
-           m_vertex.create();
-           m_vertex.bind();
-           m_vertex.setUsagePattern(QOpenGLBuffer::StaticDraw);
-           m_vertex.allocate(vertices, sizeof(vertices));
+    GetGameWindow()->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
+    GetGameWindow()->glEnableVertexAttribArray(0);
+    // Normal attribute
+    GetGameWindow()->glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+    GetGameWindow()->glEnableVertexAttribArray(1);
 
-           // Create Vertex Array Object
-           m_object.create();
-           m_object.bind();
+    // Release (unbind) all
+    m_object.release();
+    m_vertex.release();
 
-           GetGameWindow()->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
-           GetGameWindow()->glEnableVertexAttribArray(0);
-              // Normal attribute
-           GetGameWindow()->glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-           GetGameWindow()->glEnableVertexAttribArray(1);
-
-           // Release (unbind) all
-           m_object.release();
-           m_vertex.release();
-        }
-     }
     GetGameWindow()->glEnable(GL_DEPTH_TEST);
     GetGameWindow()->glEnable(GL_FRAMEBUFFER_SRGB);
     //GetGameWindow()->glDisable(GL_CULL_FACE);
@@ -171,20 +163,21 @@ glm::vec3 ExtractCameraPos(const glm::mat4 & a_modelView)
 
   return top / -denom;
 }
-void DreieckObject::Render(const glm::mat4& pView, const glm::mat4& pProj, double smoothStep)
+void DreieckObject::Render(qglen::BasicEffect* effect, const glm::mat4& pView, const glm::mat4& pProj, double smoothStep)
 {
 
     qglen::Light l(qglen::Color(1.0f, 1.0f, 1.0f), qglen::Color(1.0f, 1.0f, 1.0f) ,
-                   qglen::Color(1.0f, 1.0f, 1.0f));
-    // Render using our shader
-    BIND(m_pBasicEffect->getProgram())
-    {
-        m_pBasicEffect->Setup(this->getMaterial(), &l, 1, pView, pProj, matModel);
-        m_pBasicEffect->setViewPosition(ExtractCameraPos(pView));
+               qglen::Color(1.0f, 1.0f, 1.0f));
+    l.setPosition(glm::vec3(1.2f, 1.0f, 2.0f));
+    l.setEnable(true);
 
-        m_object.bind();
-        //m_pBasicEffect->Draw(this, 0, 36);
-        GetGameWindow()->glDrawArrays(GL_TRIANGLES, 0, 36);
-        m_object.release();
-    }
+    m_object.bind();
+    effect->Setup(this->getMaterial(), &l, 1, pView, pProj, glm::translate(glm::mat4(1.0f), m_Position));
+
+    effect->setViewPosition(ExtractCameraPos(pView));
+
+    GetGameWindow()->glDrawArrays(GL_TRIANGLES, 0, 36);
+
+    m_object.release();
+
 }

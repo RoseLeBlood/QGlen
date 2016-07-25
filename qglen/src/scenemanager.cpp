@@ -31,11 +31,86 @@
 */
 #include "gamewindow.h"
 #include "scenemanager.h"
-
+#include "iobject.h"
+#include "basicshader.h"
 QGLEN_BEGIN
 
 SceneManager::SceneManager(GameWindow* _pWnd)
 {
     m_pWnd = _pWnd;
+}
+bool SceneManager::Initialize()
+{
+    for (std::list<IObject*>::iterator item = m_GameStates.begin();
+         item != m_GameStates.end();
+         item++)
+    {
+        IObject* object = ((IObject*)(*item));
+        if(object != NULL)
+        {
+            object->Initialize();
+        }
+    }
+    return true;
+}
+bool SceneManager::Destroy()
+{
+    for (std::list<IObject*>::iterator item = m_GameStates.begin();
+         item != m_GameStates.end();
+         item++)
+    {
+        IObject* object = ((IObject*)(*item));
+        if(object != NULL)
+        {
+            object->Destroy();
+        }
+    }
+
+    m_GameStates.clear();
+
+    return true;
+}
+
+bool SceneManager::Render(BasicEffect* effect, const glm::mat4& pView, const glm::mat4& pProj, double smoothStep)
+{
+    for(int i= 0; i < SceneManagerPrio::MAX; i++)
+    {
+        for (std::list<IObject*>::iterator item = m_GameStates.begin();
+             item != m_GameStates.end();
+             item++)
+        {
+            IObject* object = ((IObject*)(*item));
+            if(object != NULL)
+            {
+                if( object->Prio() == i)
+                {
+                    if(object->CanDraw())
+                        object->Render(effect, pView, pProj, smoothStep);
+                }
+            }
+        }
+    }
+    return true;
+}
+
+bool SceneManager::Move(GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag)
+{
+
+    for (std::list<IObject*>::iterator item = m_GameStates.begin();
+         item != m_GameStates.end();
+         item++)
+    {
+        IObject* object = ((IObject*)(*item));
+        if(object != NULL )
+        {
+            if(object->CanUpdate())
+                object->Move(pStates, numDevices, renderTime, elapsedTime, lag);
+        }
+    }
+    return true;
+}
+void SceneManager::AddObjectToScene(IObject* obj)
+{
+    m_GameStates.push_back(obj);
 }
 QGLEN_END

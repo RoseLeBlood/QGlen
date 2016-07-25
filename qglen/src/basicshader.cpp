@@ -51,7 +51,10 @@ void BasicEffect::Setup(Material m, Light *lights, int num,
                                                     l.getSpecular().g,
                                                     l.getSpecular().b);
 
-        m_pShader->setUniformValue("light.position", 1.2f, 1.0f, 2.0f);
+        m_pShader->setUniformValue("light.position", l.getPosition().x,
+                                                     l.getPosition().y,
+                                                     l.getPosition().z);
+        m_pShader->setUniformValue("light.enable", (l.IsEnable() ? 1 : 0));
 
     }
 }
