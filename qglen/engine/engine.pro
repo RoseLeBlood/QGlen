@@ -17,6 +17,9 @@ CONFIG(debug,debug|release) {
 }
 
 
+DESTDIR = ../../lib
+
+
 LIBS += -fopenmp
 INCLUDEPATH    += $$PWD/3dpart
 INCLUDEPATH    += $$PWD/include
@@ -50,7 +53,7 @@ SOURCES += \
     src/material.cpp \
     src/materials.cpp \
     src/basicshader.cpp \
-    src/openclsystem.cpp
+    src/jsonshader.cpp
 
 HEADERS +=\
         include/raengine_global.h \
@@ -84,7 +87,8 @@ HEADERS +=\
     include/material.h \
     include/materials.h \
     include/basicshader.h \
-    include/openclsystem.h
+    include/iconfigure.h \
+    include/jsonshader.h
 
 unix {
     target.path = /usr/lib
@@ -92,8 +96,8 @@ unix {
 }
 
 DISTFILES += \
-    data/config/settings.xml \
-    data/shader/ToonShader.rs
+    data/shader/ToonShader.rs \
+    data/config/config.cfg
 
 INCLUDEPATH += $$PWD/3dpart/opencl
 DEPENDPATH += $$PWD/3dpart/opencl

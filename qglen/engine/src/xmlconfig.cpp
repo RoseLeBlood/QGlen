@@ -32,213 +32,122 @@
 #include "xmlconfig.h"
 
 #include <QFile>
-#include <QXmlStreamReader>
 #include <QStringList>
 #include <QDebug>
 #include <QDir>
 #include <QCoreApplication>
+#include "QJsonArray"
 
 
 #include <QMetaEnum>
-
+#include "QJsonDocument"
 
 QGLEN_BEGIN
 
-XmlConfigReader::XmlFormat::XmlFormat()
+Config::Config()
 {
+    m_stConfig.Grafik.Samples = 0;
+    m_stConfig.Grafik.Depht = 8;
+    m_stConfig.Grafik.FullScreen = false;
+    m_stConfig.Grafik.Height = 800;
+    m_stConfig.Grafik.Wight = 1280;
+    m_stConfig.Grafik.Stencil = 0;
 
-}
-bool XmlConfigReader::XmlFormat::readXmlFile(QIODevice &device, QSettings::SettingsMap &map)
-{
-    QXmlStreamReader xmlReader(&device);
-    QStringList elements;
-
-    // Solange Ende nicht erreicht und kein Fehler aufgetreten ist
-    while (!xmlReader.atEnd() && !xmlReader.hasError()) {
-        // N盲chsten Token lesen
-        xmlReader.readNext();
-
-        // Wenn Token ein Startelement
-        if (xmlReader.isStartElement() && xmlReader.name() != "rae") {
-            // Element zur Liste hinzuf眉gen
-            elements.append(xmlReader.name().toString());
-        // Wenn Token ein Endelement
-        } else if (xmlReader.isEndElement()) {
-            // Letztes Element l枚schen
-            if(!elements.isEmpty()) elements.removeLast();
-        // Wenn Token einen Wert enth盲lt
-        } else if (xmlReader.isCharacters() && !xmlReader.isWhitespace()) {
-            QString key;
-
-            // Elemente zu String hinzuf眉gen
-            for(int i = 0; i < elements.size(); i++) {
-                if(i != 0) key += "/";
-                key += elements.at(i);
-            }
-
-            // Wert in Map eintragen
-            map[key] = xmlReader.text().toString();
-        }
-    }
-
-    // Bei Fehler Warnung ausgeben
-    if (xmlReader.hasError()) {
-        qWarning() << xmlReader.errorString();
-        return false;
-    }
-
-    return true;
-}
-bool XmlConfigReader::XmlFormat::writeXmlFile(QIODevice &device, const QSettings::SettingsMap &map) {
-    QXmlStreamWriter xmlWriter(&device);
-
-    xmlWriter.setAutoFormatting(true);
-    xmlWriter.writeStartDocument();
-    xmlWriter.writeStartElement("rae");
-
-    QStringList prev_elements;
-    QSettings::SettingsMap::ConstIterator map_i;
-
-    // Alle Elemente der Map durchlaufen
-    for (map_i = map.begin(); map_i != map.end(); map_i++) {
-
-        QStringList elements = map_i.key().split("/");
-
-        int x = 0;
-        // Zu schlie脽ende Elemente ermitteln
-        while(x < prev_elements.size() && elements.at(x) == prev_elements.at(x)) {
-            x++;
-        }
-
-        // Elemente schlie脽en
-        for(int i = prev_elements.size() - 1; i >= x; i--) {
-            xmlWriter.writeEndElement();
-        }
-
-        // Elemente 枚ffnen
-        for (int i = x; i < elements.size(); i++) {
-            xmlWriter.writeStartElement(elements.at(i));
-        }
-
-        // Wert eintragen
-        xmlWriter.writeCharacters(map_i.value().toString());
-
-        prev_elements = elements;
-    }
-
-    // Noch offene Elemente schlie脽en
-    for(int i = 0; i < prev_elements.size(); i++) {
-        xmlWriter.writeEndElement();
-    }
-
-    xmlWriter.writeEndElement();
-    xmlWriter.writeEndDocument();
-
-    return true;
+    m_stConfig.Audio.Frequenz = 44100;
+    m_stConfig.Audio.Soundkarte = "";
 }
 
-XmlConfig*  XmlConfigReader::getConfig()
+
+void Config::readFromConfig(const QJsonObject &json)
 {
-    if(m_pConfig != 0)
-        return m_pConfig;
+    QJsonArray array = json["Grafik"].toArray();
+    QJsonObject g = array[0].toObject();
+
+    m_stConfig.Grafik.Samples = g["Samples"].toInt();
+    m_stConfig.Grafik.Depht = g["Depth"].toInt();
+
+    m_stConfig.Grafik.FullScreen = g["FullScreen"].toBool();
+    m_stConfig.Grafik.Height = g["Height"].toInt();
+
+    m_stConfig.Grafik.Wight = g["Wight"].toInt();
+    m_stConfig.Grafik.Stencil = g["Stencil"].toInt();
+
+    array = json["Sound"].toArray();
+    QJsonObject s = array[0].toObject();
+
+    m_stConfig.Audio.Frequenz = s["Frequenz"].toInt();
+    m_stConfig.Audio.Soundkarte = s["Soundkarte"].toString();
+
+}
+void Config::writeToConfig(QJsonObject &json) const
+{
+    QJsonArray grafik, sound;
+    QJsonObject g,s;
+
+    g["Wight"] = m_stConfig.Grafik.Wight;
+    g["Height"] = m_stConfig.Grafik.Height;
+    g["FullScreen"] = m_stConfig.Grafik.FullScreen;
+    g["Samples"] = m_stConfig.Grafik.Samples;
+    g["Depth"] = m_stConfig.Grafik.Depht;
+    g["Stencil"] = m_stConfig.Grafik.Stencil;
+
+    grafik.append(g);
+
+    s["Frequenz"] = m_stConfig.Audio.Frequenz;
+    s["Soundkarte"] = m_stConfig.Audio.Soundkarte;
+
+    sound.append(s);
+
+    json["Grafik"] = grafik;
+    json["Sound"] = sound;
+}
+Config* ConfigLoader::getConfig()
+{
 
     QDir dir = QDir(  QCoreApplication::applicationDirPath() );
     dir.cd(XmlConfigDir);
+    QFile loadFile(dir.filePath(XmlConfigFile));
 
-    QSettings *_xmlSetting = new QSettings(dir.absoluteFilePath(XmlConfigFile), XmlFormat::getFormat());
-    if (_xmlSetting == 0)
-    {
-        qCritical() << "Config file not found, use std config";
-        //qLog.error("Config file not found, use std config");
-        m_pConfig = new XmlConfig();
-        return m_pConfig;
-    }
-    if (_xmlSetting->value("Version").toInt() != XmlConfigVersion)
-    {
-        //QByteArray::number(myNumber).toHex()
-        qCritical() << "Config file wrong version Number " << QByteArray::number(_xmlSetting->value("Version").toInt()).toHex() << " != " <<  QByteArray::number(XmlConfigVersion).toHex();
-        //qLog.error("Config file wrong version Number");
-        m_pConfig = new XmlConfig();
-    }
-    else
-    {
-        m_pConfig = new XmlConfig(_xmlSetting->value("Reselution", ScreenReselution::ScreenReselutionToString(ScreenReselution::HD_1280_720)).toString(),
-                         _xmlSetting->value("samples", 2).toInt(),
-                         _xmlSetting->value("depth", 1).toInt(),
-                         _xmlSetting->value("stencil", 1).toInt(),
-                         _xmlSetting->value("fullscreen", false).toBool());
-    }
-    delete _xmlSetting;
-
-    return m_pConfig;
-
-}
-XmlShader*  XmlConfigReader::getShader(QString filePath)
-{
-    QDir dir = QDir(  QCoreApplication::applicationDirPath() );
-    dir.cd(XmlShaderDir);
-    QSettings *_xmlSetting = new QSettings(dir.absoluteFilePath(filePath), XmlFormat::getFormat());
-    if (_xmlSetting == 0)
-    {
-         qCritical() << "Shader Config file not found";
-        //qLog.error("Shader Config file not found");
+    if (!loadFile.open(QIODevice::ReadOnly)) {
+        qWarning("Couldn't open config file.");
         return 0;
     }
-    if (_xmlSetting->value("Version").toInt() != XmlShaderVersion)
-    {
-        qCritical() << "Shader Config file have the wrong version Number";
-        return 0;
-    }
-    XmlShader* shader = new XmlShader();
-    shader->setVertexShaderCode(_xmlSetting->value("VertexCode", "").toString());
-    shader->setFragmentShaderCode(_xmlSetting->value("FragmentCode", "").toString());
-    shader->setGeometryShaderCode(_xmlSetting->value("GeometryCode", "").toString());
-    shader->setName(_xmlSetting->value("Name", filePath).toString());
+    QByteArray saveData = loadFile.readAll();
+    QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
 
-    delete _xmlSetting;
-    return shader;
+    Config* pConfig = new Config();
+    pConfig->readFromConfig(loadDoc.object());
+
+    return pConfig;
 }
-bool XmlConfigReader::saveConfig(XmlConfig* cfg)
+bool ConfigLoader::setConfig(Config* cfg)
 {
     QDir dir = QDir(  QCoreApplication::applicationDirPath() );
     dir.cd(XmlConfigDir);
-    QSettings *_xmlSetting = new QSettings(dir.absoluteFilePath(XmlConfigFile), XmlFormat::getFormat());
-    if (_xmlSetting == 0)
-    {
-        return false;
-    }
+    QFile saveFile(dir.filePath(XmlConfigFile));
 
-    _xmlSetting->setValue("Version", XmlConfigVersion);
-    _xmlSetting->setValue("fullscreen", cfg->isFullScreen());
-    _xmlSetting->setValue("Reselution", ScreenReselution::ScreenReselutionToString(cfg->getResulution()));
-    _xmlSetting->setValue("stencil", cfg->getStencil());
-    _xmlSetting->setValue("samples", cfg->getSamples());
-    _xmlSetting->setValue("depth", cfg->getDepth());
+   if (!saveFile.open(QIODevice::WriteOnly)) {
+       qWarning("Couldn't open config file.");
+       return false;
+   }
 
-    delete _xmlSetting;
+   QJsonObject gameObject;
+   cfg->writeToConfig(gameObject);
+
+   QJsonDocument saveDoc(gameObject);
+   saveFile.write(saveDoc.toJson());
+
     return true;
 }
-bool XmlConfigReader::saveShader(XmlShader* shader)
+
+void ConfigLoader::CreateInstance()
 {
 
-    QDir dir = QDir(  QCoreApplication::applicationDirPath() );
-    dir.cd(XmlShaderDir);
-    QSettings *_xmlSetting = new QSettings(dir.absoluteFilePath(shader->getName() + ".rs"), XmlFormat::getFormat());
-    if (_xmlSetting == 0)
-    {
-        qCritical() << "Shader Config file not found";
-        return false;
-    }
-    _xmlSetting->setValue("Version", XmlShaderVersion);
-    _xmlSetting->setValue("VertexCode", shader->getVertexShaderCode());
-    _xmlSetting->setValue("FragmentCode", shader->getFragmentShaderCode());
-    _xmlSetting->setValue("GeometryCode", shader->getGeometryShaderCode());
-    _xmlSetting->setValue("Name", shader->getName());
-    delete _xmlSetting;
-
-    return true;
 }
+void ConfigLoader::DestroyInstance()
+{
 
+}
 QGLEN_END
 
 

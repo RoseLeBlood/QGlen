@@ -8,13 +8,13 @@ QGLEN_BEGIN
 BasicEffect::BasicEffect(GameWindow* wnd, QString shaderName)
 {
     m_wnd = wnd;
-    this->m_pShader = ShaderList::instance()->GetByName(shaderName);
+    this->m_pShader = ShaderList::instance()->GetByName("Basic");
 }
 
 void BasicEffect::Setup(Material m, Light *lights, int num,
                         glm::mat4 view, glm::mat4 proj, glm::mat4 model)
 {
-    //BIND(this)
+    //BIND(m_pShader)
     {
 
        m_wnd->glUniformMatrix4fv(m_pShader->uniformLocation("view"),
@@ -54,7 +54,7 @@ void BasicEffect::Setup(Material m, Light *lights, int num,
         m_pShader->setUniformValue("light.position", l.getPosition().x,
                                                      l.getPosition().y,
                                                      l.getPosition().z);
-        m_pShader->setUniformValue("light.enable", (l.IsEnable() ? 1 : 0));
+       // m_pShader->setUniformValue("light.enable", (l.IsEnable() ? 1 : 0));
 
     }
 }

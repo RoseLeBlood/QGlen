@@ -49,10 +49,9 @@
 #include "xmlconfig.h"
 #include "openglerror.h"
 #include <macros.h>
-#include "openclsystem.h"
 
 QGLEN_BEGIN
-GameWindow::GameWindow(XmlConfig *pConfig, QWindow *parent)
+GameWindow::GameWindow(Config *pConfig, QWindow *parent)
     : QWindow(parent)
     , m_update_pending(false)
     , m_context(0)
@@ -67,16 +66,18 @@ GameWindow::GameWindow(XmlConfig *pConfig, QWindow *parent)
     QSurfaceFormat format;
     format.setOption(QSurfaceFormat::DebugContext);
     format.setProfile(QSurfaceFormat::CoreProfile);
-    format.setDepthBufferSize(pConfig->getDepth());
-    format.setStencilBufferSize(pConfig->getStencil());
-    format.setSamples(pConfig->getSamples());
+    format.setDepthBufferSize(pConfig->getGameConfig().Grafik.Depht);
+    format.setStencilBufferSize(pConfig->getGameConfig().Grafik.Stencil);
+    format.setSamples(pConfig->getGameConfig().Grafik.Samples);
     format.setSwapBehavior(QSurfaceFormat::DoubleBuffer);
     format.setSwapInterval(1);
 
     setFormat(format);
-    m_rBounds = rect(0,0, pConfig->getWight(), pConfig->getHeight());
+    m_rBounds = rect(0,0, pConfig->getGameConfig().Grafik.Wight,
+                     pConfig->getGameConfig().Grafik.Height);
 
-    resize(pConfig->getWight(), pConfig->getHeight());
+    resize(pConfig->getGameConfig().Grafik.Wight,
+           pConfig->getGameConfig().Grafik.Height);
 
     setSurfaceType(QWindow::OpenGLSurface);
     m_pTimer = new QElapsedTimer();

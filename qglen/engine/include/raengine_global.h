@@ -46,7 +46,7 @@
 #define XmlConfigVersion 0x01015 // version 1.01-5
 
 #define XmlConfigDir "config"
-#define XmlConfigFile "settings.xml"
+#define XmlConfigFile "config.cfg"
 #define XmlShaderDir "shader"
 
 #define QGLEN_BEGIN namespace qglen {

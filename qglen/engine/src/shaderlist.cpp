@@ -32,7 +32,7 @@
 #include "shaderlist.h"
 #include <QDir>
 #include <QCoreApplication>
-#include <xmlconfig.h>
+#include "jsonshader.h"
 #include <openglshaderprogram.h>
 
 QGLEN_BEGIN
@@ -70,7 +70,7 @@ void ShaderList::AddFromSource(QString strName, QString verteSource, QString fag
     prg->link();
     prg->bind();
 
-    Add(strName.remove(".rs"), prg);
+    Add(strName.remove(".sh"), prg);
 }
 void ShaderList::AddFromFile(QString strName, QString vertexFileName, QString fagmentFileName,
                  QString geometryFileName )
@@ -107,7 +107,7 @@ void ShaderList::loadShaders(GameWindow* wnd)
     dir.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
     dir.setSorting(QDir::Size | QDir::Reversed);
 
-    dir.setNameFilters(QStringList()<<"*.rs");
+    dir.setNameFilters(QStringList()<<"*.sh");
 
     QFileInfoList list = dir.entryInfoList();
 
@@ -115,8 +115,11 @@ void ShaderList::loadShaders(GameWindow* wnd)
     {
         QFileInfo fileInfo = list.at(i);
 
-       XmlShader* shader = XmlConfigReader::instance()->getShader(fileInfo.fileName());
-       AddFromSource(shader->getName(), shader->getVertexShaderCode(), shader->getFragmentShaderCode(), shader->getGeometryShaderCode());
+       JSonShader* shader = JSonShaderLoader::instance()->getShader((fileInfo.fileName()));
+       AddFromSource(shader->getName(),
+                     shader->getVertexShaderCode(),
+                     shader->getFragmentShaderCode(),
+                     shader->getGeometryShaderCode());
      }
 }
 

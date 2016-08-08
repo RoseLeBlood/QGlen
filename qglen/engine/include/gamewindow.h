@@ -116,7 +116,7 @@ class RAENGINESHARED_EXPORT GameWindow : public QWindow, public QOpenGLFunctions
 {
     Q_OBJECT
 public:
-    explicit GameWindow( XmlConfig* pConfig, QWindow *parent = 0);
+    explicit GameWindow( Config* pConfig, QWindow *parent = 0);
     ~GameWindow();
 
     virtual void Initialize();
@@ -134,7 +134,6 @@ public:
     void setClearColor(Color col);
     Color getClearColor() { return m_colClearColor; }
     QOpenGLContext *getContext() { return m_context; }
-    //OpenCLSystem* getOpenCl() { return m_pOpenCL; }
 public slots:
     void renderEvent();
     void messageLogged(const QOpenGLDebugMessage &msg);
@@ -159,7 +158,7 @@ protected:
     qint64              m_previous;
     qint64              m_lag;
 
-    qglen::XmlConfig           *m_pConfig;
+    Config           *m_pConfig;
     int                 m_numConnectedGamePads;
     QGamepad            *m_gamepad[GamePadDevice::MAX];
     GamePadState        m_pStates[GamePadDevice::MAX];

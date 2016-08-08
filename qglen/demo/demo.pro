@@ -12,6 +12,10 @@ TARGET = OpenGlDemo
 TEMPLATE = app
 CONFIG += c++14
 
+
+DESTDIR = ../../lib
+
+
 INCLUDEPATH += $$PWD/include
 
 SOURCES += \
@@ -31,10 +35,12 @@ HEADERS  += \
 
 
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../engine/release/ -lQGlEn
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../engine/debug/ -lQGlEn
-else:unix: LIBS += -L$$OUT_PWD/../engine/ -lQGlEn
 
 INCLUDEPATH += $$PWD/../engine/include
 INCLUDEPATH += $$PWD/../engine/3dpart
+DEPENDPATH += $$PWD/../engine
+
+LIBS += -L$$OUT_PWD/../../lib/ -lQGlEn
+
+INCLUDEPATH += $$PWD/../engine
 DEPENDPATH += $$PWD/../engine

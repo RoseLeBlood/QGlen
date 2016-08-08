@@ -3,8 +3,9 @@
 #include <QCoreApplication>
 #include <debuglog.h>
 #include <iostream>
-
+#include "shaderlist.h"
 #include <QDebug>
+#include "jsonshader.h"
 
 void myMessageOutput(QtMsgType type, const QMessageLogContext &, const QString & str)
 {
@@ -39,7 +40,7 @@ QGlenEnApplication::QGlenEnApplication(int argc, char *argv[]) : QApplication(ar
     qglen::DebugLog::instance()->InitLog("qglen_log.html");
     qInstallMessageHandler(myMessageOutput);  //install : set the callback
 
-    qglen::XmlShader* shader = new qglen::XmlShader();
+    qglen::JSonShader* shader = new qglen::JSonShader();
     shader->setVertexShaderCode("#version 330 core\n"
                                 "layout (location = 0) in vec3 position;\n"
                                 "layout (location = 1) in vec3 normal;\n"
@@ -104,20 +105,18 @@ QGlenEnApplication::QGlenEnApplication(int argc, char *argv[]) : QApplication(ar
                                   "        \n"
                                   "\n"
                                   "    vec3 result = ambient + diffuse + specular + material.emission;\n"
-                                  "  //  result = pow(result, vec3(1.0 / gamma));\n"
+                                  "    result = pow(result, vec3(1.0 / gamma));\n"
                                   "    color = vec4(result, 1.0f);\n"
                                   "}" );
     shader->setGeometryShaderCode("");
     shader->setName("Basic");
 
-    qglen::XmlConfigReader::instance()->saveShader(shader);
+    qglen::JSonShaderLoader::instance()->setShader(shader);
     delete shader;
 
-    qglen::XmlConfigReader::instance()->saveConfig(qglen::XmlConfigReader::instance()->getConfig());
+    qglen::ConfigLoader::instance()->setConfig(new qglen::Config());
 
-
-
-   m_pConfig = qglen::XmlConfigReader::instance()->getConfig();
+    m_pConfig = qglen::ConfigLoader::instance()->getConfig();
 }
 
 

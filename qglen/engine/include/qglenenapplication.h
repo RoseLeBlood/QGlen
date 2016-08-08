@@ -2,8 +2,6 @@
 #define QGLENENAPPLICATION_H
 
 #include <raengine_global.h>
-#include <CL/cl.hpp>
-
 
 #include <xmlconfig.h>
 #include <gamewindow.h>
@@ -26,9 +24,9 @@ public:
         return -1;
     }
 
-    qglen::XmlConfig*  GetConfig() { return m_pConfig; }
+    qglen::Config*  GetConfig() { return m_pConfig; }
 private:
-    qglen::XmlConfig     *m_pConfig;
+    qglen::Config     *m_pConfig;
     qglen::GameWindow   *m_pWindow;
 
 } ;

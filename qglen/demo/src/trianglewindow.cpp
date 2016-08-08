@@ -35,7 +35,7 @@
 #include <gamebatch.h>
 #include "qglenenapplication.h"
 
-TriangleWindow::TriangleWindow(qglen::XmlConfig *cfg) : qglen::GameWindow(cfg)
+TriangleWindow::TriangleWindow(qglen::Config *cfg) : qglen::GameWindow(cfg)
 {
     m_pBatch = new qglen::gameBatch(this);
     this->AddGameState("Dreieck_test", new DreieckGameState(this));

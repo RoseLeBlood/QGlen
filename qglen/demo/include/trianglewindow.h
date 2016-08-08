@@ -43,7 +43,7 @@
 class TriangleWindow : public qglen::GameWindow
 {
 public:
-    TriangleWindow(qglen::XmlConfig *cfg);
+    TriangleWindow(qglen::Config *cfg);
 private:
     qglen::gameBatch *m_pBatch;
 
