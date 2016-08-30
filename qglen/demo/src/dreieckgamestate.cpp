@@ -72,19 +72,31 @@ DreieckGameState::DreieckGameState(qglen::GameWindow *wnd)
       // AddObjectToScene(new Camera("camera", wnd));
     cam = new Camera(wnd);
 
-
-
 }
 bool DreieckGameState::Initialize()
 {
+     m_pStrem =new QtOpenalOggStream("teststrem", this->GetGameWindow()->getOpenAlContext());
+     m_pStrem->LoadFile("test.ogg");
+     m_pStrem->Play();
+     m_pStrem->getSource()->setPosition(glm::vec3(0,0,0));
+
     return GameState::Initialize();
 }
 bool DreieckGameState::Move(qglen::GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag)
 {
     cam->Update(pStates, numDevices, elapsedTime);
 
+    glm::vec3 pos = glm::vec3(cam->getPosition().x, 0, cam->getPosition().y);
+    GetGameWindow()->getOpenAlContext()->setPosition(pos);
+
+    GetGameWindow()->getOpenAlContext()->setOrientation(glm::vec3(std::cos(0)*100.0f, 100.0f,
+                                                                sin(0)*100.0f));
+
+    m_pStrem->Update();
+
     m_matView = cam->getView();
     m_matProjection = cam->getProjektion();
+
 
     return qglen::GameState::Move(pStates, numDevices, renderTime, elapsedTime, lag);
 }

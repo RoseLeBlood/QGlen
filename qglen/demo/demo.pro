@@ -37,9 +37,10 @@ HEADERS  += \
 
 
 INCLUDEPATH += $$PWD/../engine/include
-INCLUDEPATH += $$PWD/../engine/3dpart
+INCLUDEPATH += $$PWD/../engine/3dpart/include
 DEPENDPATH += $$PWD/../engine
 
+LIBS += -L$$PWD/../engine/3dpart/lib/ -lQtOpenCLgl -lQtOpenAL
 LIBS += -L$$OUT_PWD/../../lib/ -lQGlEn
 
 INCLUDEPATH += $$PWD/../engine

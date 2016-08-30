@@ -41,6 +41,7 @@
 #include <QtGamepad/QGamepad>
 #include <rect.h>
 #include "colors.h"
+#include <QtOpenalContext>
 
 class QTimer;
 class QOpenGLContext;
@@ -146,8 +147,8 @@ protected:
 
      void SetGameStateManager(qglen::GameStateManager* pManager);
      void AddGameState(QString name, qglen::GameState* pState);
-
-
+public:
+    QtOpenalContext* getOpenAlContext() { return m_pContext; }
 protected:
     QOpenGLContext      *m_context;
     QOpenGLPaintDevice  *m_device;
@@ -173,6 +174,8 @@ private:
 private:
     bool m_update_pending;
     qglen::rect  m_rBounds;
+
+    QtOpenalContext *m_pContext;
 };
 QGLEN_END
 

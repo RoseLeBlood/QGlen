@@ -35,6 +35,7 @@
 
 #include "gamestate.h"
 #include "dreieckobject.h"
+#include <QtOpenalOggStream>
 
 class DreieckGameState : public qglen::GameState
 {
@@ -51,6 +52,8 @@ public:
     }
     virtual bool Move(qglen::GamePadState *pStates, int numDevices, double renderTime, double elapsedTime, bool lag);
     bool Initialize();
+private:
+    QtOpenalOggStream *m_pStrem;
 };
 
 #endif // DREIECKGAMESTATE_H

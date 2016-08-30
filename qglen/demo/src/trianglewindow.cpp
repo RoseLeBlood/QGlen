@@ -39,6 +39,7 @@ TriangleWindow::TriangleWindow(qglen::Config *cfg) : qglen::GameWindow(cfg)
 {
     m_pBatch = new qglen::gameBatch(this);
     this->AddGameState("Dreieck_test", new DreieckGameState(this));
+
 }
 int main(int argc, char *argv[])
 {

@@ -49,6 +49,7 @@
 #include "xmlconfig.h"
 #include "openglerror.h"
 #include <macros.h>
+#include <QtOpenalOutputDevices>
 
 QGLEN_BEGIN
 GameWindow::GameWindow(Config *pConfig, QWindow *parent)
@@ -98,6 +99,11 @@ GameWindow::GameWindow(Config *pConfig, QWindow *parent)
             m_gamepad[i] = new QGamepad( (gamepads.at(i)) , this);
         m_numConnectedGamePads = gamepads.length();
     }
+
+    int soundkrte = 0;
+    m_pContext = new QtOpenalContext(QtOpenalOutputDevices::Instance().getDevices()[soundkrte]);
+    m_pContext->Create(m_pConfig->getGameConfig().Audio.Frequenz, OpenalContextFormat::s16Bit,
+                        OpenalContextChannel::Stereo);
 }
 GameWindow::~GameWindow()
 {

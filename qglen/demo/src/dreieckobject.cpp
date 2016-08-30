@@ -43,6 +43,20 @@
 #include <colors.h>
 #include "camera.h"
 
+qglen::PointLight pointlight[] = {
+    qglen::PointLight(qglen::Color(0.05f, 0.05f, 0.05f), qglen::Color(0.05f, 0.05f, 0.05f),
+                      qglen::Colors::Black, glm::vec3( 4.7f,  3.2f,  2.0f)),
+
+    qglen::PointLight(qglen::Color(0.05f, 0.05f, 0.05f), qglen::Color(0.05f, 0.05f, 0.05f),
+                      qglen::Colors::Black, glm::vec3( 2.3f, -3.3f, -4.0f)),
+
+    qglen::PointLight(qglen::Color(0.05f, 0.05f, 0.05f), qglen::Color(0.05f, 0.05f, 0.05f),
+                      qglen::Colors::Black, glm::vec3(-6.0f,  2.0f, -2.0f)),
+
+    qglen::PointLight(qglen::Color(0.05f, 0.05f, 0.05f), qglen::Color(0.05f, 0.05f, 0.05f),
+                      qglen::Colors::Black, glm::vec3( 4.0f,  4.0f, -3.0f)),
+};
+
 GLfloat vertices[] = {
         -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
          0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
@@ -127,7 +141,7 @@ bool DreieckObject::Initialize()
     GetGameWindow()->glEnable(GL_DEPTH_TEST);
     GetGameWindow()->glEnable(GL_FRAMEBUFFER_SRGB);
     //GetGameWindow()->glDisable(GL_CULL_FACE);
-    GetGameWindow()->setClearColor(qglen::Color(0.1f, 0.1f, 0.1f));
+    GetGameWindow()->setClearColor(qglen::Colors::Black);
 
     return true;
 }
@@ -166,13 +180,13 @@ glm::vec3 ExtractCameraPos(const glm::mat4 & a_modelView)
 void DreieckObject::Render(qglen::BasicEffect* effect, const glm::mat4& pView, const glm::mat4& pProj, double smoothStep)
 {
 
-    qglen::Light l(qglen::Color(1.0f, 1.0f, 1.0f), qglen::Color(1.0f, 1.0f, 1.0f) ,
+    qglen::DirLight l(qglen::Color(1.0f, 1.0f, 1.0f), qglen::Color(1.0f, 1.0f, 1.0f) ,
                qglen::Color(1.0f, 1.0f, 1.0f));
-    l.setPosition(glm::vec3(1.2f, 1.0f, 2.0f));
-    l.setEnable(true);
+    //l.setPosition(glm::vec3(1.2f, 1.0f, 2.0f));
+    //l.setEnable(true);
 
     m_object.bind();
-    effect->Setup(this->getMaterial(), &l, 1, pView, pProj, glm::translate(glm::mat4(1.0f), m_Position));
+    effect->Setup(this->getMaterial(), l, pointlight,pView, pProj, glm::translate(glm::mat4(1.0f), m_Position));
 
     effect->setViewPosition(ExtractCameraPos(pView));
 

@@ -99,11 +99,9 @@ DISTFILES += \
     data/shader/ToonShader.rs \
     data/config/config.cfg
 
-INCLUDEPATH += $$PWD/3dpart/opencl
-DEPENDPATH += $$PWD/3dpart/opencl
 
 
-unix|win32: LIBS += -L$$PWD/3dpart/opencl/bin/ -lQtOpenCLgl
+LIBS += -L$$PWD/3dpart/lib/ -lQtOpenCLgl -lQtOpenAL
 
-INCLUDEPATH += $$PWD/3dpart/opencl/src/opencl
-DEPENDPATH += $$PWD/3dpart/opencl/src/opencl
+INCLUDEPATH += $$PWD/3dpart/include
+DEPENDPATH += $$PWD/3dpart/include

@@ -26,7 +26,7 @@ public:
 
     void setViewPosition(glm::vec3 pos);
     void setGamma(float gamma) { m_pShader->setUniformValue("gamma", gamma); }
-    virtual void Setup(Material mat, Light *lights, int num,
+    virtual void Setup(Material mat, DirLight light, PointLight points[],
                        glm::mat4 view, glm::mat4 proj, glm::mat4 model);
 
     OpenGLShaderProgram* getProgram() { return m_pShader; }
